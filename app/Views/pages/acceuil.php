@@ -1,33 +1,45 @@
+<?php helper('text'); ?>
+<script src="/JS/kit.font-awesome.js" crossorigin="anonymous"></script>
+<!-- <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.no-icons.min.css" rel="stylesheet"> -->
+<!-- <link rel="stylesheet" href="/Css/all.css"> -->
+
+<link href="/Css/font-awesome.css" rel="stylesheet">
+<link rel="stylesheet" href="/Css/training_group.css">
+
+
+
 <div class="container">
-<div class="container-fluid">
-    <!-- <div class="card-columns d-none d-md-block"> -->
-    <?php helper('text'); ?>
-    <?php foreach ($formations as $formations_item) : ?>
-        <div class="card mb-3">
-            <h3 class="card-header"><?= esc($formations_item['name']) ?></h3>
-            <div class="card-body">
-                <h6 class="card-subtitle text-muted">Durée de la formation :
-                    <?= esc($formations_item['duration_month']) ?> mois</h6>
-            </div>
-        </div>
+    <h1 class="heading"><?= esc($title); ?>:</h1>
+    <div class="card-wrapper">
+        <?php foreach ($training_groups as $training_group_item) : ?>
 
-        <div class="card-bg">
+            <div class="card">
+                <img src="/Images/backgrounds/bg-2.jpg" alt="card background" class="card-img">
+                <img src="/Images/training_group/<?= esc($training_group_item['slug']); ?>.png" alt="profile image" class="profile-img">
+                <h1><?= esc($training_group_item['name']) ?></h1>
 
-            <div class="image-card">
-                <a" href="/formations/<?= esc($formations_item['slug'], 'url'); ?>"><img src="/Images/formations_pictures/<?= $formations_item['slug'] ?>.jpg" alt="Card image"></a>
-            </div>
-            
-            <div class="card-body">
-                <p class="p-card"> <?= word_limiter($formations_item['description'], 50, "..."); ?></p>
-            </div>
-                    
-        </div>
+                
+                <p class="job-title">
+                    Durée de la formation :<?= esc($training_group_item['duration_month']) ?> mois
+                </p>
 
-        <div class="modal-footer">
-            <a class="btn btn-primary" id="orange-color" href="/formations/<?= esc($formations_item['slug'], 'url') ?>">Voir plus</a>
-        </div>
-        <div>
-        </div>
-    <?php endforeach; ?>
-</div>
+                <?php if ($training_group_item['certified']) { ?>
+                    <p class="job-title">
+                        Formation Certifié
+                    </p>
+                <?php } ?>
+
+                <p class="about">
+                    <?= word_limiter($training_group_item['description'], 50, "..."); ?>
+                </p>
+                    <a href="#" class="btn">Voir Plus</a>
+                <!-- <ul class="social-media">
+                    <li> <a href="#"> <i class="fab fa-facebook-square"></i> </a> </li>
+                    <li> <a href="#"> <i class="fab fa-twitter-square"></i> </a> </li>
+                    <li> <a href="#"> <i class="fab fa-instagram"></i> </a> </li>
+                    <li> <a href="#"> <i class="fab fa-google-plus-square"></i> </a> </li>
+                </ul> -->
+            </div>
+        <?php endforeach; ?>
+    </div>
 </div>

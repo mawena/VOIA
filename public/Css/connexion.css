@@ -16,20 +16,21 @@ body {
     text-align: center;
     border: 6px solid white;
     /* border: 6px solid #F7941D; */
-    /* border-radius: 24px; */
+    border-radius: 24px;
 }
 
 #box h1 {
     color: white;
     /* color: #F7941D; */
     text-transform: uppercase;
-    font-weight: 100;
+    font-size: larger;
 }
 
 #box input[type="text"],
 #box input[type="password"],
 #box input[type="email"],
 #box select {
+    border-radius: 24px;
     border: 0;
     background: none;
     display: block;
@@ -66,6 +67,7 @@ body {
     color: white;
     transition: 0.5s;
     cursor: pointer;
+    border-radius: 24px;
 }
 
 #box input[type="submit"]:hover {

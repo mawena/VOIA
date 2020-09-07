@@ -3,12 +3,9 @@
 
 <head>
   <title>VOIA</title>
-  <link rel="stylesheet" href="/Css/more_1.css">
-  <link rel="stylesheet" href="/Css/bootstrap.min-pulse.css">
-  <!-- <style>
-		body{
-			background-image: url("/Images/bg-2.jpg");
-      background-size: cover;
-		}
-    </style> -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/Css/bootstrap-materia.css">
+  <link rel="stylesheet" href="/Css/style.css">
 </head>
+
+<body>

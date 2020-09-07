@@ -1,30 +1,30 @@
 <?php namespace App\Controllers;
 
-use App\Models\FormationsModel;
+use App\Models\TrainingModel;
 use CodeIgniter\Controller;
 
-class Formations extends Controller
+class Training extends Controller
 {
-    protected $table = 'formations';
+    protected $table = 'training';
     public function index($test = 1){
-        $model = new FormationsModel();
+        $model = new TrainingModel();
 
         $data = [
-            'formations' => $model->getFormation(),
-            'title' => 'Nos formations',
+            'training' => $model->getTraining(),
+            'title' => 'Cours',
             'currentPage' => 'formations',
         ];
 
         echo view('templates/header', $data);
         echo view('templates/nav', $data);
-        echo view('pages/formations', $data);
+        echo view('pages/training', $data);
         echo view('templates/footer', $data);
     }
 
     public function show($slug = NULL){
-        $model = new FormationsModel();
+        $model = new TrainingModel();
 
-        $data['formation'] = $model->getFormation($slug);
+        $data['formation'] = $model->getTraining($slug);
         if(empty($data['formation'])){
             throw new \CodeIgniter\Exceptions\PageNotFoundException('La formation : '. $slug . 'n\'a pas été trouvée');
         }
@@ -33,12 +33,12 @@ class Formations extends Controller
 
         echo view("templates/header", $data);
         echo view("templates/nav", $data);
-        echo view("pages/showFormation", $data);
+        echo view("pages/showTraining", $data);
         echo view("templates/footer", $data);
     }
 
     public function create(){
-        $model = new FormationsModel();
+        $model = new TrainingModel();
 
         if($this->request->getMethod() === 'post' && $this->validate([
             'name' => 'required|min_length[3]|max_length[255]',

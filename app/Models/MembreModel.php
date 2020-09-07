@@ -3,7 +3,7 @@
 use CodeIgniter\Model;
 
 class MembreModel extends Model{
-    protected $table = 'membres';
+    protected $table = 'user';
     protected $allowedFields = ['identifiant', 'password', 'last_name', 'first_name', 'email', 'sex', 'nb_parain'];
     
     public function getMembres($identifiant = false, $password = false, $fonction = NULL){
@@ -23,6 +23,7 @@ class MembreModel extends Model{
         $this->save([
             'id' =>$userData['id'], 
             'code_parainage' => $userData['code_parainage']
+            
         ]);
     }
 }

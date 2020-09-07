@@ -14,7 +14,7 @@
             
             <input type="text" name="codeParainage" id="codeParainage" placeholder="code de parainage">
             
-            <select name="Sex" id="Sex" required>
+            <select name="Sex" id="Sex" placeholder="sex" required>
                 <option value="Homme">Homme</option>
                 <option value="Femme">Femme</option>
             </select>

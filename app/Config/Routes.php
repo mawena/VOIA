@@ -33,12 +33,14 @@ $routes->setAutoRoute(true);
 // route since we don't have to scan directories.
 $routes->match(['get', 'post'], 'inscription', 'Inscription::index');
 $routes->match(['get', 'post'], 'connexion', 'Connexion::index');
-$routes->match(['get', 'post'], 'formations/create', 'Formations::create');
+$routes->match(['post'], 'formations', 'Training::search');
+$routes->match(['get', 'post'], 'formations/create', 'Training::create');
 $routes->get('/', 'Home::index');
-$routes->get('formations/(:segment)', 'Formations::show/$1');
-$routes->get('formations', 'Formations::index');
+$routes->get('formations/(:segment)', 'Training::show/$1');
+$routes->get('formations', 'Training::index');
+$routes->get('/rebrique/(:segment)', 'Home::show');
 // $routes->get('(:any)', 'Pages::view/$1');
-// $routes->get('/Formations/', 'Formations::view');
+// $routes->get('/Training/', 'Training::view');
 
 /**
  * --------------------------------------------------------------------
