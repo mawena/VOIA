@@ -53,6 +53,7 @@ section {
     justify-content: center;
     margin: 2rem 0;
     box-shadow: .5rem .5rem 3rem rgba(0, 0, 0, 0.2);
+    transition: 1s;
 }
 
 .card .card-img {
@@ -72,14 +73,14 @@ section {
     z-index: 999;
     border: 1rem solid #00ADEF;
     background: #F7941D;
-    transition: 2s;
+    transition: 1s;
     /* background: #00ADEF; */
 }
 
 .profile-img:hover {
     width: 15rem;
     height: 15rem;
-    transition: 2s;
+    transition: 1s;
 }
 
 .card h1 {
@@ -231,4 +232,5 @@ section {
 
 .card:hover {
     transform: scale(1.05);
+    transition: 1s;
 }

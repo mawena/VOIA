@@ -39,6 +39,9 @@ $routes->get('/', 'Home::index');
 $routes->get('formations/(:segment)', 'Training::show/$1');
 $routes->get('formations', 'Training::index');
 $routes->get('/rebrique/(:segment)', 'Home::show');
+$routes->get('/dashbord', 'Dashboard::index');
+$routes->get('/deconnexion', 'Connexion::deconnect');
+
 // $routes->get('(:any)', 'Pages::view/$1');
 // $routes->get('/Training/', 'Training::view');
 

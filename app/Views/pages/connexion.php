@@ -1,9 +1,22 @@
-<link rel="stylesheet" href="/Css/connexion.css">
+<link rel="stylesheet" href="/Css/login.css">
 <div>
-    <form id="box" action="connexion" method="post">
-        <h1 style="widht: 100hv;">Connexion</h1>
-        <input type="text" name="Identifiant" id="Identifiant" placeholder="Identifiant"  required>
-        <input type="password" name="Password" id="Password" placeholder="Mot de passe" required>
-        <input type="submit" value="Connexion">
+    <?php $session = \Config\Services::session(); ?>
+    <form action="/connexion" method="post">
+        <div class="login-box">
+            <?php if ($session->get('currentUser')  == NULL) : ?>
+                <h1><?= esc($title) ?></h1>
+                <div class="text-box">
+                    <i class="fa fa-user"></i>
+                    <input type="text" name="Identifiant" id="Identifiant" placeholder="Identifiant" required>
+                </div>
+                <div class="text-box">
+                    <i class="fa fa-lock"></i>
+                    <input type="password" name="Password" id="Password" placeholder="Mot de passe" required>
+                </div>
+                <input class="btn" type="submit" value="Inscription">
+            <?php else : ?>
+                <h1>Vous êtes déja connecté !</h1>
+            <?php endif ?>
+        </div>
     </form>
 </div>

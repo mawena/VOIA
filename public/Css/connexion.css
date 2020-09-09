@@ -5,6 +5,11 @@ body {
     /* background: #00ADEF; */
 }
 
+#error-connexion {
+    margin: auto;
+    color: red;
+}
+
 #box {
     width: 30%;
     padding: 1%;

@@ -1,13 +1,5 @@
 <?php helper('text'); ?>
-<script src="/JS/kit.font-awesome.js" crossorigin="anonymous"></script>
-<!-- <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.no-icons.min.css" rel="stylesheet"> -->
-<!-- <link rel="stylesheet" href="/Css/all.css"> -->
-
-<link href="/Css/font-awesome.css" rel="stylesheet">
 <link rel="stylesheet" href="/Css/training_group.css">
-
-
-
 <div class="container">
     <h1 class="heading"><?= esc($title); ?>:</h1>
     <div class="card-wrapper">
@@ -33,12 +25,6 @@
                     <?= word_limiter($training_group_item['description'], 50, "..."); ?>
                 </p>
                     <a href="#" class="btn">Voir Plus</a>
-                <!-- <ul class="social-media">
-                    <li> <a href="#"> <i class="fab fa-facebook-square"></i> </a> </li>
-                    <li> <a href="#"> <i class="fab fa-twitter-square"></i> </a> </li>
-                    <li> <a href="#"> <i class="fab fa-instagram"></i> </a> </li>
-                    <li> <a href="#"> <i class="fab fa-google-plus-square"></i> </a> </li>
-                </ul> -->
             </div>
         <?php endforeach; ?>
     </div>

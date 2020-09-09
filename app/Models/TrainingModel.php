@@ -6,7 +6,7 @@ use CodeIgniter\Model;
 
 class TrainingModel extends Model
 {
-    protected $table = 'training';
+    protected $table = 'trainings';
     protected $allowedFields = ['name', 'slug', 'duration_month', 'trainers', 'certified'];
 
     public function getTraining($slug = false)
@@ -19,10 +19,10 @@ class TrainingModel extends Model
             ->first();
     }
 
-    public function getTrainingByTrainingGroupSlug($slug = null)
+    public function findBy($column, $value)
     {
         return $this->asArray()
-            ->retgex()
-            ->first();
+            ->like([$column => $value])
+            ->findAll();
     }
 }

@@ -1,12 +1,12 @@
 <?php namespace App\Controllers;
 
-use App\Models\MembreModel;
+use App\Models\UserModel;
 use CodeIgniter\Controller;
 
 class Inscription extends Controller{
 
     public function index(){
-        $model = new MembreModel();
+        $model = new UserModel();
         $data = [];
         $mawena_code = "uI6UCdk1ruT4NV1";
 
@@ -19,7 +19,7 @@ class Inscription extends Controller{
             'Sex' => 'required'
             ]))
         {
-            $model->save([
+            $tempUser = [
                 'identifiant' =>$this->request->getPost('Identifiant'), 
                 'password' => password_hash($this->request->getPost('Password'), PASSWORD_DEFAULT),
                 'last-name' => $this->request->getPost('Last-name'),
@@ -27,21 +27,14 @@ class Inscription extends Controller{
                 'email' => $this->request->getPost('Mail'),
                 'sex' => $this->request->getPost('Sex'),
                 'code_parainage' => substr(password_hash(\substr($this->request->getPost('Identifiant'), 0, 3) . \substr($this->request->getPost('Last-name'), 0, 3) . \substr($this->request->getPost('Password'), 0, 3), PASSWORD_DEFAULT) ,7, 15)
-            ]);
+            ];
+            $model->save($tempUser);
 
-            $model->incrementUserNbParain($this->request->getPost('codeParainage'));
-
-        }else{
-            echo view('templates/header', ['title' => 'Inscription']);
-            // echo view('templates/nav');
-            echo view('pages/inscription', ['title' => 'Inscription']);
-            // echo view('templates/footer');
         }
-
-        echo view('templates/header', $data);
-        // echo view('templates/nav', $data);
-        echo view('pages/inscription', $data);
-        // echo view('templates/footer', $data);
+            echo view('templates/header', ['title' => 'Inscription']);
+            echo view('templates/nav');
+            echo view('pages/inscription', ['title' => 'Inscription']);
+            echo view('templates/footer');
     }
 
 }

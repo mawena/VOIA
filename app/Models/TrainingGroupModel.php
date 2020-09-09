@@ -6,7 +6,7 @@ use CodeIgniter\Model;
 
 class TrainingGroupModel extends Model
 {
-    protected $table = 'training_group';
+    protected $table = 'trainings_groups';
     protected $allowedFields = ['name', 'slug', 'duration_month', 'certified'];
 
     public function getTraningGroup($slug = false){
