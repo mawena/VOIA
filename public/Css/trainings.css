@@ -184,9 +184,9 @@ section {
     .card {
         width: 45%;
         margin: 5px;
-        transition: opacity .5s
+        transition: 1s;
+        transition: opacity 1s;
     }
-
 }
 
 @media screen and (min-width: 992px) {
@@ -199,8 +199,10 @@ section {
 
     .card {
         margin: 2rem;
-        transition: opacity .5s
+        transition: opacity .5s;
+        transition: 1s;
     }
+
 
 }
 

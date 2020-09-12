@@ -6,9 +6,9 @@
         <div class="sidebar">
             <h2>Dashbord</h2>
             <ul>
-                <li><a href="#courses"><i class="fas fa-graduation-cap"> Mes Cours</i></a></li>
-                <li><a href="#sponsorship"><i class="fas fa-people-arrows"> Parrainages</i></a></li>
-                <li><a href="#price"><i class="fas fa-gift"> Prix</i></a></li>
+                <li><a href="#cours"><i class="fas fa-graduation-cap"> Mes Cours</i></a></li>
+                <li><a href="#parrainages"><i class="fas fa-people-arrows"> Parrainages</i></a></li>
+                <li><a href="#prix"><i class="fas fa-gift"> Prix</i></a></li>
             </ul>
             <div class="social_media">
                 <a href=""><i class="fab fa-facebook"></i></a>

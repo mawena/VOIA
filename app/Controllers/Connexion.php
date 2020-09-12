@@ -8,7 +8,7 @@ use CodeIgniter\Controller;
 class Connexion extends controller
 {
 
-    public function index()
+    public function connect()
     {
         $userModel = new UserModel();
         $data = [
@@ -29,16 +29,15 @@ class Connexion extends controller
             } elseif ($userModel->getUser($identifiant, $password) == UserModel::BAD_PASSWORD) {
                 $data['error'] = "Le mot de passe est incorect !";
             } else {
-                $currentUser = $userModel->getUser($identifiant, $password);
-                $session->set(['currentUser' => $currentUser]);
+                $session->set(['currentUser' => $userModel->getUser($identifiant, $password)]);
                 return redirect()->to('/');
             }
         }
 
-            echo view('templates/header', $data);
-            echo view('templates/nav');
-            echo view('pages/connexion', $data);
-            echo view('templates/footer');
+        echo view('templates/header', $data);
+        echo view('templates/nav');
+        echo view('pages/connexion', $data);
+        echo view('templates/footer');
     }
 
     public function deconnect()

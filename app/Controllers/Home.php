@@ -2,8 +2,7 @@
 
 namespace App\Controllers;
 
-use App\Models\TrainingGroupModel;
-use App\Models\FormationsModel;
+use App\Models\TrainingsModel;
 use CodeIgniter\Controller;
 
 class Home extends Controller
@@ -11,21 +10,20 @@ class Home extends Controller
 	public function index()
 	{
 
-		$model = new TrainingGroupModel();
+		$model = new TrainingsModel();
 		$data = [
-			'training_groups' => $model->getTraningGroup(),
+			'trainings' => $model->getAllTraning(),
 			'title' => 'Nos différentes rubriques de cours',
 		];
 		
 		echo view("templates/header", $data);
 		echo view("templates/nav", $data);
-		echo view("pages/acceuil", $data);
+		echo view("pages/home", $data);
 		echo view("templates/footer", $data);
 	}
 
 	public function show($slug = null){
-		$trainingGroupModel = new TrainingGroupModel();
-		$trainingModel = new FormationsModel();
+		$trainingGroupModel = new TrainingsModel();
 
 		$data = [
 			'trainingGroup' => $trainingGroupModel->getTraningGroup($slug)

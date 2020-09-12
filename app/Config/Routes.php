@@ -31,19 +31,27 @@ $routes->setAutoRoute(true);
 
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
-$routes->match(['get', 'post'], 'inscription', 'Inscription::index');
-$routes->match(['get', 'post'], 'connexion', 'Connexion::index');
-$routes->match(['post'], 'formations', 'Training::search');
-$routes->match(['get', 'post'], 'formations/create', 'Training::create');
+$routes->match(['get', 'post'], 'connexion', 'Connexion::connect');
+$routes->match(['get', 'post'], 'inscription', 'Inscription::index');	
+$routes->match(['post'], 'cours', 'Courses::search');
+
 $routes->get('/', 'Home::index');
-$routes->get('formations/(:segment)', 'Training::show/$1');
-$routes->get('formations', 'Training::index');
-$routes->get('/rebrique/(:segment)', 'Home::show');
+$routes->get('cours', 'Courses::index');
 $routes->get('/dashbord', 'Dashboard::index');
 $routes->get('/deconnexion', 'Connexion::deconnect');
+$routes->get('cours/(:segment)', 'Courses::show/$1');
+$routes->get('/formations/(:segment)', 'Home::show');
 
+$routes->match(['get', 'post'], 'admin', 'admins/adminConnexion::connect');
+$routes->match(['get', 'post'], 'admin/connexion', 'admins/adminConnexion::connect');
+$routes->match(['post'], 'admin/dashbord', 'admins/adminDashboard::search');
+
+$routes->get('admin/deconnexion', 'admins/adminConnexion::deconnect');
+$routes->get('admin/dashboard', 'admins/adminDashboard::index');
+
+// $routes->match(['get', 'post'], 'cours/create', 'Courses::create');
 // $routes->get('(:any)', 'Pages::view/$1');
-// $routes->get('/Training/', 'Training::view');
+// $routes->get('/Courses/', 'Courses::view');
 
 /**
  * --------------------------------------------------------------------

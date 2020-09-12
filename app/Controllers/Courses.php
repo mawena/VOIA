@@ -2,48 +2,46 @@
 
 namespace App\Controllers;
 
-use App\Models\TrainingModel;
+use App\Models\CoursesModel;
 use CodeIgniter\Controller;
 
-class Training extends Controller
+class Courses extends Controller
 {
-    protected $table = 'training';
     public function index($test = 1)
     {
-        $model = new TrainingModel();
+        $model = new CoursesModel();
 
         $data = [
-            'training' => $model->getTraining(),
+            'courses' => $model->getAllCourses(),
             'title' => 'Cours',
             'currentPage' => 'formations',
         ];
 
         echo view('templates/header', $data);
         echo view('templates/nav', $data);
-        echo view('pages/training', $data);
+        echo view('pages/courses', $data);
         echo view('templates/footer', $data);
     }
 
     public function show($slug = NULL)
     {
-        $model = new TrainingModel();
-
-        $data['training_item'] = $model->getTraining($slug);
-        if (empty($data['training_item'])) {
-            throw new \CodeIgniter\Exceptions\PageNotFoundException('La formation : ' . $slug . 'n\'a pas été trouvée');
+        $model = new CoursesModel();
+        $data['course_item'] = $model->getCourse($slug);
+        if (empty($data['course_item'])) {
+            throw new \CodeIgniter\Exceptions\PageNotFoundException('Le cours : ' . $slug . 'n\'a pas été trouvée');
         }
 
-        $data['title'] = $data['training_item']['name'];
+        $data['title'] = $data['course_item']['name'];
 
         echo view("templates/header", $data);
         echo view("templates/nav", $data);
-        echo view("pages/showTraining", $data);
+        echo view("pages/showCourse", $data);
         echo view("templates/footer", $data);
     }
 
     public function search()
     {
-        $model = new TrainingModel();
+        $model = new CoursesModel();
 
         $data['title'] = 'Aucun résultat';
         if ($this->request->getMethod() === 'post' && $this->validate([
@@ -62,9 +60,9 @@ class Training extends Controller
     }
 
 
-    public function AddTraining()
+    public function AddCourse()
     {
-        $model = new TrainingModel();
+        $model = new CoursesModel();
 
         if ($this->request->getMethod() === 'post' && $this->validate([
             'name' => 'required|min_length[3]|max_length[255]',

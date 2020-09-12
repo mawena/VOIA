@@ -4,19 +4,20 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class TrainingModel extends Model
+class CoursesModel extends Model
 {
     protected $table = 'trainings';
     protected $allowedFields = ['name', 'slug', 'duration_month', 'trainers', 'certified'];
 
-    public function getTraining($slug = false)
+    public function getCourse($slug = false)
     {
-        if ($slug === false) {
-            return $this->findAll();
-        }
         return $this->asArray()
             ->where(['slug' => $slug])
             ->first();
+    }
+
+    public function getAllCourses(){
+        return $this->findAll();
     }
 
     public function findBy($column, $value)

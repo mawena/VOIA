@@ -12,7 +12,7 @@ class Dashboard extends Controller
     {
         $session = \Config\Services::session();
         $model = new UserModel();
-        if ($session->get('currentUser') === NULL) {
+        if ($session->get('currentUser') === NULL or $session->get('currentUser')['in_formation'] !== "1") {
             return redirect()->to("/connexion");
         } else {
             $data = [];

@@ -23,5 +23,17 @@ class UserModel extends Model{
         return $this->findAll();
     }
 
+    public function getAllUsersUnverified(){
+        return $this->asArray()
+                    ->where(['in_formation' => "0"])
+                    ->findAll();
+    }
+
+    public function getAllUsersVerified(){
+        return $this->asArray()
+                    ->where(['in_formation' => "1"])
+                    ->findAll();
+    }
+
     
 }
