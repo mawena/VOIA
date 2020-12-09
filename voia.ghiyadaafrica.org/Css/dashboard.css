@@ -1,0 +1,193 @@
+li {
+  list-style-type: none;
+}
+@font-face {
+  font-family: "Josefin Sans";
+  src: url("/Fonts/Josefin_Sans/JosefinSans-VariableFont_wght.ttf");
+}
+
+#dashboard {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  top: 0;
+  left: 0;
+  padding: 20px;
+  margin-top: 130px;
+  height: 76vh;
+  overflow-y: hidden;
+}
+#left-side,
+#right-side {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+#left-side {
+  width: 20%;
+}
+#left-side > li {
+  padding: 10px;
+  border: 1px solid white;
+  cursor: pointer;
+  font-weight: bold;
+  margin-bottom: 5px;
+  font-size: 16px;
+}
+
+#left-side > li:hover {
+  border: 1px solid black;
+}
+
+#right-side {
+  width: 80%;
+  background-color: white;
+  overflow-y: auto;
+}
+
+#parainages,
+#formations {
+  display: none;
+  flex-direction: column;
+}
+
+/* #formations {
+} */
+
+#parainages {
+  display: flex;
+}
+
+.product-header {
+  font-size: 14px;
+  margin: 5px;
+  border-radius: 5px;
+}
+
+.parain-tree-header,
+.product-header {
+  background-color: #333;
+  color: #ccc;
+  width: 60%;
+  font-weight: bold;
+  display: flex;
+  justify-content: space-between;
+  padding: 14px;
+  margin: 20px;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+.parain-tree-header i,
+.product-header i {
+  cursor: pointer;
+  font-size: 20px;
+}
+
+#parain-tree-list,
+#product-content {
+  display: none;
+  height: auto;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+#parain-tree-list > div,
+#product-content {
+  /* background-color: #00ADEF; */
+  /* color: #333; */
+  background-color: #ccc;
+  color: #333;
+  width: 55%;
+  margin-left: 5%;
+  margin-bottom: 10px;
+  border-radius: 5px;
+}
+
+#product-content {
+  padding: 10px;
+}
+
+.fileul {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.fileul > * {
+  margin: 10px;
+}
+
+.fileul-pic img {
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+}
+
+.fileul-data > div:nth-child(1) {
+  font-weight: bold;
+}
+
+#formations .cours {
+  background-color: #ccc;
+  height: auto;
+  border-radius: 5px;
+  padding: 10px;
+  margin: 5px;
+}
+
+/*nom du cours*/
+#formations .cours > div:nth-child(1) {
+  font-weight: bold;
+  font-size: 20px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 10px;
+  cursor: pointer;
+}
+#formations .cours > div:nth-child(1) i {
+  font-size: 12px;
+  cursor: pointer;
+  border-radius: 50%;
+  padding: 10px;
+  background-color: white;
+}
+
+/* details */
+#formations .cours > div:nth-child(3) {
+  font-style: oblique;
+  margin-bottom: 6px;
+  text-decoration: underline;
+  display: none;
+}
+
+/* contenu du detail */
+#formations .cours > div:nth-child(4) {
+  margin-bottom: 6px;
+  display: none;
+}
+
+/* statut */
+#formations .cours > div:nth-child(5) {
+  margin-bottom: 6px;
+  font-weight: bold;
+}
+
+#formations .cours > div:nth-child(5) > span {
+  font-size: 12px;
+}
+
+#product-content > div {
+  font-style: italic;
+  margin: 10px;
+}
+
+#product-content > div > * {
+  color: #000;
+  /* font-size: 13px; */
+  font-weight: 600;
+  font-style: normal;
+}
