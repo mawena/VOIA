@@ -2,8 +2,11 @@
 
 namespace App\Controllers\Apis;
 
-use App\Models\SponsorshipsModel;
 use App\Models\UserModel;
+use App\Models\CountryModel;
+use App\Models\UserWaitingModel;
+use App\Models\SponsorshipsModel;
+use App\Models\SubscribedPackagesModel;
 use CodeIgniter\RESTful\ResourceController;
 
 class UsersController extends ResourceController
@@ -36,6 +39,33 @@ class UsersController extends ResourceController
     }
 
     /**
+     * Retourne les informations d'un utilisateur à l'aide de son matricule
+     *
+     * @param string $parainMatricule
+     * @return void
+     */
+    public function getParain(string $parainMatricule = null)
+    {
+        $userModel = new UserModel();
+        if ($parainMatricule == null) {
+            return $this->respond([
+                "status" => "failed",
+                "message" => "Le matricule du parain est manquant!"
+            ]);
+        } else {
+            $currentParain = $userModel->where(["matricule" => $parainMatricule])->first();
+            if ($currentParain == [] or $currentParain == null) {
+                return $this->respond([
+                    "status" => "failed",
+                    "message" => "L'utilisateur demandé n'existe pas!"
+                ]);
+            } else {
+                return $this->respond($currentParain);
+            }
+        }
+    }
+
+    /**
      * Retourne les informations de tout les utilisateurs
      *
      * @return json
@@ -43,7 +73,7 @@ class UsersController extends ResourceController
     public function getAllUser()
     {
         $userModel = new UserModel();
-        $currentUserArray = $userModel->findAll();
+        $currentUserArray = $userModel->orderBy("admissionDate", "DESC")->findAll();
         if ($currentUserArray == [] or $currentUserArray == null) {
             return $this->respond([
                 "status" => "failed",
@@ -60,22 +90,33 @@ class UsersController extends ResourceController
      * @param string $token
      * @return void
      */
-    public function storeUser(string $parainToken = null)
+    public function storeUser()
     {
+        date_default_timezone_set('UTC');
         $method = "post";
-
-        if ($parainToken == null) {
-            return $this->respond([
-                "status" => "failed",
-                "message" => "L'identifiant du parain est manquant!"
-            ]);
-        }
-
+        $countryNameArray = [];
         $userModel = new UserModel();
+        $userWaitingModel = new UserWaitingModel();
+        $countryModel = new CountryModel();
+
         if ($this->request->getMethod() == $method) {
             $currentUser["username"] = $this->request->getPost("username");
             if ($this->validate(["username" => "required"])) {
-                if (!$this->validate(["username" => "min_length[2]"])) {
+                if ($this->validate(["username" => "min_length[2]"])) {
+                    if ($userWaitingModel->where(["username" => $currentUser["username"]])->first() == null) {
+                        if ($userModel->where(["username" => $currentUser["username"]])->first() != null) {
+                            return $this->respond([
+                                "status" => "failed",
+                                "message" => "L'identifiant '" . $currentUser["username"] . "' est déja inscrit. Veuillez en chosir un autre!"
+                            ]);
+                        }
+                    } else {
+                        return $this->respond([
+                            "status" => "failed",
+                            "message" => "L'identifiant '" . $currentUser["username"] . "' est déja en liste d'attente. Veuillez en chosir un autre!"
+                        ]);
+                    }
+                } else {
                     return $this->respond([
                         "status" => "failed",
                         "message" => "L'identifiant doit contenir au moins 2 caractères!"
@@ -186,6 +227,57 @@ class UsersController extends ResourceController
                 ]);
             }
 
+            if ($this->validate(["numero" => "required"])) {
+                if ($this->validate(["numero" => "min_length[4]"])) {
+                    $currentUser["phoneNumber"] = $this->request->getPost("numero");
+                } else {
+                    return $this->respond([
+                        "status" => "failed",
+                        "message" => "Le numéro de téléphone doit contenir au moins quatre chiffres!"
+                    ]);
+                }
+            } else {
+                return $this->respond([
+                    "status" => "failed",
+                    "message" => "Le numéro de téléphone est manquant!"
+                ]);
+            }
+
+            if ($this->validate(["numero_whatsapp" => "required"])) {
+                if ($this->validate(["numero_whatsapp" => "min_length[4]"])) {
+                    $currentUser["whatsappNumber"] = $this->request->getPost("numero_whatsapp");
+                } else {
+                    return $this->respond([
+                        "status" => "failed",
+                        "message" => "Le numéro whatsapp doit contenir au moins quatre chiffres!"
+                    ]);
+                }
+            } else {
+                return $this->respond([
+                    "status" => "failed",
+                    "message" => "Le contact whatsapp est manquant!"
+                ]);
+            }
+
+            foreach ($countryModel->findAll() as $countryDataArray) {
+                $countryNameArray[] = $countryDataArray["nom_fr_fr"];
+            }
+
+            if ($this->validate(["country" => "required"])) {
+                $currentUser["country"] = $this->request->getPost("country");
+                if (!in_array($currentUser["country"], $countryNameArray)) {
+                    return $this->respond([
+                        "status" => "failed",
+                        "message" => "Le pays '" . $currentUser["country"] . "' n'est pas valide!"
+                    ]);
+                }
+            } else {
+                return $this->respond([
+                    "status" => "failed",
+                    "message" => "Le pays est manquant!"
+                ]);
+            }
+
             $currentUser["token"] = sha1($currentUser["username"] . $currentUser["last_name"] . $currentUser["first_name"] . date("Y-m-d H:i:s"));
             if ($this->validate(["codeParainage" => "required"])) {
                 $currentUser["codeParainage"] = $this->request->getPost("codeParainage");
@@ -205,6 +297,7 @@ class UsersController extends ResourceController
             }
 
             $currentUser["matricule"] =  $userModel->countAll() . date("y") . date("s") . $currentUser["username"]["1"] . $userModel->getLastedId() . date("d") . date("j");
+            $currentUser["admissionDate"] = date("Y-m-d H:i:s");
 
             $userModel->insert($currentUser);
             return $this->respond([
@@ -337,7 +430,7 @@ class UsersController extends ResourceController
                 if ($this->validate(["email" => "required"])) {
                     if ($this->validate(["email" => "valid_email"])) {
                         $currentUser["email"] = $this->request->getPost("email");
-                        if ($userModel->asArray()->where(["email" => $currentUser["email"]])->first() != []) {
+                        if ($userModel->asArray()->where(["email" => $currentUser["email"]])->first() != [] && $currentUser["email"] != $dataBaseUser["email"]) {
                             return $this->respond(["status" => "failed", "message" => "L'adresse mail '" . $currentUser["email"] . "' est déjà utilisé"]);
                         }
                     } else {
@@ -368,6 +461,8 @@ class UsersController extends ResourceController
                         "message" => "Le sexe est manquant!"
                     ]);
                 }
+
+                $currentUser["token"] = $userToken;
                 $userModel->save($currentUser, "token = " . $userToken);
                 return $this->respond([
                     "status" => "success",
@@ -390,20 +485,28 @@ class UsersController extends ResourceController
      */
     public function deleteUser(string $token = null)
     {
+        $userModel = new UserModel();
+        $subscribedPackagesModel = new SubscribedPackagesModel();
+        $sponsorshipsModel = new SponsorshipsModel();
         if ($token == null) {
             return $this->respond([
                 "status" => "failed",
                 "message" => "L'identifiant de l'utilisateur est manquant!"
             ]);
         } else {
-            $userModel = new UserModel();
             if ($userModel->find($token) == null) {
                 return $this->respond([
                     "status" => "failed",
                     "message" => "L'utilisateur n'est pas inscrit!"
                 ]);
             } else {
-                $userModel->delete($token);
+                foreach ($subscribedPackagesModel->where(["userToken" => $token])->findAll() as $currentSubscribedPackage) {
+                    $subscribedPackagesModel->delete($currentSubscribedPackage["token"]);
+                } //Supréssion de la souscrition à un package
+
+                $sponsorshipsModel->delete(($sponsorshipsModel->where(["godDauhterToken" => $token])->first())["token"]);   //Supréssion du parrainage
+
+                $userModel->delete($token); //Supréssion de l'utilisateur
                 return $this->respond([
                     "status" => "success"
                 ]);

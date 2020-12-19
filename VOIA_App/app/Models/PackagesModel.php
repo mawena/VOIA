@@ -7,5 +7,5 @@ use CodeIgniter\Model;
 class PackagesModel extends Model{
     protected $table = "packages";
     protected $primaryKey = "token";
-    protected $allowedFields = ["token", "productToken", "designation", "description", "numberPerson", "timeOut", "price", "logoPath"];
+    protected $allowedFields = ["token", "productToken", "designation", "slug", "description", "numberPerson", "timeOut", "price", "logoPath"];
 }

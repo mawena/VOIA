@@ -5,12 +5,11 @@ namespace App\Controllers\FrontEnd;
 use App\Models\CoursesModel;
 use CodeIgniter\Controller;
 
-class Courses extends Controller
+class CoursesController extends Controller
 {
-    public function index($test = 1)
+    public function index()
     {
         $model = new CoursesModel();
-
         $data = [
             'courses' => $model->getAllCourses(),
             'title' => 'Cours',
@@ -48,14 +47,14 @@ class Courses extends Controller
             'formation_search' => 'required'
         ])) {
             $data = [
-                'training' => $model->findBy('name', $this->request->getPost('formation_search')),
+                'courses' => $model->findBy('name', $this->request->getPost('formation_search')),
                 'title' => 'Résutats'
             ];
         }
 
         echo view("templates/header", $data);
         echo view("templates/nav", $data);
-        echo view("pages/training", $data);
+        echo view("pages/courses", $data);
         echo view("templates/footer", $data);
     }
 

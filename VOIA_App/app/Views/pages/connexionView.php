@@ -1,54 +1,71 @@
 <link rel="stylesheet" href="/Css/login.css">
 
-<div id="popupBox">
-    <div id="popup">
-    </div>
-</div>
+<style>
+    .error {
+        color: red;
+        background-color: white;
+    }
+
+    .success {
+        color: green;
+        background-color: white;
+    }
+
+    #state {
+        display: none;
+        text-align: center;
+        padding: 10px;
+        margin: 10px;
+        border-radius: 5px;
+        font-weight: bold;
+    }
+</style>
 
 <div>
-    <form action="/connexion" method="post">
+    <?php $session = \Config\Services::session(); ?>
+
+    <form id="connexion-form">
         <div class="login-box">
-            <h1><?= esc($title) ?></h1>
-            <div class="text-box">
-                <i class="fa fa-envelope"></i>
-                <input type="text" name="email" id="email" placeholder="Adresse mail" required value="gamligocharles@gmail.com">
-            </div>
-            <div class="text-box">
-                <i class="fa fa-lock"></i>
-                <input type="password" name="password" id="password" placeholder="Mot de passe" required value="licdovic">
-            </div>
-            <input class="btn" id="connexion" type="submit" value="Connexion">
+            <?php if ($session->get('currentUser')  == NULL) : ?>
+                <h1><?= esc($title) ?></h1>
+                <div class="text-box">
+                    <i class="fa fa-user"></i>
+                    <input type="email" name="email" id="Identifiant" placeholder="Email" required>
+                </div>
+                <div class="text-box">
+                    <i class="fa fa-lock"></i>
+                    <input type="password" name="password" id="Password" placeholder="Mot de passe" required>
+                </div>
+                <div id="state">
+                </div>
+                <input class="btn" type="submit" value="Connexion">
+            <?php else : ?>
+                <h1>Vous êtes déja connecté !</h1>
+            <?php endif ?>
         </div>
     </form>
 </div>
 
-<script>
-    $("#connexion").on("click", function(e) {
-        e.preventDefault();
-        let newForm = new FormData();
-        newForm.append("email", $("#email").val());
-        newForm.append("password", $("#password").val());
+<script type="module">
 
-        $("#connexion").after('<div class="loading animate"></div>');
-        $("#connexion").slideToggle()
+    import {server_url} from "/JS/config.js"
 
+    $("#state").hide()
+    $("input.btn").on('click', function(e) {
+        let connexion_data = new FormData(document.getElementById("connexion-form"))
+        e.preventDefault()
         $.ajax({
-            url: "/apis/users/connexion",
+            url: '/apis/users/connexion',
             type: "POST",
-            data: newForm,
+            data: connexion_data,
             processData: false,
             contentType: false,
             success: function(data) {
-
-                $("#popup").removeClass("success")
-                $("#popup").removeClass("failed")
-                $("#connexion").html('Connexion');
-                $("#connexion").slideToggle();
-                $(".loading").remove()
-
+                console.log(data);
                 if (data.status == "success") {
-                    user = data.data
-                    userForm = new FormData;
+                    $("#state").hide()
+                    let user = data.data
+                    let userForm = new FormData;
                     userForm.append("token", user.token);
                     userForm.append("username", user.username);
                     userForm.append("last_name", user.last_name);
@@ -58,45 +75,35 @@
 
                     setTimeout(function() {
                         $.ajax({
-                            url: "/apis/session/connect/" + data.data.token,
+                            url: "/apis/session/users/connect/" + data.data.token,
                             type: "POST",
                             data: userForm,
                             processData: false,
                             contentType: false,
-                            success: function(dataSession) {
+                            success: function(data) {
                                 if (data.status == "success") {
                                     window.location.href = "/dashboard";
                                 } else if (data.status == "failed") {
                                     window.location.href = "/connexion";
                                 }
                             }
-
                         });
                     }, 450);
-
                 } else if (data.status == "failed") {
-                    $("#popup").addClass("failed")
-                    $("#popup").html(data.message)
-
-                    setTimeout(function() {
-                        $("#popupBox").fadeIn(100);
-                        $("#popupBox").css({
-                            "display": "flex"
-                        });
-                        $("#popup").css({
-                            "scale": "1"
-                        });
-                        $("#popupBox").on("click", function(e) {
-                            if (e.target.id != "popup") {
-                                $("#popup").css({
-                                    "scale": "0"
-                                });
-                                $("#popupBox").fadeOut(200);
-                            }
-                        })
-                    }, 300)
+                    $("#state").show()
+                    $("#state").removeClass("success")
+                    $("#state").addClass("error")
+                    $("#state").text(data.message)
                 }
+            },
+            error: function(data) {
+                $("#state").show()
+                $("#state").removeClass("success")
+                $("#state").addClass("error")
+                $("#state").text("Erreur de connexion ! Veuillez re-essayer !")
+                console.log(data)
             }
-        });
+        })
+
     })
 </script>

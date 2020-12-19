@@ -70,6 +70,7 @@ class PackagesController extends ResourceController
 
     public function storePackage()
     {
+        helper("text");
         date_default_timezone_set('UTC');
         if ($this->request->getMethod() == "post") {
             if ($this->validate(["productToken" => "required"])) {
@@ -168,6 +169,7 @@ class PackagesController extends ResourceController
                 ]);
             }
 
+            $currentPackage["slug"] = url_title($currentPackage["designation"]);
             $currentPackage["token"] = sha1($currentPackage["designation"] . $currentPackage["timeOut"] . time());
             $currentPackage["logoPath"] = "/Data/default.jpg";
             (new PackagesModel())->insert($currentPackage);

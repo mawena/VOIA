@@ -14,7 +14,7 @@ class SessionController extends ResourceController
      * @param string $token
      * @return void
      */
-    public function connect(string $token = null)
+    public function userConnect(string $token = null)
     {
         if ($token == null) {
             return $this->respond([
@@ -24,7 +24,7 @@ class SessionController extends ResourceController
         } else {
             if ($this->request->getMethod() == "post") {
                 $session = Services::session();
-                $currentUser["token"] = $this->request->getPost("token");
+                $currentUser["token"] = $token;
                 $currentUser["username"] = $this->request->getPost("username");
                 $currentUser["last_name"] = $this->request->getPost("last_name");
                 $currentUser["first_name"] = $this->request->getPost("first_name");
@@ -35,6 +35,41 @@ class SessionController extends ResourceController
                     "status" => "success"
                 ]);
                 // $_SESSION["currentUser"] = $this->request->getPost("currentUser");
+            } else {
+                return $this->respond([
+                    "status" => "failed",
+                    "message" => "Vous devez envoyer un formulaire via 'post'"
+                ]);
+            }
+        }
+    }
+
+
+    /**
+     * Créer la session d'un utilisateur
+     *
+     * @param string $token
+     * @return void
+     */
+    public function superAdminConnect(string $token = null)
+    {
+        if ($token == null) {
+            return $this->respond([
+                "status" => "failed",
+                "message" => "L'identifiant du superAdmin est manquant!"
+            ]);
+        } else {
+            if ($this->request->getMethod() == "post") {
+                $session = Services::session();
+                $currentUser["token"] = $token;
+                $currentUser["username"] = $this->request->getPost("username");
+                $currentUser["last_name"] = $this->request->getPost("last_name");
+                $currentUser["first_name"] = $this->request->getPost("first_name");
+                $currentUser["email"] = $this->request->getPost("email");
+                $session->set("currentSuperAdmin", $currentUser);
+                return $this->respond([
+                    "status" => "success"
+                ]);
             } else {
                 return $this->respond([
                     "status" => "failed",

@@ -2,6 +2,8 @@
 
 namespace Config;
 
+use App\Controller\FrontEnd\SuperAdminsController;
+
 // Create a new instance of our RouteCollection class.
 $routes = Services::routes();
 
@@ -37,15 +39,20 @@ $routes->setDefaultNamespace('App\Controllers\FrontEnd');
 
 $routes->get('/', 'HomeController::home');
 $routes->get('/formations/(:segment)', 'HomeController::showTraining/$1');
+
 $routes->get('/connexion', 'ConnectionController::connection');
 $routes->get('/deconnexion', 'ConnectionController::disconnection');
-// $routes->get('/inscription', 'RegistrationController::registration');
-$routes->get('/inscription/(:segment)', 'RegistrationController::registration/$1');
-$routes->get('/cours', 'Courses::index');
-$routes->post('/cours', 'Courses::search');
-$routes->get('/cours/(:segment)', 'Courses::show/$1');
+$routes->get("/admin/connexion", "SuperAdminsController::superAdminConnexion");
+
+$routes->get('/inscription', 'RegistrationController::registration');
+$routes->get('/inscription/(:segment)/(:segment)', 'RegistrationController::registration/$1/$2');
+
+$routes->get('/cours', 'CoursesController::index');
+$routes->post('/cours', 'CoursesController::search');
+$routes->get('/cours/(:segment)', 'CoursesController::show/$1');
 
 $routes->get('/dashboard', 'DashboardController::dashboard');
+$routes->get("/admin/dashboard", "SuperAdminsController::superAdminDashboard");
 
 
 
@@ -62,35 +69,57 @@ $routes->setDefaultNamespace('App\Controllers\Apis');
 
 //Connexion
 $routes->post('/apis/users/connexion', 'ConnectionController::userConnection');
-$routes->post("/apis/session/connect/(:segment)", "SessionController::connect/$1");
+$routes->post("/apis/superadmins/connexion", "ConnectionController::superAdminConnection");
+$routes->post("/apis/session/users/connect/(:segment)", "SessionController::userConnect/$1");
+$routes->post("/apis/session/superadmins/connect/(:segment)", "SessionController::superAdminConnect/$1");
+
 
 //Users
 $routes->get('/apis/users', 'UsersController::getAllUser');
 $routes->get('/apis/users/get/(:segment)', 'UsersController::getUser/$1');
-$routes->post('/apis/users/store/(:segment)', 'UsersController::storeUser/$1');
-$routes->post('/apis/users/update/(:segment)', 'UsersController::updateUser/$1');
-$routes->get('/apis/users/delete/(:segment)', 'UsersController::deleteUser/$1');
+// $routes->post('/apis/users/store', 'UsersController::storeUser/$1');
+// $routes->post('/apis/users/update/(:segment)', 'UsersController::updateUser/$1');
+// $routes->get('/apis/users/delete/(:segment)', 'UsersController::deleteUser/$1');
+$routes->get("/apis/parains/get/(:segment)", "UsersController::getParain/$1");
+
+//UsersWaiting
+$routes->get('/apis/userswaiting', 'UsersWaitingController::getAllUserWaiting');
+$routes->get('/apis/userswaiting/get/(:segment)', 'UsersWaitingController::getUserWaiting/$1');
+$routes->post('/apis/userswaiting/store', 'UsersWaitingController::storeUserWaiting/$1');
+// $routes->post('/apis/userswaiting/update/(:segment)', 'UsersWaitingController::updateUserWaiting/$1');
+$routes->get('/apis/userswaiting/delete/(:segment)', 'UsersWaitingController::deleteUserWaiting/$1');
+$routes->get("/apis/userswaiting/validate/(:segment)", "UsersWaitingController::validateUserWaiting/$1");
 
 //Products
 $routes->get('/apis/products', 'ProductsController::getAllProduct');
 $routes->get('/apis/products/get/(:segment)', 'ProductsController::getProduct/$1');
-$routes->post('/apis/products/store', 'ProductsController::storeProduct');
-$routes->post('/apis/products/update/(:segment)', 'ProductsController::updateProduct/$1');
-$routes->get('/apis/products/delete/(:segment)', 'ProductsController::deleteProduct/$1');
+// $routes->post('/apis/products/store', 'ProductsController::storeProduct');
+// $routes->post('/apis/products/update/(:segment)', 'ProductsController::updateProduct/$1');
+// $routes->get('/apis/products/delete/(:segment)', 'ProductsController::deleteProduct/$1');
 
 //Packages
 $routes->get('/apis/packages', 'PackagesController::getAllPackage');
 $routes->get('/apis/packages/get/(:segment)', 'PackagesController::getPackage/$1');
 $routes->post('/apis/packages/store', 'PackagesController::storePackage');
-$routes->post('/apis/packages/update/(:segment)', 'PackagesController::updatePackage/$1');
-$routes->get('/apis/packages/delete/(:segment)', 'PackagesController::deletePackage/$1');
+// $routes->post('/apis/packages/update/(:segment)', 'PackagesController::updatePackage/$1');
+// $routes->get('/apis/packages/delete/(:segment)', 'PackagesController::deletePackage/$1');
 
 //SubscribedPackages
 $routes->get('/apis/subscribedPackages', 'SubscribedPackagesController::getAllSubscribedPackage');
 $routes->get('/apis/subscribedPackages/get/(:segment)', 'SubscribedPackagesController::getSubscribedPackage/$1');
-$routes->post('/apis/subscribedPackages/store', 'SubscribedPackagesController::storeSubscribedPackage');
-$routes->post('/apis/subscribedPackages/update/(:segment)', 'SubscribedPackagesController::storeSubscribedPackage/$1');
-$routes->get('/apis/subscribedPackages/delete/(:segment)', 'SubscribedPackagesController::deleteSubscribedPackage/$1');
+// $routes->post('/apis/subscribedPackages/store', 'SubscribedPackagesController::storeSubscribedPackage');
+// $routes->post('/apis/subscribedPackages/update/(:segment)', 'SubscribedPackagesController::storeSubscribedPackage/$1');
+// $routes->get('/apis/subscribedPackages/delete/(:segment)', 'SubscribedPackagesController::deleteSubscribedPackage/$1');
+$routes->get("/apis/subscribedPackages/users/get/(:segment)", "SubscribedPackagesController::getUserSubscribedPackage/$1");
+
+//Sponsorships
+$routes->get('/apis/sponsorships/', "SponsorshipsController::getAllSponsorship");
+$routes->get('/apis/sponsorships/get/(:segment)', "SponsorshipsController::getSponsorship/$1");
+$routes->get('/apis/sponsorships/godFather/get/(:segment)', "SponsorshipsController::getgodFatherSponsorship/$1");
+// $routes->post('/apis/sponsorships/store', "SponsorshipsController::storeSponsorship");
+// $routes->post('/apis/sponsorships/update/(:segment)', "SponsorshipsController::updateSponsorship/$1");
+// $routes->get('/apis/sponsorships/delete/(:segment)', "SponsorshipsController::deleteSponsorship/$1");
+
 
 // $routes->match(['get', 'post'], 'cours/create', 'Courses::create');
 // $routes->get('(:any)', 'Pages::view/$1');

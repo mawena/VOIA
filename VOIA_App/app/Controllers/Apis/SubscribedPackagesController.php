@@ -36,6 +36,39 @@ class SubscribedPackagesController extends ResourceController
     }
 
     /**
+     * Retourne les informations d'une souscription à l'aide du token de l'utilisateur
+     *
+     * @param string $userToken
+     * @return void
+     */
+    public function getUserSubscribedPackage(string $userToken = null)
+    {
+        if ($userToken == null) {
+            return $this->respond([
+                "status" => "failed",
+                "message" => "L'identifiant de l'utilisateur est manquant!"
+            ]);
+        } else {
+            if ((new UserModel())->find($userToken) == null) {
+                return $this->respond([
+                    "status" => "failed",
+                    "message" => "L'utilisateur n'existe pas!"
+                ]);
+            } else {
+                $currentSubscribedPackage = (new SubscribedPackagesModel())->where(["userToken" => $userToken])->first();
+                if ($currentSubscribedPackage == [] or $currentSubscribedPackage == null) {
+                    return $this->respond([
+                        "status" => "failed",
+                        "message" => "L'utilisateur n'a souscrit à aucun package!"
+                    ]);
+                } else {
+                    return $this->respond($currentSubscribedPackage);
+                }
+            }
+        }
+    }
+
+    /**
      * Retourne toutes les souscriptions, ou les suscriptions d'un utilisateur
      *
      * @param string $userToken
@@ -45,7 +78,7 @@ class SubscribedPackagesController extends ResourceController
     {
         $subscribedPackagesModel = new SubscribedPackagesModel();
         if ($userToken == null) {
-            $currentSubscribedPackageArray = $subscribedPackagesModel->findAll();
+            $currentSubscribedPackageArray = $subscribedPackagesModel->orderBy("subscriptionDate", "DESC")->findAll();
             if ($currentSubscribedPackageArray == []) {
                 return $this->respond([
                     "status" => "failed",
@@ -68,7 +101,7 @@ class SubscribedPackagesController extends ResourceController
                         "message" => "L'utilisateur n'a effectué aucune souscription pour le moment!"
                     ]);
                 } else {
-                    return $currentSubscribedPackageArray;
+                    return $this->respond($currentSubscribedPackageArray);
                 }
             }
         }

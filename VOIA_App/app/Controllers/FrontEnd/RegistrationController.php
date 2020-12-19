@@ -2,7 +2,9 @@
 
 namespace App\Controllers\FrontEnd;
 
-use App\Models\UserModel;
+use App\Libraries\Helper;
+use App\Models\PackagesModel;
+use App\Models\SubscribedPackagesModel;
 use CodeIgniter\Controller;
 
 class RegistrationController extends Controller
@@ -14,44 +16,37 @@ class RegistrationController extends Controller
      * @param string $parainToken
      * @return void
      */
-    public function registration(string $parainToken = null)
+    public function registration(string $parainMatricule = null, string $slugPackage = null)
     {
-        $model = new UserModel();
+        $subscribedPackagesModel = new SubscribedPackagesModel();
+        $packageModel = new PackagesModel();
         $data = [];
-        $mawena_code = "uI6UCdk1ruT4NV1";
 
-        if ($parainToken == null) {
+        if ($parainMatricule == null or $slugPackage == null) {
             return redirect()->to("/");
-        }else{
-            
-            $response = get_object_vars(json_decode(file_get_contents("http://localhost:85/apis/users/get/" . $parainToken)));
-            if(isset($response["status"]) && $response["status"] == "failed"){
+        } else {
+            $currentUserPackage = $packageModel->where(["slug" => $slugPackage])->first();
+            $parrainUser = get_object_vars(json_decode(file_get_contents(Helper::getBaseUrl() . "/apis/parains/get/" . $parainMatricule)));
+            if (isset($parrainUser["status"]) && $parrainUser["status"] == "failed") {
                 return redirect()->to("/");
+            } else {
+                if ($parrainUser["type"] == "normal") {
+                    $parrainUser["package"] = $packageModel->find($subscribedPackagesModel->where(["userToken" => $parrainUser["token"]])->first());
+                    if ($parrainUser["package"][0]["slug"] != $slugPackage) {
+                        return redirect()->to("/");
+                    }
+                }
             }
         }
 
-        if ($this->request->getMethod() === 'post' && $this->validate([
-            'Identifiant' => 'required|min_length[8]',
-            'Password' => 'required|min_length[8]',
-            'Last-name' => 'required|min_length[3]',
-            'First-name' => 'required|min_length[3]',
-            'Mail' => 'required|valid_email',
-            'Sex' => 'required'
-        ])) {
-            $tempUser = [
-                'identifiant' => $this->request->getPost('Identifiant'),
-                'password' => password_hash($this->request->getPost('Password'), PASSWORD_DEFAULT),
-                'last-name' => $this->request->getPost('Last-name'),
-                'first-name' => $this->request->getPost('First-name'),
-                'email' => $this->request->getPost('Mail'),
-                'sex' => $this->request->getPost('Sex'),
-                'matricule' => substr(password_hash(\substr($this->request->getPost('Identifiant'), 0, 3) . \substr($this->request->getPost('Last-name'), 0, 3) . \substr($this->request->getPost('Password'), 0, 3), PASSWORD_DEFAULT), 7, 15)
-            ];
-            $model->save($tempUser);
-        }
-        echo view('templates/header', ['title' => 'Inscription']);
+        $data = [
+            "title" => "Inscription",
+            "parrainUser" => $parrainUser,
+            "slugPackage" => $slugPackage
+        ];
+        echo view('templates/header', $data);
         echo view('templates/nav');
-        echo view('pages/inscription', ['title' => 'Inscription']);
+        echo view('pages/inscription', $data);
         echo view('templates/footer');
     }
 }
