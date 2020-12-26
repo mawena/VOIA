@@ -127,7 +127,6 @@ class UsersWaitingController extends ResourceController
                 } else {
 
                     $currentUserWaiting["package"] = $packageModel->where(["slug" => $currentUserWaiting["slugPackage"]])->first();
-
                     if (count($sponsorshipsModel->where(["godFatherToken" => $currentParain["token"]])->findAll()) >= (int) ($currentUserWaiting["package"]["numberPerson"]) && $currentParain["type"] != "commercial") {
                         // $parrainSuscribedPackage = $subscribedPackagesModel->where(["packageToken" => $currentUserWaiting["package"]["token"]])->orderBy("subscriptionDate")->first();
                         // $currentParain = $userModel->find($parrainSuscribedPackage["userToken"]);

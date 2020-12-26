@@ -30,6 +30,7 @@ class SessionController extends ResourceController
                 $currentUser["first_name"] = $this->request->getPost("first_name");
                 $currentUser["email"] = $this->request->getPost("email");
                 $currentUser["matricule"] = $this->request->getPost("matricule");
+                $currentUser["type"] = $this->request->getPost("type");
                 $session->set("currentUser", $currentUser);
                 return $this->respond([
                     "status" => "success"

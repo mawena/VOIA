@@ -4,6 +4,7 @@ namespace App\Controllers\Apis;
 
 use App\Models\UserModel;
 use App\Models\CountryModel;
+use App\Models\PackagesModel;
 use App\Models\UserWaitingModel;
 use App\Models\SponsorshipsModel;
 use App\Models\SubscribedPackagesModel;
@@ -85,6 +86,25 @@ class UsersController extends ResourceController
     }
 
     /**
+     * Retourne la liste des commerciaux
+     *
+     * @return json
+     */
+    public function getAllCommercialUser()
+    {
+        $userModel = new UserModel();
+        $currentCommercialUserArray = $userModel->where(["type" => "commercial"])->findAll();
+        if ($currentCommercialUserArray == [] or $currentCommercialUserArray == null) {
+            return $this->respond([
+                "status" => "failed",
+                "message" => "Il n'y aucun commercial pour le momment"
+            ]);
+        } else {
+            return $this->respond($currentCommercialUserArray);
+        }
+    }
+
+    /**
      * Ajoute un utilisateur à la base de données
      *
      * @param string $token
@@ -97,6 +117,8 @@ class UsersController extends ResourceController
         $countryNameArray = [];
         $userModel = new UserModel();
         $userWaitingModel = new UserWaitingModel();
+        $subscribedPackagesModel = new SubscribedPackagesModel();
+        $subscribedPackagesModel = new PackagesModel();
         $countryModel = new CountryModel();
 
         if ($this->request->getMethod() == $method) {

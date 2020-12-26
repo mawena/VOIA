@@ -72,6 +72,7 @@
                     userForm.append("first_name", user.first_name);
                     userForm.append("email", user.email);
                     userForm.append("matricule", user.matricule);
+                    userForm.append("type", user.type);
 
                     setTimeout(function() {
                         $.ajax({

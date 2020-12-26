@@ -25,17 +25,20 @@ class RegistrationController extends Controller
         if ($parainMatricule == null or $slugPackage == null) {
             return redirect()->to("/");
         } else {
-            $currentUserPackage = $packageModel->where(["slug" => $slugPackage])->first();
-            $parrainUser = get_object_vars(json_decode(file_get_contents(Helper::getBaseUrl() . "/apis/parains/get/" . $parainMatricule)));
-            if (isset($parrainUser["status"]) && $parrainUser["status"] == "failed") {
-                return redirect()->to("/");
-            } else {
-                if ($parrainUser["type"] == "normal") {
-                    $parrainUser["package"] = $packageModel->find($subscribedPackagesModel->where(["userToken" => $parrainUser["token"]])->first());
-                    if ($parrainUser["package"][0]["slug"] != $slugPackage) {
-                        return redirect()->to("/");
+            if($slugPackage == "niveau-1" or $slugPackage == "niveau-2"){
+                $parrainUser = get_object_vars(json_decode(file_get_contents(Helper::getBaseUrl() . "/apis/parains/get/" . $parainMatricule)));
+                if (isset($parrainUser["status"]) && $parrainUser["status"] == "failed") {
+                    return redirect()->to("/");
+                } else {
+                    if ($parrainUser["type"] == "normal") {
+                        $parrainUser["package"] = $packageModel->find($subscribedPackagesModel->where(["userToken" => $parrainUser["token"]])->first());
+                        if ($parrainUser["package"][0]["slug"] != $slugPackage) {
+                            return redirect()->to("/");
+                        }
                     }
                 }
+            }else{
+                return redirect()->to("/");
             }
         }
 

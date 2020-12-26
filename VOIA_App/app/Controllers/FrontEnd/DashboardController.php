@@ -13,13 +13,12 @@ class DashboardController extends Controller
     public function dashboard()
     {
         $session = Services::session();
-        $model = new UserModel();
+        $userModel = new UserModel();
         if (isset($_SESSION['currentUser'])) {
             $data["title"] = ["Tableau de bord"];
             $baseUrl = Helper::getBaseUrl();
 
             $currentSubscribedPackage = get_object_vars(json_decode(file_get_contents($baseUrl . "/apis/subscribedPackages/users/get/" . $_SESSION["currentUser"]["token"])));
-            
 
             if (isset($currentSubscribedPackage["status"]) && $currentSubscribedPackage["status"] == "failed") {
                 $currentSubscribedPackage = [];
@@ -29,7 +28,7 @@ class DashboardController extends Controller
                 $currentSubscribedPackage["length"] = $currentSubscribedPackage["package"]["timeOut"];
             }
             $currentSponsorshipArray = json_decode(file_get_contents($baseUrl . "/apis/sponsorships/godFather/get/" . $_SESSION["currentUser"]["token"]));
-            
+
             if (isset($currentSponsorshipArray->status) && $currentSponsorshipArray->status == "failed") {
                 $Sponsors = [];
             } else {
@@ -37,6 +36,8 @@ class DashboardController extends Controller
                     $Sponsors[] = get_object_vars(json_decode(file_get_contents($baseUrl . "/apis/users/get/" . (get_object_vars($sponsorship))["godDauhterToken"])));
                 }
             }
+
+
 
             $data["subscribedPackage"] = $currentSubscribedPackage;
             $data["sponsors"] = $Sponsors;

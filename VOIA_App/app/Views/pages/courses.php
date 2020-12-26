@@ -45,7 +45,6 @@
                                 <?php if ($course_item['certified']) { ?>
                                     <h5>Formation Certifié</h5>
                                 <?php } ?>
-                                <h5 class="card-subtitle">Durée : <?= esc($course_item['duration_hour']) ?> heures</h5>
                             </div>
                         </div>
                         <div class="cours-details-body bg-blue">

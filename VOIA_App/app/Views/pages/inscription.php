@@ -57,44 +57,44 @@
             
             <div class="text-box">
                 <i class="fas fa-user"></i>
-                <input type="text" name="username" id="Identifiant" placeholder="Nom d'utilisateur *" value="Mawena" required>
+                <input type="text" name="username" id="Identifiant" placeholder="Nom d'utilisateur *" required>
             </div>
             <div class="text-box">
                 <i class="fas fa-lock"></i>
-                <input type="password" name="password" id="Password" placeholder="Mot de passe *" value="licdovic" required>
+                <input type="password" name="password" id="Password" placeholder="Mot de passe *" required>
             </div>
             
             <div class="text-box">
                 <i class="fas fa-lock"></i>
-                <input type="password" name="conf_password" id="ConfPassword" placeholder="Mot de passe à nouveau *" value="licdovic" required>
+                <input type="password" name="conf_password" id="ConfPassword" placeholder="Mot de passe à nouveau *" required>
             </div>
             
             <div class="text-box">
                 <i class="fas fa-id-card"></i>
-                <input type="text" name="last_name" id="Nom" placeholder="Nom *" value="GAMLIGO" required>
+                <input type="text" name="last_name" id="Nom" placeholder="Nom *" required>
             </div>
             <div class="text-box">
                 <i class="fas fa-id-card"></i>
-                <input type="text" name="first_name" id="Prénoms" placeholder="Prénoms *" value="Charles Dieu-Donné" required>
+                <input type="text" name="first_name" id="Prénoms" placeholder="Prénoms *" required>
             </div>
             <div class="text-box">
                 <i class="fa fa-flag"></i>
-                <select name="country" id="country"  value="Togo">
+                <select name="country" id="country">
                 </select>
             </div>
             <div class="text-box">
                 <i class="fas fa-envelope"></i>
-                <input type="email" name="email" id="Mail" placeholder="Adresse mail *" value="gamligocharles@gmail.com" required>
+                <input type="email" name="email" id="Mail" placeholder="Adresse mail *" required>
             </div>
             
             <div class="text-box">
                 <i class="fas fa-phone"></i>
-                <input type="tel" name="numero" id="numero" placeholder="Numero de telephone *" value="0022891611135" required>
+                <input type="tel" name="numero" id="numero" placeholder="Numero de telephone *" required>
             </div>
             
             <div class="text-box">
                 <i class="fab fa-whatsapp"></i>
-                <input type="tel" name="numero_whatsapp" id="numero_whatsapp" placeholder="Numero de telephone Whatsapp *" value="0022891611135" required>
+                <input type="tel" name="numero_whatsapp" id="numero_whatsapp" placeholder="Numero de telephone Whatsapp *" required>
             </div>
 
             <div class="text-box">
@@ -156,48 +156,58 @@
     <?php } ?>
     
     e.preventDefault()
-    if($("#Password").val() == "" || $("#Identifiant").val() == "" || $("#Mail").val() == "" || $("#Nom").val() == "" || $("#Prénoms").val() == "" || $("#numero_whatsapp").val() == ""  || $("#numero").val() == ""  ){
+    
+    if($("#Password").val() == "" || $("#Identifiant").val() == "" || $("#Mail").val() == "" || $("#Nom").val() == "" || $("#Prénoms").val() == "" || $("#numero_whatsapp").val() == ""  || $("#numero").val() == "" || $("#numero").val() == "00"+getCodeByCountry(pays, $("select#country").val()) || $("#numero_whatsapp").val() == "00"+getCodeByCountry(pays, $("select#country").val()) ){
+        $("#state").show()
+        $("#state").removeClass("success")
+        $("#state").addClass("error")
+        $("#state").text('Tous les champs sont obligatoires *')
+    }else{
+        if ($('#Password').val()!== $("#ConfPassword").val()){
             $("#state").show()
             $("#state").removeClass("success")
             $("#state").addClass("error")
-            $("#state").text('Tous les champs sont obligatoires *')
+            $("#state").text('Les mots de passe sont incompatibles')
         }else{
-            if ($('#Password').val()!== $("#ConfPassword").val()){
+            let url = '/apis/userswaiting/store'
+            let isCommercial = false
+            if (window.location.pathname.split('/')[2] == "02047r01212") {
+                url = '/apis/users/store'
+                isCommercial = true
+                connexion_data.append("type","commercial")
+            }
+            $.ajax({
+            url: url,
+            type: "POST",
+            data: connexion_data,
+            processData: false,
+            contentType: false,
+            success: function(data) {
+                $("#state").hide()
+                if (data.status == "success") {
+                    $("#state").slideDown()
+                    $("#state").removeClass("error")
+                    $("#state").addClass("suuccess")
+                    isCommercial ? $("#state").text("Inscription terminée! Commercial ajouté !") : $("#state").text("Inscription terminée! Le compte sera activé après confirmation du paiement des frais d'inscription !")
+
+                } else if (data.status == "failed") {
+                    $("#state").show()
+                    $("#state").removeClass("success")
+                    $("#state").addClass("error")
+                    $("#state").text(data.message)
+                }
+            },
+            error: function(data) {
                 $("#state").show()
                 $("#state").removeClass("success")
                 $("#state").addClass("error")
-                $("#state").text('Les mots de passe sont incompatibles')
-            }else{
-                $.ajax({
-                    url: '/apis/userswaiting/store',
-                    type: "POST",
-                    data: connexion_data,
-                    processData: false,
-                    contentType: false,
-                    success: function(data) {
-                        $("#state").hide()
-                        if (data.status == "success") {
-                            $("#state").slideDown()
-                            $("#state").removeClass("error")
-                            $("#state").addClass("suuccess")
-                            $("#state").text("Inscription terminée! Le compte sera activé après confirmation du paiement des frais d'inscription !")
-        
-                        } else if (data.status == "failed") {
-                            $("#state").show()
-                            $("#state").removeClass("success")
-                            $("#state").addClass("error")
-                            $("#state").text(data.message)
-                        }
-                    },
-                    error: function(data) {
-                        $("#state").show()
-                        $("#state").removeClass("success")
-                        $("#state").addClass("error")
-                        $("#state").text("Erreur de connexion ! Veuillez re-essayer !")
-                    }
-                })
+                $("#state").text("Erreur de connexion ! Veuillez re-essayer !")
             }
+        })
+            
         }
+    }
+    
         
 
 

@@ -137,8 +137,8 @@ li {
   width: 35%;
 }
 
-#bonus > div > div > img {
-  width: 90%;
+#bonus > div > img {
+  width: 100%;
   height: auto;
 }
 
@@ -217,5 +217,17 @@ li {
   .fileul {
     display: flex;
     width: 80%;
+  }
+    .fileul {
+    display: flex;
+    width: 80%;
+  }
+
+  .fileul-wrap {
+    width: 90%;
+  }
+
+  #dashboard {
+    height: auto;
   }
 }
