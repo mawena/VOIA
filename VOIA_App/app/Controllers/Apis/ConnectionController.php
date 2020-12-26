@@ -17,17 +17,10 @@ class ConnectionController extends ResourceController
     {
         $userModel = new UserModel();
         if ($this->request->getMethod() == "post") {
-            if ($this->validate(["email" => "required"])) {
-                if (!$this->validate(["email" => "valid_email"])) {
-                    return $this->respond([
-                        "status" => "failed",
-                        "message" => "L'email est invalide"
-                    ]);
-                }
-            } else {
+            if (!$this->validate(["username" => "required"])) {
                 return $this->respond([
                     "status" => "failed",
-                    "message" => "L'email est manquant"
+                    "message" => "Le nom d'utilisateur est manquant!"
                 ]);
             }
 
@@ -38,13 +31,11 @@ class ConnectionController extends ResourceController
                 ]);
             }
 
-            $currentPostUser["email"] = $this->request->getPost("email");
-            $currentUser = $userModel->asArray()->where(["email" => $currentPostUser["email"]])->first();
-
+            $currentUser = $userModel->asArray()->where(["username" => $_POST["username"]])->first();
             if ($currentUser == null) {
                 return $this->respond([
                     "status" => "failed",
-                    "message" => "l'email " . $currentPostUser["email"] . " n'est pas incrit!"
+                    "message" => "Le nom de l'utilisateur '" . $_POST["username"] . "' n'est pas incrit!"
                 ]);
             } else {
                 if (password_verify($this->request->getPost("password"), $currentUser["password"])) {

@@ -97,9 +97,9 @@
 <body>
     <div id='dashboard'>
         <div id="left-side">
-            <li class="activeD"> <i class="fas fa-handshake"></i> <span> Liste d'attente</span> </li>
-            <li> <i class="fas fa-check"></i> <span> Validés </span> </li>
-            <li style="display: flex;flex-direction:row;justify-content:space-between;align-items:center"><span><i class="fas fa-users"></i> Commerciaux </span> <i class="fas fa-chevron-circle-right"></i> </li>
+            <li class="activeD"> <i class="fas fa-handshake"></i> <span> Liste d'attente <?php echo "<div class='badge badge-primary'>". count($userWaitingArray) ."</div>" ?></span> </li>
+            <li> <i class="fas fa-check"></i> <span> Validés <?php echo "<div class='badge badge-primary'>". count($validateUserArray) ."</div>" ?></span> </li>
+            <li style="display: flex;flex-direction:row;justify-content:space-between;align-items:center"><span><i class="fas fa-users"></i> Commerciaux <?php echo "<div class='badge badge-primary'>". count($commercialUserArray) ."</div>" ?> </span> <i class="fas fa-chevron-circle-right"></i> </li>
             
             <div id="commerciaux-list">
                 <?php
@@ -109,12 +109,12 @@
                 
                 if(isset($commercialUserArray) && !empty($commercialUserArray)){
                     foreach ($commercialUserArray as $key) {
-                        var_dump($key);
+                        //var_dump($key);
                         
                 ?>
                     <div>
-                        <div>Alan</div>
-                        <div>COLES</div>
+                        <?php echo "<div>".$key['last_name']."</div>" ?>
+                        <?php echo "<div>".$key['first_name']."</div>" ?>
                     </div>
                     <?php } ?>
                 <?php } ?>
@@ -128,6 +128,7 @@
 
                     if (isset($userWaitingArray) && !empty($userWaitingArray)) {
                         foreach ($userWaitingArray as $userwaiting) {
+                            //var_dump($userwaiting);
                     ?>
                             <div class="card card-body bg-dark waiting-user">
                                 <div>
@@ -138,6 +139,7 @@
                                     <?php echo ("<div >Tel : " . $userwaiting["phoneNumber"] . "</div>"); ?>
                                     <?php echo ("<div >Whatsapp : " . $userwaiting["whatsappNumber"] . "</div>"); ?>
                                     <?php echo ("<div > Date : " . $userwaiting["admissionDate"] . "</div>"); ?>
+                                    <?php echo ("<div > Parrain : " . $userwaiting["parrain"]["last_name"] . " " . $userwaiting["parrain"]["first_name"] . "</div>"); ?>
                                      <?php 
                                         if($userwaiting["slugPackage"]=="niveau-2"){
                                             echo ("<div > Niveau : 2</div>");   
@@ -145,7 +147,6 @@
                                             echo ("<div > Niveau : 1</div>"); 
                                         }
                                     ?>
-                                    <?php echo ("<div > Date : " . $userwaiting["admissionDate"] . "</div>"); ?>
                                 </div>
                                 <div>
                                     <button title="Valider"> <i class="fa fa-check"></i> </button>
@@ -176,17 +177,17 @@
                     <?php
                     if(isset($validateUserArray) && !empty($validateUserArray))
                     foreach ($validateUserArray as $user) {
-                        var_dump($user);
+                        //var_dump($user);
                     ?>
                         <div class="card card-body bg-dark user">
                             <div>
-                                <div>Nom : </div>
-                                <div hidden></div>
-                                <div>Email : </div>
-                                <div>Whatsapp : </div>
+                                <?php echo "<div> Nom : ".$user['last_name']."</div>" ?>
+                                <?php echo "<div> Prenom : ".$user['first_name']."</div>" ?>
+                                <?php echo "<div> Niveau : ".$user["package"]['designation']."</div>" ?>
+                                <?php echo "<div> Email : ".$user['email']."</div>" ?>
                             </div>
                             <div>
-                                <button title="Supprimer"> &times; </button>
+                                <button disabled title="Supprimer"> &times; </button>
                             </div>
                         </div>
                     <?php    }

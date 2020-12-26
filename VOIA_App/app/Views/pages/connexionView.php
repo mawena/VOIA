@@ -30,7 +30,7 @@
                 <h1><?= esc($title) ?></h1>
                 <div class="text-box">
                     <i class="fa fa-user"></i>
-                    <input type="email" name="email" id="Identifiant" placeholder="Email" required>
+                    <input type="text" name="username" id="Identifiant" placeholder="Nom d'utilisateur" required>
                 </div>
                 <div class="text-box">
                     <i class="fa fa-lock"></i>
