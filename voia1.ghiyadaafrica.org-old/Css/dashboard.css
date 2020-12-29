@@ -1,0 +1,233 @@
+li {
+  list-style-type: none;
+}
+@font-face {
+  font-family: "Josefin Sans";
+  src: url("/Fonts/Josefin_Sans/JosefinSans-VariableFont_wght.ttf");
+}
+
+#bonus-banner {
+  text-align: center;
+  font-weight: bold;
+  font-size: 15px;
+  border-bottom: 2px solid #333;
+  padding-bottom: 5px;
+}
+
+#dashboard {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  top: 0;
+  left: 0;
+  padding: 20px;
+  margin-top: 130px;
+  height: 76vh;
+  overflow-y: hidden;
+}
+#left-side,
+#right-side {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+#left-side {
+  width: 20%;
+}
+#left-side > li {
+  padding: 10px;
+  border: 1px solid white;
+  cursor: pointer;
+  font-weight: bold;
+  margin-bottom: 5px;
+  font-size: 16px;
+}
+
+#left-side > li:hover {
+  border: 1px solid black;
+}
+
+#right-side {
+  width: 80%;
+  background-color: white;
+  overflow-y: auto;
+}
+
+#parainages,
+#formations {
+  display: none;
+  flex-direction: column;
+}
+
+#parainages {
+  display: flex;
+}
+
+.product-header {
+  font-size: 14px;
+  margin: 5px;
+  border-radius: 5px;
+}
+
+.parain-tree-header,
+.product-header {
+  background-color: #333;
+  color: #ccc;
+  font-weight: bold;
+  display: flex;
+  justify-content: space-between;
+  padding: 14px;
+  margin: 20px;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+.parain-tree-header i,
+.product-header i {
+  cursor: pointer;
+  font-size: 20px;
+}
+
+#parain-tree-list,
+#product-content {
+  display: flex;
+  height: auto;
+  flex-direction: row;
+  margin-bottom: 20px;
+  border-radius: 10px;
+  flex-wrap: wrap;
+}
+
+#parain-tree-list > div,
+#product-content {
+  color: #333;
+  margin-left: 5%;
+  margin-bottom: 10px;
+  border-radius: 5px;
+}
+
+#parain-tree-list {
+  justify-content: center;
+}
+
+#product-content {
+  padding: 10px;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+#product-content > div {
+  background-color: #ccc;
+  padding: 20px;
+}
+
+#package-info {
+  width: 65%;
+}
+
+#package-info > * {
+  margin: 10px;
+}
+
+#bonus {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 35%;
+}
+
+#bonus > div > img {
+  width: 100%;
+  height: auto;
+}
+
+.fileul {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  width: 25%;
+  margin: 5px;
+  background-color: #ccc;
+}
+
+.fileul > * {
+  margin: 10px;
+}
+
+.fileul-pic img {
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+}
+
+.fileul-data > div:nth-child(1) {
+  font-weight: bold;
+}
+
+#product-content > div > div {
+  font-style: italic;
+  margin: 10px;
+}
+
+#product-content > div > div > * {
+  color: #000;
+  font-weight: 600;
+  font-style: normal;
+  background-color: white;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+@media screen and (max-width: 700px) {
+  #left-side {
+    display: none;
+  }
+
+  #right-side {
+    width: 100%;
+    flex-direction: column;
+  }
+
+  #package-content {
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+  }
+
+  span,
+  code {
+    display: inline-block;
+    word-break: break-all;
+  }
+
+  #package-info,
+  #bonus {
+    width: 100%;
+    margin: 5px;
+  }
+
+  #parain-tree-list {
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    margin-left: 5%;
+  }
+  .fileul {
+    display: flex;
+    width: 80%;
+  }
+    .fileul {
+    display: flex;
+    width: 80%;
+  }
+
+  .fileul-wrap {
+    width: 90%;
+  }
+
+  #dashboard {
+    height: auto;
+  }
+}
