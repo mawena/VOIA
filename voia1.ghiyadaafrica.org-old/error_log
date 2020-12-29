@@ -1,3 +1,0 @@
-[12-Dec-2020 11:23:40 America/Chicago] PHP Warning:  require(): Filename cannot be empty in /home2/brice/voia1.ghiyadaafrica.org/index.php on line 32
-[12-Dec-2020 11:23:40 America/Chicago] PHP Warning:  require(): Filename cannot be empty in /home2/brice/voia1.ghiyadaafrica.org/index.php on line 32
-[12-Dec-2020 11:23:40 America/Chicago] PHP Fatal error:  require(): Failed opening required '' (include_path='.:/opt/cpanel/ea-php74/root/usr/share/pear') in /home2/brice/voia1.ghiyadaafrica.org/index.php on line 32
