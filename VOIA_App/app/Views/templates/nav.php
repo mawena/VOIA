@@ -71,9 +71,9 @@ $functions = new Complements();
               Frais d'inscription : 1.000frs CFA
           </div>
           <div style="text-align: center;">
-            <a href="<?php echo Helper::getBaseUrl(); ?>/inscription/02047r01212/niveau-1">Niveau 1 (5.000frs CFA)</a>
+            <a href="<?php echo Helper::getBaseUrl(); ?>/inscription/02051r02222/niveau-1">Niveau 1 (5.000frs CFA)</a>
             <br>
-            <a  href="<?php echo Helper::getBaseUrl(); ?>/inscription/02047r01212/niveau-2">Niveau 2 (10.000frs CFA)</a>
+            <a  href="<?php echo Helper::getBaseUrl(); ?>/inscription/02051r02222/niveau-2">Niveau 2 (10.000frs CFA)</a>
           </div>
         </div>
       </div>

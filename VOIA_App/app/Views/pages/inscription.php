@@ -120,15 +120,20 @@
     let countryFill = ""
     
     let getCodeByCountry = (object, index)=>{
+        //console.log(index)
         return object[index]["phone_code"]
     }
     
+    //getCodeByCountry(pays, "a b")
+    
     for (let index = 0; index < country_list_index.length; index++) {
         let element = country_list_index[index]
-        countryFill += "<option value="+pays[element]["name"]+">"+pays[element]["name"]+"(<span>"+pays[element]["phone_code"]+"</span>)</option>"
+        countryFill += "<option value=\""+pays[element]["name"]+"\">"+pays[element]["name"]+"(<span>"+pays[element]["phone_code"]+"</span>)</option>"
     }
     
     $("select#country").html(countryFill)
+    
+    
     
     $("#numero").val("00"+getCodeByCountry(pays, $("select#country").val()))
     $("#numero_whatsapp").val("00"+getCodeByCountry(pays, $("select#country").val()))
@@ -136,6 +141,7 @@
     $("select#country").change(function(e){
         $("#numero").val("00"+getCodeByCountry(pays, $(e.target).val()))
         $("#numero_whatsapp").val("00"+getCodeByCountry(pays, $(e.target).val()))
+        console.log($(e.target).val())
     })
 
     let parrain = null

@@ -142,9 +142,9 @@
                                     <?php echo ("<div > Parrain : " . $userwaiting["parrain"]["last_name"] . " " . $userwaiting["parrain"]["first_name"] . "</div>"); ?>
                                      <?php 
                                         if($userwaiting["slugPackage"]=="niveau-2"){
-                                            echo ("<div > Niveau : 2</div>");   
+                                            echo ("<div > Package : 2</div>");   
                                         }else if($userwaiting["slugPackage"]=="niveau-1"){
-                                            echo ("<div > Niveau : 1</div>"); 
+                                            echo ("<div > Package : 1</div>"); 
                                         }
                                     ?>
                                 </div>
@@ -183,7 +183,7 @@
                             <div>
                                 <?php echo "<div> Nom : ".$user['last_name']."</div>" ?>
                                 <?php echo "<div> Prenom : ".$user['first_name']."</div>" ?>
-                                <?php echo "<div> Niveau : ".$user["package"]['designation']."</div>" ?>
+                                <?php echo "<div> Package : ".$user["package"]['designation']."</div>" ?>
                                 <?php echo "<div> Email : ".$user['email']."</div>" ?>
                             </div>
                             <div>

@@ -50,6 +50,7 @@
         #prix img:hover {
             scale: 1.1;
             border-radius: 5px;
+            z-index:1;
         }
 
         #prix img:nth-child(1) {
@@ -115,7 +116,8 @@
                 <hr />
             </h2>
             <div style="text-align: justify;">
-                Bienvenue au programme vulgarisation de l’outil informatique en Afrique. En participant à notre formation sur la communication digitale, bénéficiez de connaissances pratiques sur 7 modules en plus de l’opportunité de gagner le téléphone ci-dessous.
+                Bienvenue au programme de Vulgarisation de l’Outil Informatique en Afrique(VOIA). <br/>
+En participant à notre formation sur les métiers du digital, bénéficiez de connaissances pratiques sur 7 modules en plus de l’opportunité de gagner le téléphone ci-dessous.
             </div>
 
         </div>

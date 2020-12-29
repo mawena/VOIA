@@ -25,19 +25,20 @@ class RegistrationController extends Controller
         if ($parainMatricule == null or $slugPackage == null) {
             return redirect()->to("/");
         } else {
-            if($slugPackage == "niveau-1" or $slugPackage == "niveau-2"){
+            $packageSlugArray = [];
+            $packageArray = (json_decode(file_get_contents(Helper::getBaseUrl() . "/apis/packages")));
+            foreach ($packageArray as $key => $tmpPackage) {
+                $packageArray[$key] = get_object_vars($tmpPackage);
+                $packageArray[$key]["product"] = get_object_vars($packageArray[$key]["product"]);
+                $packageSlugArray[] = $packageArray[$key]["slug"];
+            }
+
+            if (in_array($slugPackage, $packageSlugArray)) {
                 $parrainUser = get_object_vars(json_decode(file_get_contents(Helper::getBaseUrl() . "/apis/parains/get/" . $parainMatricule)));
                 if (isset($parrainUser["status"]) && $parrainUser["status"] == "failed") {
                     return redirect()->to("/");
-                } else {
-                    if ($parrainUser["type"] == "normal") {
-                        $parrainUser["package"] = $packageModel->find($subscribedPackagesModel->where(["userToken" => $parrainUser["token"]])->first());
-                        if ($parrainUser["package"][0]["slug"] != $slugPackage) {
-                            return redirect()->to("/");
-                        }
-                    }
                 }
-            }else{
+            } else {
                 return redirect()->to("/");
             }
         }

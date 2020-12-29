@@ -105,6 +105,52 @@ class UsersController extends ResourceController
     }
 
     /**
+     * Retourne les filleuls d'un utilisateur 
+     *
+     * @param string $godFatherToken
+     * @return void
+     */
+    public function getAllGodDauhter(string $godFatherToken = null)
+    {
+        $userModel = new UserModel();
+        $sponsorshipsModel = new SponsorshipsModel();
+        if ($godFatherToken == null) {
+            return $this->respond([
+                "status" => "failed",
+                "message" => "L'identifiant du parrain est manquant!"
+            ]);
+        } else {
+            $currentGodFatherToken = $userModel->find($godFatherToken);
+            if ($currentGodFatherToken == null) {
+                return $this->respond([
+                    "status" => "failed",
+                    "message" => "Le parrain demandé n'existe pas!"
+                ]);
+            } else {
+                $currentSponsorshipsArray = $sponsorshipsModel->where(["godFatherToken" => $godFatherToken])->findAll();
+                if ($currentSponsorshipsArray == [] or $currentSponsorshipsArray == null) {
+                    return $this->respond([
+                        "status" => "failed",
+                        "message" => "Ce parrain n'a aucun filleul pour le moment!"
+                    ]);
+                } else {
+                    $currentGodDauhterArray = [];
+                    foreach ($currentSponsorshipsArray as $key => $tmpSponsorship) {
+                        $currentGodDauhterArray[$key] = $userModel->find($tmpSponsorship["godDauhterToken"]);
+                        if($currentGodDauhterArray[$key] == null or $currentGodDauhterArray[$key] == []){
+                            return $this->respond([
+                                "status" => "failed",
+                                "message" => "Erreur interne!! L'un des filleuls a été mal suprimé!"
+                            ]);
+                        }
+                    }
+                    return $this->respond($currentGodDauhterArray);
+                }
+            }
+        }
+    }
+
+    /**
      * Ajoute un utilisateur à la base de données
      *
      * @param string $token

@@ -22,24 +22,20 @@
 
                     <?php
 
-use App\Libraries\Helper;
+                use App\Libraries\Helper;
 
-function remainDays($sub_date, $duration)
-                    {
-                        $secondes_total =  $duration - (time() - $sub_date);
-                        $days = 0;
+                function remainDays($sub_date, $duration){
+                    $secondes_total =  $duration - (time() - $sub_date);
+                    $days = 0;
 
-                        if ($secondes_total > 0) {
-                            $days = floor($secondes_total / (60 * 60 * 24));
-                            // $hours = floor($secondes_total % (1000 * 60 * 60 * 24) / (1000 * 60 * 60));
-                            // $minutes = floor($secondes_total % (1000 * 60 * 60) / (1000 * 60));
-                            // $seconds = floor($secondes_total % (1000 * 60) / 1000);
-                        } else {
-                            return 0;
-                        }
-
-                        return $days;
+                    if ($secondes_total > 0) {
+                        $days = floor($secondes_total / (60 * 60 * 24));
+                    } else {
+                        return 0;
                     }
+
+                    return $days;
+                }
 
                     function pourcentage($pack, $nbre_fileuls = 0)
                     {
@@ -61,8 +57,6 @@ function remainDays($sub_date, $duration)
                     }
 
                     if (isset($subscribedPackage)) {
-                        // var_dump($subscribedPackage);
-
                     ?>
                         <div id="product">
                             <div class="product-header">
@@ -75,8 +69,9 @@ function remainDays($sub_date, $duration)
 
                             <div id="product-content">
                                 <div id="package-info">
-                                    <div>Package : <span> <?php echo $subscribedPackage['package']["designation"]; ?> </span></div>
-                                    <div>Souscription : <span> <?php echo $subscribedPackage['package']["price"]; ?> fr CFA</span></div>
+                                    <div>Package : <span> <?php echo $_SESSION["currentUser"]["type"] == 'commercial' ? "Niveau 1, Niveau 2" : $subscribedPackage['package']["designation"]; ?> </span></div>
+                                    <?php echo $_SESSION["currentUser"]["type"] == 'commercial' ? '' : "<div>Souscription : <span>". $subscribedPackage['package']["price"]." fr CFA</span></div>" ?> 
+                                    
                                     <div> Description du package :
                                         <div style="margin-left: 5%; font-size: 12px; "> <?php echo $subscribedPackage['package']["description"]; ?> </div>
                                     </div>
@@ -85,10 +80,27 @@ function remainDays($sub_date, $duration)
                                         <div class="progress-bar-striped progress-bar-animated bg-info" role="progressbar" style="width: <?php echo (pourcentage($subscribedPackage['package']["price"], count($sponsors))) ?>%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
                                     <div>
-                                        Code de pairainge <br>
+                                        Code de pairainge <br><br>
+                                        <?php
+                                        if($_SESSION["currentUser"]["type"] == 'normal'){?>
                                         <code style="background-color : white; padding: 8px; border-radius : 5px; margin : 10px; color:red;">
                                             <?php echo Helper::getBaseUrl() . "/inscription/" . $currentUser["matricule"] . "/" . $subscribedPackage["package"]['slug']; ?>
                                         </code>
+                                        <?php }else if($_SESSION["currentUser"]["type"] == "commercial"){?>
+                                            <div>Niveau 1
+                                                <code style="background-color : white; padding: 8px; border-radius : 5px; margin : 10px; color:red;">
+                                                    <?php echo Helper::getBaseUrl() . "/inscription/" . $currentUser["matricule"] . "/niveau-1" ?>
+                                                </code>
+                                            </div>
+                                            
+                                            <br/>
+                                            
+                                            <div>Niveau 2
+                                                <code style="background-color : white; padding: 8px; border-radius : 5px; margin : 10px; color:red;">
+                                                    <?php echo Helper::getBaseUrl() . "/inscription/" . $currentUser["matricule"] . "/niveau-2" ?>
+                                                </code>
+                                            </div>
+                                        <?php } ?>
                                     </div>
                                 </div>
                                 <div id="bonus">
@@ -115,6 +127,7 @@ function remainDays($sub_date, $duration)
                                 <!-- 2.1- Liste des fileuls -->
                                 <?php
                                 foreach ($sponsors as $key) {
+                                    //var_dump($key)
                                 ?>
                                     <div class="fileul">
                                         <div class="fileul-pic">
