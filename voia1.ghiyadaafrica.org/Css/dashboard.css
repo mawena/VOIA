@@ -147,13 +147,19 @@ li {
   flex-direction: row;
   align-items: center;
   justify-content: flex-start;
-  width: 25%;
+  width: 90%;
   margin: 5px;
   background-color: #ccc;
 }
 
 .fileul > * {
   margin: 10px;
+}
+
+.fileul-wrap {
+  display: flex;
+  flex-direction: column;
+  width: 40%;
 }
 
 .fileul-pic img {

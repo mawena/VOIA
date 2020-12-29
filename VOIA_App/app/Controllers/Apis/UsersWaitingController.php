@@ -374,17 +374,6 @@ class UsersWaitingController extends ResourceController
                         "status" => "failed",
                         "message" => "Le code de parainage que vous avez utilisé n'existe pas!"
                     ]);
-                } else {
-                    $godFatherUser["package"] = $packageModel->find($subscribedPackagesModel->where(["userToken" => $godFatherUser["token"]])->first())[0];
-                    if ($godFatherUser["type"] != "commercial") {
-                        // return $this->respond($godFatherUser["package"]);
-                        if ($godFatherUser["package"]["slug"] != $currentUser["slugPackage"]) {
-                            return $this->respond([
-                                "status" => "failed",
-                                "message" => "Vous devez souscrire au même package que votre parrain!"
-                            ]);
-                        }
-                    }
                 }
             } else {
                 return $this->respond([
