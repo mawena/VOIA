@@ -127,11 +127,11 @@ class UsersWaitingController extends ResourceController
                 } else {
 
                     $currentUserWaiting["package"] = $packageModel->where(["slug" => $currentUserWaiting["slugPackage"]])->first();
-                    if (count($sponsorshipsModel->where(["godFatherToken" => $currentParain["token"]])->findAll()) >= (int) ($currentUserWaiting["package"]["numberPerson"]) && $currentParain["type"] != "commercial") {
+                    if (count($sponsorshipsModel->where(["godFatherToken" => $currentParain["token"]])->findAll()) >= (int) ($currentUserWaiting["package"]["numberPerson"]) && $currentParain["type"] != "communicateur") {
                         // $parrainSuscribedPackage = $subscribedPackagesModel->where(["packageToken" => $currentUserWaiting["package"]["token"]])->orderBy("subscriptionDate")->first();
                         // $currentParain = $userModel->find($parrainSuscribedPackage["userToken"]);
                         $currentParain = ($userModel->orderBy("admissionDate")->findAll())[0];
-                    } // Si le quotta du package est atteint et que le parrain n'est pas un commercial on met le premier inscrit avec le même package comme parrain
+                    } // Si le quotta du package est atteint et que le parrain n'est pas un communicateur on met le premier inscrit avec le même package comme parrain
 
                     $subscribedPackagesModel->insert([
                         "token" => sha1($currentUserWaiting["token"] . $currentUserWaiting["package"]["token"]),
@@ -467,12 +467,12 @@ class UsersWaitingController extends ResourceController
     //             }
 
     //             if ($this->validate(["type" => "required"])) {
-    //                 if ($this->validate(["type" => "in_list[normal,commercial]"])) {
+    //                 if ($this->validate(["type" => "in_list[normal,communicateur]"])) {
     //                     $currentUser["type"] = $this->request->getPost("type");
     //                 } else {
     //                     return $this->respond([
     //                         "status" => "failed",
-    //                         "message" => "Le type de l'utilisateur doit être 'normal' ou 'commercial'"
+    //                         "message" => "Le type de l'utilisateur doit être 'normal' ou 'communicateur'"
     //                     ]);
     //                 }
     //             } else {

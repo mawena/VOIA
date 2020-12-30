@@ -93,11 +93,11 @@ class UsersController extends ResourceController
     public function getAllCommercialUser()
     {
         $userModel = new UserModel();
-        $currentCommercialUserArray = $userModel->where(["type" => "commercial"])->findAll();
+        $currentCommercialUserArray = $userModel->where(["type" => "communicateur"])->findAll();
         if ($currentCommercialUserArray == [] or $currentCommercialUserArray == null) {
             return $this->respond([
                 "status" => "failed",
-                "message" => "Il n'y aucun commercial pour le momment"
+                "message" => "Il n'y aucun communicateur pour le momment"
             ]);
         } else {
             return $this->respond($currentCommercialUserArray);
@@ -213,12 +213,12 @@ class UsersController extends ResourceController
             }
 
             if ($this->validate(["type" => "required"])) {
-                if ($this->validate(["type" => "in_list[normal,commercial]"])) {
+                if ($this->validate(["type" => "in_list[normal,communicateur]"])) {
                     $currentUser["type"] = $this->request->getPost("type");
                 } else {
                     return $this->respond([
                         "status" => "failed",
-                        "message" => "Le type de l'utilisateur doit être 'normal' ou 'commercial'"
+                        "message" => "Le type de l'utilisateur doit être 'normal' ou 'communicateur'"
                     ]);
                 }
             } else {
@@ -448,12 +448,12 @@ class UsersController extends ResourceController
                 }
 
                 if ($this->validate(["type" => "required"])) {
-                    if ($this->validate(["type" => "in_list[normal,commercial]"])) {
+                    if ($this->validate(["type" => "in_list[normal,communicateur]"])) {
                         $currentUser["type"] = $this->request->getPost("type");
                     } else {
                         return $this->respond([
                             "status" => "failed",
-                            "message" => "Le type de l'utilisateur doit être 'normal' ou 'commercial'"
+                            "message" => "Le type de l'utilisateur doit être 'normal' ou 'communicateur'"
                         ]);
                     }
                 } else {
@@ -568,11 +568,17 @@ class UsersController extends ResourceController
                     "message" => "L'utilisateur n'est pas inscrit!"
                 ]);
             } else {
-                foreach ($subscribedPackagesModel->where(["userToken" => $token])->findAll() as $currentSubscribedPackage) {
-                    $subscribedPackagesModel->delete($currentSubscribedPackage["token"]);
-                } //Supréssion de la souscrition à un package
+                $currentSubscribedPackageArray = $subscribedPackagesModel->where(["userToken" => $token])->findAll();
+                if($currentSubscribedPackageArray != [] || $currentSubscribedPackageArray != null){
+                    foreach ($currentSubscribedPackageArray as $currentSubscribedPackage) {
+                        $subscribedPackagesModel->delete($currentSubscribedPackage["token"]);
+                    } //Supréssion de la souscrition à un package
+                }
 
-                $sponsorshipsModel->delete(($sponsorshipsModel->where(["godDauhterToken" => $token])->first())["token"]);   //Supréssion du parrainage
+                $currentGodFather = ($sponsorshipsModel->where(["godDauhterToken" => $token])->first());
+                if($currentGodFather != null){
+                    $sponsorshipsModel->delete($currentGodFather["token"]);   //Supréssion du parrainage
+                }
 
                 $userModel->delete($token); //Supréssion de l'utilisateur
                 return $this->respond([

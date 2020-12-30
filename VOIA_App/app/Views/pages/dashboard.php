@@ -81,8 +81,8 @@
 
                             <div id="product-content">
                                 <div id="package-info">
-                                    <div>Package : <span> <?php echo $_SESSION["currentUser"]["type"] == 'commercial' ? "Package 1, Package 2" : $subscribedPackage['package']["designation"]; ?> </span></div>
-                                    <?php echo $_SESSION["currentUser"]["type"] == 'commercial' ? '' : "<div>Souscription : <span>". $subscribedPackage['package']["price"]." fr CFA</span></div>" ?> 
+                                    <div>Package : <span> <?php echo $_SESSION["currentUser"]["type"] == 'communicateur' ? "Package 1, Package 2" : $subscribedPackage['package']["designation"]; ?> </span></div>
+                                    <?php echo $_SESSION["currentUser"]["type"] == 'communicateur' ? '' : "<div>Souscription : <span>". $subscribedPackage['package']["price"]." fr CFA</span></div>" ?> 
                                     
                                     <div> Description du package :
                                         <div style="margin-left: 5%; font-size: 12px; "> <?php echo $subscribedPackage['package']["description"]; ?> </div>
@@ -100,7 +100,7 @@
                                     
                                     <div style="padding: 10px;font-size:15px;text-align:center" > Package 1 </div>
 
-                                    <?php if($_SESSION["currentUser"]["type"] == "commercial"){?>
+                                    <?php if($_SESSION["currentUser"]["type"] == "communicateur"){?>
                                         <div>Quota de parainage : <span> <?php echo pourcentage("5000", $niveau1_lenght); ?> %</span> </div>
                                             <div class="progress" style="height: 20px; border-radius : 5px">
                                             <div class="progress-bar-striped progress-bar-animated bg-info" role="progressbar" style="width: <?php echo pourcentage("5000", $niveau1_lenght); ?>%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
@@ -114,25 +114,18 @@
                                     
                                     <div>
                                         Code de pairainge <br><br>
-                                        <?php
-                                        if($_SESSION["currentUser"]["type"] == 'normal'){?>
-                                        <code style="background-color : white; border-radius : 5px; margin : 10px; color:red;">
-                                            <?php echo Helper::getBaseUrl() . "/inscription/" . $currentUser["matricule"] . "/" . $subscribedPackage["package"]['slug']; ?>
-                                        </code>
-                                        <?php }else if($_SESSION["currentUser"]["type"] == "commercial"){?>
-                                            <div>Package 1
-                                                <code style="background-color : white; border-radius : 5px; margin : 10px; color:red;">
-                                                    <?php echo Helper::getBaseUrl() . "/inscription/" . $currentUser["matricule"] . "/niveau-1" ?>
-                                                </code>
-                                            </div>
-                                        <?php } ?>
+                                        <div>Package 1
+                                            <code style="background-color : white; border-radius : 5px; margin : 10px; color:red;">
+                                                <?php echo Helper::getBaseUrl() . "/inscription/" . $currentUser["matricule"] . "/niveau-1" ?>
+                                            </code>
+                                        </div>
                                     </div>
                                     
                                     <!-- Package 2  -->
                                     
                                     <div style="padding: 10px;font-size:15px;text-align:center" > Package 2 </div>
                                     
-                                    <?php if($_SESSION["currentUser"]["type"] == "commercial"){?>
+                                    <?php if($_SESSION["currentUser"]["type"] == "communicateur"){?>
                                         <div>Quota de parainage : <span> <?php echo pourcentage("10000", $niveau2_lenght); ?> %</span> </div>
                                             <div class="progress" style="height: 20px; border-radius : 5px">
                                             <div class="progress-bar-striped progress-bar-animated bg-info" role="progressbar" style="width: <?php echo pourcentage("10000", $niveau2_lenght); ?>%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
@@ -140,18 +133,11 @@
                                     <?php } ?>
                                     
                                     <div> Code de pairainge <br><br>
-
-                                        <?php if($_SESSION["currentUser"]["type"] == "commercial"){?>
-                                            <div>Package 2
-                                                <code style="background-color : white; border-radius : 5px; margin : 10px; color:red;">
-                                                    <?php echo Helper::getBaseUrl() . "/inscription/" . $currentUser["matricule"] . "/niveau-2" ?>
-                                                </code>
-                                            </div>
-                                        <?php }else{ ?>
-                                            <code>
-                                                
+                                        <div>Package 2
+                                            <code style="background-color : white; border-radius : 5px; margin : 10px; color:red;">
+                                                <?php echo Helper::getBaseUrl() . "/inscription/" . $currentUser["matricule"] . "/niveau-2" ?>
                                             </code>
-                                        <?php } ?>
+                                        </div>
                                     </div>
                                     
                                 </div>

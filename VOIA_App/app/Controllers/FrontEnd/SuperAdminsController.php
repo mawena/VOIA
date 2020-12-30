@@ -32,16 +32,17 @@ class SuperAdminsController extends Controller
             $data = [
                 "title" => "Tableau de bord - admin",
                 "userWaitingArray" => $userWaintingModel->orderBy("admissionDate", "DESC")->findAll(),
+                "communicateurUserArray" => []
             ];
 
             foreach ($data["userWaitingArray"] as $key => $userWainting) {
                 $data["userWaitingArray"][$key]["parrain"] = $userModel->where(["matricule" => $userWainting["codeParainnage"]])->first();
             }
 
-            foreach ($userModel->orderBy("admissionDate", "DESC")->where(["type" => "commercial"])->findAll() as $key => $tmpUser) {
-                $data["commercialUserArray"][$key] = $tmpUser;
+            foreach ($userModel->orderBy("admissionDate", "DESC")->where(["type" => "communicateur"])->findAll() as $key => $tmpUser) {
+                $data["communicateurUserArray"][$key] = $tmpUser;
                 foreach ($subscribedPackagesModel->where(["userToken" => $tmpUser["token"]])->findAll() as $tmpSubscribedPackage) {
-                    $data["commercialUserArray"][$key]["package"][] = $packageModel->find($tmpSubscribedPackage["packageToken"]);
+                    $data["communicateurUserArray"][$key]["package"][] = $packageModel->find($tmpSubscribedPackage["packageToken"]);
                 }
             }
 
@@ -49,7 +50,6 @@ class SuperAdminsController extends Controller
                 $data["validateUserArray"][$key] = $tmpUser;
                 $data["validateUserArray"][$key]["package"] = $packageModel->find(($subscribedPackagesModel->where(["userToken" => $tmpUser["token"]])->first())["packageToken"]);
             }
-
 
             echo view("templates/header", $data);
             echo view("templates/nav", $data);

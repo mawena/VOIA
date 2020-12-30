@@ -70,13 +70,13 @@
 </head>
 <body>
 	<div class="wrap">
-		<h1>404 - Fichier non trouvé</h1>
+		<h1>Maintenance en cours</h1>
 
 		<p>
 			<?php if (! empty($message) && $message !== '(null)') : ?>
 				<?= esc($message) ?>
 			<?php else : ?>
-				Désolé! Impossible de trouver la page que vous recherchez.
+				Le site est en maintenance. Nous vous prions de patienter, il sera bientot de nouveau disponible
 			<?php endif ?>
 		</p>
 	</div>

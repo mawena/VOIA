@@ -2,6 +2,7 @@
 
 namespace App\Controllers\FrontEnd;
 
+use App\Libraries\Helper;
 use App\Models\TrainingsModel;
 use CodeIgniter\Controller;
 

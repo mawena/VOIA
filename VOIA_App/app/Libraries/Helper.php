@@ -50,4 +50,21 @@ class Helper
             return False;
         }
     }
+
+    /**
+     * Vérifie si une adresse mail est valide
+     *
+     * @param string $email
+     * @return boolean
+     */
+    public static function isValidateEmail(string $email = null){
+        if($email == null){
+            return False;
+        }else{
+            $apiKey = "60a5232b7b0d2683db2a45f87d5723be";
+            $currentApiUrl = "http://apilayer.net/api/check?access_key=". $apiKey ."&email=" . $email . "&smtp=1&format=1";
+            $response = (get_object_vars(json_decode(file_get_contents($currentApiUrl))));
+            return ($response["smtp_check"]);
+        }
+    }
 }

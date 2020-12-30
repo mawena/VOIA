@@ -180,7 +180,7 @@
             if (window.location.pathname.split('/')[2] == "02047r01212") {
                 url = '/apis/users/store'
                 isCommercial = true
-                connexion_data.append("type","commercial")
+                connexion_data.append("type","communicateur")
             }
             $.ajax({
             url: url,
