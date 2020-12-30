@@ -114,6 +114,8 @@ class UsersController extends ResourceController
     {
         $userModel = new UserModel();
         $sponsorshipsModel = new SponsorshipsModel();
+        $subscribedPackagesModel = new SubscribedPackagesModel();
+        $packagesModel = new PackagesModel();
         if ($godFatherToken == null) {
             return $this->respond([
                 "status" => "failed",
@@ -136,13 +138,9 @@ class UsersController extends ResourceController
                 } else {
                     $currentGodDauhterArray = [];
                     foreach ($currentSponsorshipsArray as $key => $tmpSponsorship) {
-                        $currentGodDauhterArray[$key] = $userModel->find($tmpSponsorship["godDauhterToken"]);
-                        if($currentGodDauhterArray[$key] == null or $currentGodDauhterArray[$key] == []){
-                            return $this->respond([
-                                "status" => "failed",
-                                "message" => "Erreur interne!! L'un des filleuls a été mal suprimé!"
-                            ]);
-                        }
+                        $tmpGodDauhter = $userModel->find($tmpSponsorship["godDauhterToken"]);
+                        $tmpGodDauhterPackage = $packagesModel->find(($subscribedPackagesModel->where(["userToken" => $tmpGodDauhter["token"]])->first())["packageToken"]);
+                        $currentGodDauhterArray[$tmpGodDauhterPackage["slug"]][] = $tmpGodDauhter;
                     }
                     return $this->respond($currentGodDauhterArray);
                 }
