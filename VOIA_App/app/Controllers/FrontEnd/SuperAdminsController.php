@@ -4,6 +4,7 @@ namespace App\Controllers\FrontEnd;
 
 use App\Controllers\Apis\UsersController;
 use App\Models\PackagesModel;
+use App\Models\SponsorshipsModel;
 use App\Models\SubscribedPackagesModel;
 use App\Models\UserModel;
 use App\Models\UserWaitingModel;
@@ -26,6 +27,7 @@ class SuperAdminsController extends Controller
         $session = Services::session();
         $userModel = new UserModel();
         $userWaintingModel = new UserWaitingModel();
+        $sponsorshipsModel = new SponsorshipsModel();
         $subscribedPackagesModel = new SubscribedPackagesModel();
         $packageModel = new PackagesModel();
         if (isset($_SESSION['currentSuperAdmin'])) {
@@ -48,8 +50,11 @@ class SuperAdminsController extends Controller
 
             foreach ($userModel->where(["type" => "normal"])->orderBy("admissionDate", "DESC")->findAll() as $key => $tmpUser) {
                 $data["validateUserArray"][$key] = $tmpUser;
+                $data["validateUserArray"][$key]["parrain"] = $userModel->find(($sponsorshipsModel->where(["godDauhterToken" => $tmpUser["token"]])->first())["godFatherToken"]);
                 $data["validateUserArray"][$key]["package"] = $packageModel->find(($subscribedPackagesModel->where(["userToken" => $tmpUser["token"]])->first())["packageToken"]);
             }
+
+            print_r($data["validateUserArray"]);
 
             echo view("templates/header", $data);
             echo view("templates/nav", $data);
