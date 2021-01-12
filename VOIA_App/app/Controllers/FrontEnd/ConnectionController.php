@@ -42,4 +42,21 @@ class ConnectionController extends Controller
         $session->destroy();
         return redirect()->to("/");
     }
+
+
+    /**
+     * Gère la recuperation du compte suite à un mot de passe oublié
+     *
+     * @return json
+     */
+    public function passwordRecovery()
+    {
+        $data = [
+            'title' => 'Recupérer votre compte'
+        ];
+        echo view('templates/header', $data);
+        echo view('templates/nav');
+        echo view('pages/passwordRecoveryView');
+        echo view('templates/footer');
+    }
 }

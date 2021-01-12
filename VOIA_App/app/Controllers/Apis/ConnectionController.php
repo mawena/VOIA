@@ -58,6 +58,17 @@ class ConnectionController extends ResourceController
         }
     }
 
+
+
+    /**
+     * permet à un utilisateur de modifier son mot de passe
+     *
+     * @return void
+     */
+
+    // public function passwordRecovery($){
+    // }
+
     /**
      * Connecte un superUtilisateur
      *

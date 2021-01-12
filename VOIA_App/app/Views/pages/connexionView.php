@@ -39,6 +39,11 @@
                 <div id="state">
                 </div>
                 <input class="btn" type="submit" value="Connexion">
+
+                <div style="margin: 10px;">
+                    <a href="/connexion/passwordrecovery" style="text-decoration: underline;cursor:pointer;">Mot de passe oublié</a>
+                </div>
+
             <?php else : ?>
                 <h1>Vous êtes déja connecté !</h1>
             <?php endif ?>

@@ -41,6 +41,7 @@ $routes->get('/', 'HomeController::home');
 $routes->get('/formations/(:segment)', 'HomeController::showTraining/$1');
 
 $routes->get('/connexion', 'ConnectionController::connection');
+$routes->get('/connexion/passwordrecovery', 'ConnectionController::passwordRecovery');
 $routes->get('/deconnexion', 'ConnectionController::disconnection');
 $routes->get("/admin/connexion", "SuperAdminsController::superAdminConnexion");
 

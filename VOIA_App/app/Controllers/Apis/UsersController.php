@@ -585,4 +585,5 @@ class UsersController extends ResourceController
             }
         }
     }
+
 }

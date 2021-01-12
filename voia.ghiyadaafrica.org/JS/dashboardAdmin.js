@@ -43,6 +43,19 @@ function show_valides(params = "on") {
   }
 }
 
+function show_hs(params = "on") {
+  if (params == "on") {
+    $("#hors-systeme").css({
+      display: "block",
+    });
+    $("#communicateurs-list").hide();
+  } else if (params == "off") {
+    $("#hors-systeme").css({
+      display: "none",
+    });
+  }
+}
+
 // ------------------ changement de pages suivant le bouton cliqué -------
 
 let changePage = () => {
@@ -51,6 +64,7 @@ let changePage = () => {
       show_communicateurs("off");
       show_waiting();
       show_valides("off");
+      show_hs("off");
 
       $("#left-side a li").removeClass("activeD");
       $("#left-side > a:nth-child(1) li").addClass("activeD");
@@ -66,6 +80,7 @@ let changePage = () => {
     case "#valides":
       show_waiting("off");
       show_communicateurs("off");
+      show_hs("off");
       show_valides();
 
       $("#left-side a li").removeClass("activeD");
@@ -82,11 +97,29 @@ let changePage = () => {
     case "#communicateurs":
       show_waiting("off");
       show_communicateurs();
+      show_hs("off");
       show_valides("off");
 
       $("#left-side > a  li").removeClass("activeD");
       $("#left-side > div  li").addClass("activeD");
 
+      break;
+
+    case "#hors-systeme":
+      show_waiting("off");
+      show_communicateurs("off");
+      show_valides("off");
+      show_hs();
+
+      $("#left-side a li").removeClass("activeD");
+      $("#left-side > a:nth-child(3)  li").addClass("activeD");
+
+      $("#commerciaux-list-box i:last-child()").addClass(
+        "fa-chevron-circle-right"
+      );
+      $("#commerciaux-list-box i:last-child()").removeClass(
+        "fa-chevron-circle-down"
+      );
       break;
 
     default:
@@ -107,9 +140,7 @@ $(" a > li > i").on("click", function (e) {
   $("#commerciaux-list-box i:last-child()").toggleClass(
     "fa-chevron-circle-down"
   );
-  
 });
-
 //  fonction de suppression des elements en liste d'attente
 
 let deleteWaitingUser = (node, token) => {
