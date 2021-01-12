@@ -73,6 +73,7 @@ $routes->post('/apis/users/connexion', 'ConnectionController::userConnection');
 $routes->post("/apis/superadmins/connexion", "ConnectionController::superAdminConnection");
 $routes->post("/apis/session/users/connect/(:segment)", "SessionController::userConnect/$1");
 $routes->post("/apis/session/superadmins/connect/(:segment)", "SessionController::superAdminConnect/$1");
+$routes->post('/apis/users/passwordrecovery', 'ConnectionController::passwordRecovery');
 
 
 //Users
@@ -80,7 +81,7 @@ $routes->get('/apis/users', 'UsersController::getAllUser');
 $routes->get('/apis/users/commerciaux', "UsersController::getAllCommercialUser");
 $routes->get('/apis/users/get/(:segment)', 'UsersController::getUser/$1');
 $routes->post('/apis/users/store', 'UsersController::storeUser/$1');
-// $routes->post('/apis/users/update/(:segment)', 'UsersController::updateUser/$1');
+$routes->post('/apis/users/update/(:segment)', 'UsersController::updateUser/$1');
 $routes->get('/apis/users/delete/(:segment)', 'UsersController::deleteUser/$1');
 $routes->get("/apis/parains/get/(:segment)", "UsersController::getParain/$1");
 $routes->get('/apis/users/godFather/godDauhters/(:segment)', "UsersController::getAllGodDauhter/$1");

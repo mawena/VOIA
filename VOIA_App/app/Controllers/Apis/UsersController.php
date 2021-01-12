@@ -423,12 +423,13 @@ class UsersController extends ResourceController
                     if ($this->validate(["password" => "min_length[8]"])) {
                         if ($this->validate(["oldPassword" => "required"])) {
                             $oldPassword = $this->request->getPost("oldPassword");
-                            if (password_verify($oldPassword, $dataBaseUser["password"])) {
-                                $currentUser["password"] = $this->request->getPost("password");
+                            // if (password_verify($oldPassword, $dataBaseUser["password"])) {
+                            if ($oldPassword == $dataBaseUser["password"]) {
+                                $currentUser["password"] = password_hash($this->request->getPost("password"), PASSWORD_BCRYPT);
                             } else {
                                 return $this->respond([
                                     "status" => "failed",
-                                    "message" => "L'ancien mot de passe est incorrect!"
+                                    "message" => "L'ancien mot de passe est incorrect!",
                                 ]);
                             }
                         } else {
@@ -567,14 +568,14 @@ class UsersController extends ResourceController
                 ]);
             } else {
                 $currentSubscribedPackageArray = $subscribedPackagesModel->where(["userToken" => $token])->findAll();
-                if($currentSubscribedPackageArray != [] || $currentSubscribedPackageArray != null){
+                if ($currentSubscribedPackageArray != [] || $currentSubscribedPackageArray != null) {
                     foreach ($currentSubscribedPackageArray as $currentSubscribedPackage) {
                         $subscribedPackagesModel->delete($currentSubscribedPackage["token"]);
                     } //Supréssion de la souscrition à un package
                 }
 
                 $currentGodFather = ($sponsorshipsModel->where(["godDauhterToken" => $token])->first());
-                if($currentGodFather != null){
+                if ($currentGodFather != null) {
                     $sponsorshipsModel->delete($currentGodFather["token"]);   //Supréssion du parrainage
                 }
 
@@ -585,5 +586,4 @@ class UsersController extends ResourceController
             }
         }
     }
-
 }
