@@ -35,11 +35,15 @@
                 <h2>
                     2. REGLEMENT
                 </h2>
-                Sous réserve que l’intégralité des obligations du Souscripteur à l’Article 5 soit satisfaite, le souscripteur versera à l’Emetteur le Prix de Souscription aux packs de formation disponibles soit : <br>
+                Sous réserve que l’intégralité des obligations du Souscripteur à l’Article 5 soit satisfaite, le souscripteur versera à l’Emetteur le Prix de souscription aux packs de formation disponibles soit : <br>
                 • Mille francs (1.000) FCFA pour les frais d’inscription au Togo et deux mille cinq cent (2500) FCFA pour les participants hors du Togo <br>
                 • Cinq mille (5.000) FCFA pour 8 heures de formation <br>
-                • dix mille (10.000) FCFA pour 16 heures de formation
-                juste après l’acceptation en fonds immédiatement disponibles par transfert d’argent par Flooz, Tmoney(en tenant compte des frais de retrait de la somme envoyée), par payement espèce au siège de l’incubateur GHIYADA AFRICA ou tout autre moyen de paiement légal (western union, money gram, wari, Juba express hors du Togo) à l'Emetteur. <br>
+                • dix mille (10.000) FCFA pour 16 heures de formation juste après l’acceptation en fonds immédiatement disponibles par transfert d’argent par Flooz, Tmoney (en tenant compte des frais de retrait de la somme envoyée), par payement espèce au siège de l’incubateur GHIYADA AFRICA ou tout autre moyen de paiement légal (western union, money gram, wari, Juba express hors du Togo) à l'Emetteur. <br>
+
+                - Une fois transférés, les frais d’inscription et de formation ne sont plus remboursables. <br>
+                - Chaque participant ne peut bénéficier du programme VOIA qu’une seule fois. <br>
+                - Aucune reprogrammation ne sera possible en cas d’absence à une séance de formation. <br>
+                -Les cours en ligne se déroulant sur l’application <strong>Zoom</strong>, le souscripteur garanti lors de son inscription qu’il maitrise ou qu’il se familiarisera avec l’application avant le démarrage effectif des cours. <br>
 
                 <h2>
                     3. ENGAGEMENTS DE L’EMETTEUR
@@ -96,7 +100,7 @@
                 En contrepartie le Souscripteur a l’obligation d’honorer son engagement vis -à vis des clauses du présent contrat citées ci-dessus relatives aux modalités du programme de formation en observant les mesures suivantes : <br>
 
                 <strong>
-                    (A) Souscription et formation
+                    (A) Souscription et formation   
                 </strong> <br>
                 a. Le paiement des frais d’inscription et de formation en moins de vingt-quatre (24) Heures après l’acceptation du contrat de souscription conformément à l’un des modes de paiement visés dans la section des modalités à l’article 4 du présent contrat <br>
                 b. L’assiduité aux différentes séances de formation tout au long de la période de formation (huit ou seize heures de séances de cours selon le pack souscrit) <br>
@@ -163,7 +167,7 @@
     </div>
 </footer>
 
-<script src="/JS/footer.js" ></script>
+<script src="/JS/footer.js"></script>
 </body>
 
 </html>

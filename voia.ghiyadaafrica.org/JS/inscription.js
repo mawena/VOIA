@@ -1,12 +1,3 @@
-import { server_url, pays } from "/JS/config.js";
-
-let country_list_index = Object.keys(pays).sort();
-let countryFill = "";
-
-let getCodeByCountry = (object, index) => {
-  //console.log(index)
-  return object[index]["phone_code"];
-};
 
 $("#cgu-accepted").on("change", function (e) {
   if ($("#cgu-accepted").is(":checked")) {

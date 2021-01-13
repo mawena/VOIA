@@ -174,12 +174,8 @@ En participant à notre formation sur les métiers du digital, bénéficiez de c
                 $id ="card-1";
                 break;
 
-            case 2 :
-                $id = "card-2";
-                break;
-
             default:
-                $id ="card-3";
+                $id ="card-2";
                 break;
         }
         

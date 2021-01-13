@@ -73,7 +73,7 @@ $routes->post('/apis/users/connexion', 'ConnectionController::userConnection');
 $routes->post("/apis/superadmins/connexion", "ConnectionController::superAdminConnection");
 $routes->post("/apis/session/users/connect/(:segment)", "SessionController::userConnect/$1");
 $routes->post("/apis/session/superadmins/connect/(:segment)", "SessionController::superAdminConnect/$1");
-$routes->post('/apis/users/passwordrecovery', 'ConnectionController::passwordRecovery');
+$routes->post('/apis/users/getByUsername', 'ConnectionController::getByUsername');
 
 
 //Users

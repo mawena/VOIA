@@ -70,7 +70,7 @@ let changePage = () => {
       $("#left-side > a:nth-child(1) li").addClass("activeD");
 
       $("#commerciaux-list-box i:last-child()").addClass(
-        "fa-chevron-circle-right"
+        "fa-chevron-circle-left"
       );
       $("#commerciaux-list-box i:last-child()").removeClass(
         "fa-chevron-circle-down"
@@ -87,7 +87,7 @@ let changePage = () => {
       $("#left-side > a:nth-child(2)  li").addClass("activeD");
 
       $("#commerciaux-list-box i:last-child()").addClass(
-        "fa-chevron-circle-right"
+        "fa-chevron-circle-left"
       );
       $("#commerciaux-list-box i:last-child()").removeClass(
         "fa-chevron-circle-down"
@@ -115,7 +115,7 @@ let changePage = () => {
       $("#left-side > a:nth-child(3)  li").addClass("activeD");
 
       $("#commerciaux-list-box i:last-child()").addClass(
-        "fa-chevron-circle-right"
+        "fa-chevron-circle-left"
       );
       $("#commerciaux-list-box i:last-child()").removeClass(
         "fa-chevron-circle-down"
@@ -135,7 +135,7 @@ window.addEventListener("hashchange", function (e) {
 $(" a > li > i").on("click", function (e) {
   $("#communicateurs-list").slideToggle();
   $("#commerciaux-list-box i:last-child()").toggleClass(
-    "fa-chevron-circle-right"
+    "fa-chevron-circle-left"
   );
   $("#commerciaux-list-box i:last-child()").toggleClass(
     "fa-chevron-circle-down"

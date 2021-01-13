@@ -45,7 +45,7 @@ class ConnectionController extends Controller
 
 
     /**
-     * Gère la recuperation du compte suite à un mot de passe oublié
+     * Gère la page de recuperation du compte suite à un mot de passe oublié
      *
      * @return json
      */

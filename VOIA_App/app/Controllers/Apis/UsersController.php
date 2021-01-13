@@ -368,7 +368,6 @@ class UsersController extends ResourceController
             $userModel->insert($currentUser);
             return $this->respond([
                 "status" => "success",
-                "data" => $currentUser
             ]);
         } else {
             return $this->respond([

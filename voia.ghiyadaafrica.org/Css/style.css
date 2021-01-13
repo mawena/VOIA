@@ -35,30 +35,12 @@ body {
 
 #card-2 {
   background-color: white;
-  width: 40%;
+  width: 42%;
   display: inline-flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
 }
-
-#card-3 {
-  background-color: white;
-  width: 25%;
-  display: inline-flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
-/* #card{
-    background-color: white;
-    width: 20%;
-    display: inline-flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-} */
 
 #card-1 img:nth-child(1) {
   width: 100%;

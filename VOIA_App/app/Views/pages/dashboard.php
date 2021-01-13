@@ -28,7 +28,7 @@
                     if (isset($subscribedPackage)) {
                         $niveau1_lenght = isset($sponsors["niveau-1"]) ? count($sponsors["niveau-1"]) : 0;
                         $niveau2_lenght = isset($sponsors["niveau-2"]) ? count($sponsors["niveau-2"]) : 0;
-
+                        
                         $pack_user = $subscribedPackage['package']["price"];
                         $type_user = $_SESSION["currentUser"]["type"];
                         $percent = Helper::pourcentage3($pack_user, $type_user, $niveau1_lenght, $niveau2_lenght)[0];
@@ -62,19 +62,12 @@
 
 
                                     <div>
-                                        Code de pairainge <br><br>
-                                        <?php
-                                        if ($_SESSION["currentUser"]["type"] == 'normal') { ?>
+                                    Code de pairainge <br><br>
+                                        <div>Package 1
                                             <code style="background-color : white; border-radius : 5px; margin : 10px; color:red;">
-                                                <?php echo Helper::getBaseUrl() . "/inscription/" . $currentUser["matricule"] . "/" . $subscribedPackage["package"]['slug']; ?>
+                                                <?php echo Helper::getBaseUrl() . "/inscription/" . $currentUser["matricule"] . "/niveau-1" ?>
                                             </code>
-                                        <?php } else if ($_SESSION["currentUser"]["type"] == "communicateur") { ?>
-                                            <div>Package 1
-                                                <code style="background-color : white; border-radius : 5px; margin : 10px; color:red;">
-                                                    <?php echo Helper::getBaseUrl() . "/inscription/" . $currentUser["matricule"] . "/niveau-1" ?>
-                                                </code>
-                                            </div>
-                                        <?php } ?>
+                                        </div>
                                     </div>
 
                                     <!-- Package 2  -->
@@ -84,23 +77,16 @@
                                     <?php if ($_SESSION["currentUser"]["type"] == "communicateur") { ?>
                                         <div>Quota de parainage : <span> <?php echo $percent2; ?> %</span> </div>
                                         <div class="progress" style="height: 20px; border-radius : 5px">
-                                            <div class="progress-bar-striped progress-bar-animated bg-info" role="progressbar" style="width: <?php echo $percent2; ?>%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                            <div class="progress-bar-striped progress-bar-animated bg-info" role="progressbar" style="width: <?php echo $percent2 ; ?>%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                                         </div>
                                     <?php } ?>
 
                                     <div> Code de pairainge <br><br>
-
-                                        <?php if ($_SESSION["currentUser"]["type"] == "communicateur") { ?>
-                                            <div>Package 2
-                                                <code style="background-color : white; border-radius : 5px; margin : 10px; color:red;">
-                                                    <?php echo Helper::getBaseUrl() . "/inscription/" . $currentUser["matricule"] . "/niveau-2" ?>
-                                                </code>
-                                            </div>
-                                        <?php } else { ?>
-                                            <code>
-
+                                        <div>Package 2
+                                            <code style="background-color : white; border-radius : 5px; margin : 10px; color:red;">
+                                                <?php echo Helper::getBaseUrl() . "/inscription/" . $currentUser["matricule"] . "/niveau-2" ?>
                                             </code>
-                                        <?php } ?>
+                                        </div>
                                     </div>
 
                                 </div>
@@ -172,6 +158,6 @@
     </div>
 </body>
 
-<script src="/JS/dashboard.js"></script>
+<script src="/JS/dashboard.js" ></script>
 
 </html>

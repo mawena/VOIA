@@ -104,9 +104,9 @@
                     <option value="Femme">Femme</option>
                 </select>
             </div>
-            <div style="margin: 10px;display:flex; width:100%" >
+            <div style="margin: 10px;display:flex; width:100%">
                 <input type="checkbox" name="cgu-accepted" id="cgu-accepted" class="">
-                <div style="margin: 10px;font-size:15px" >J'ai lu et j'accepte les <strong class="cgu-box-show" style="cursor: pointer;" >conditions d'utilisations</strong> de V.O.I.A</div>
+                <div style="margin: 10px;font-size:15px">J'ai lu et j'accepte les <strong class="cgu-box-show" style="cursor: pointer;">conditions d'utilisations</strong> de V.O.I.A</div>
             </div>
 
             <div id="state">
@@ -118,9 +118,51 @@
     </form>
 </div>
 
-<script  type="module" src="/JS/inscription.js"></script>
+<script type="module">
+    import {
+        server_url,
+        pays
+    } from "/JS/config.js";
 
-<script>
+    let country_list_index = Object.keys(pays).sort();
+    let countryFill = "";
+
+    let getCodeByCountry = (object, index) => {
+        return object[index]["phone_code"];
+    };
+
+
+    $("#cgu-accepted").on("change", function(e) {
+        if ($("#cgu-accepted").is(":checked")) {
+            $("input[value='Inscription']").prop("disabled", false);
+        } else {
+            $("input[value='Inscription']").prop("disabled", true);
+        }
+    });
+
+    for (let index = 0; index < country_list_index.length; index++) {
+        let element = country_list_index[index];
+        countryFill +=
+            '<option value="' +
+            pays[element]["name"] +
+            '">' +
+            pays[element]["name"] +
+            "(<span>" +
+            pays[element]["phone_code"] +
+            "</span>)</option>";
+    }
+
+    $("select#country").html(countryFill);
+
+    $("#numero").val("00" + getCodeByCountry(pays, $("select#country").val()));
+    $("#numero_whatsapp").val(
+        "00" + getCodeByCountry(pays, $("select#country").val())
+    );
+    $("select#country").change(function(e) {
+        $("#numero").val("00" + getCodeByCountry(pays, $(e.target).val()));
+        $("#numero_whatsapp").val("00" + getCodeByCountry(pays, $(e.target).val()));
+        console.log($(e.target).val());
+    });
 
     let parrain = null
     $("#state").hide()

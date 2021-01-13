@@ -1,6 +1,5 @@
-export const server_url = "localhost:85";
-
-export const pays = {
+ const server_url = "localhost:85";
+ const pays = {
   Afghanistan: {
     name: "Afghanistan",
     phone_code: "93",
@@ -962,3 +961,5 @@ export const pays = {
     phone_code: "263",
   },
 };
+
+export {server_url, pays}
