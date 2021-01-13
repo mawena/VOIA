@@ -25,7 +25,8 @@ $functions = new Complements();
           <?php echo $functions->get_nav_li($content = "Cours", $href = "/cours", $active = "cours", $li_class = "nav-item", $a_class = "nav-link", $i_class = "fas fa-book"); ?>
           <?php if ($session->get('currentUser') !== NULL) : ?>
             <?php echo $functions->get_nav_li($content = "Tableau de bord", $href = "/dashboard", $active = "dashboard", $li_class = "nav-item", $a_class = "nav-link", $i_class = "fas fa-columns"); ?>
-            <?php // echo $functions->get_nav_li($content = "Paramètres", $href = "#settings", $active = "settings", $li_class = "nav-item", $a_class = "nav-link", $i_class = "fas fa-cog"); ?>
+            <?php // echo $functions->get_nav_li($content = "Paramètres", $href = "#settings", $active = "settings", $li_class = "nav-item", $a_class = "nav-link", $i_class = "fas fa-cog"); 
+            ?>
           <?php endif ?>
         </ul>
 
@@ -67,13 +68,19 @@ $functions = new Complements();
         <div>Non</div>
         <div>
           Veuillez, dans ce cas, cliquez sur le lien dessous suivant le paquet auquel vous desirez souscrire
-          <div style="font-style:italic;text-align:center; margin: 10px;" >
-              Frais d'inscription : 1.000frs CFA
+          <div style="font-style:italic;text-align:center; margin: 10px;font-weight:bold">
+            Frais d'inscription
+            <div>
+              1.000frs CFA à l'interieur du Togo
+            </div>
+            <div>
+              2.500frs CFA hors du Togo
+            </div>
           </div>
           <div style="text-align: center;">
             <a href="<?php echo Helper::getBaseUrl(); ?>/inscription/02051r02222/niveau-1">Niveau 1 (5.000frs CFA)</a>
             <br>
-            <a  href="<?php echo Helper::getBaseUrl(); ?>/inscription/02051r02222/niveau-2">Niveau 2 (10.000frs CFA)</a>
+            <a href="<?php echo Helper::getBaseUrl(); ?>/inscription/02051r02222/niveau-2">Niveau 2 (10.000frs CFA)</a>
           </div>
         </div>
       </div>

@@ -66,43 +66,17 @@ body {
   margin: 10px;
 }
 
-
-#card-1 .about, #card-3 .about, #card-2 .about {
+#card-1 .about,
+#card-3 .about,
+#card-2 .about {
   padding: 20px;
   width: 80%;
 }
-
-
 
 /* .card-bg */
 .card-bg {
   display: flex;
   flex-direction: column;
-}
-
-@media screen and (max-width: 700px) {
-  .card-bg {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .card-bg img {
-    width: 100%;
-    margin: auto;
-  }
-
-  #card-1 .about {
-    padding: 5px;
-    width: 100%;
-  }
-
-  .card-wrapper {
-  flex-direction: column;
-  }
-  
-  #card-1, #card-2, #card-3{
-  width: 100%;
-  }
 }
 
 @media screen and (min-width: 701px) and (max-width: 974px) {
@@ -327,42 +301,39 @@ footer#footer {
   display: none;
 }
 
-
-#cours-list{
+#cours-list {
   display: flex;
   align-items: flex-start;
   justify-content: space-around;
   flex-wrap: wrap;
 }
 
-.cours{
+.cours {
   display: flex;
   flex-direction: column;
   width: 40%;
   margin: 20px;
 }
 
-.cours-details-body{
+.cours-details-body {
   display: flex;
   flex-direction: column;
   justify-content: center;
   width: 100%;
 }
 
-.cours-details-body img{
+.cours-details-body img {
   width: 100%;
   height: auto;
 }
 
 @media screen and (max-width: 900px) {
-
-  #popup{
+  #popup {
     width: 90%;
   }
-.cours{
-  width: 100%;
-}
-
+  .cours {
+    width: 100%;
+  }
 }
 
 #popup a {
@@ -373,7 +344,7 @@ footer#footer {
   text-decoration: none;
   border-radius: 6px;
   font-weight: bold;
-  color : white;
+  color: white;
 }
 
 #popup a:nth-child(1) {
@@ -388,32 +359,60 @@ footer#footer {
   background-color: transparent;
 }
 
+#cgu-box,#pdc-box {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.9);
+  z-index: 101000000;
+  color: white;
+}
 
+#cgu, #pdc {
+  padding: 10px;
+  width: 70%;
+}
 
+#cgu > *,#pdc > *{
+  padding: 20px;
+  text-align: justify;
+  background-color: white;
+  color: black;
+  margin: 10px;
+}
 
-#cgu-box {
-    position: fixed;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 100%;
-    display: none;
+@media screen and (max-width: 700px) {
+  .card-bg {
+    display: flex;
     flex-direction: column;
-    align-items: center;
-    background-color: rgba(0, 0, 0, 0.9);
-    z-index: 101000000;
-    color: white;
-}
+  }
 
-#cgu {
-    padding: 10px;
-    width: 70%;
-}
+  .card-bg img {
+    width: 100%;
+    margin: auto;
+  }
 
-#cgu>* {
-    padding: 20px;
-    text-align: justify;
-    background-color: white;
-    color: brown;
-    margin: 10px;
+  #card-1 .about {
+    padding: 5px;
+    width: 100%;
+  }
+
+  .card-wrapper {
+    flex-direction: column;
+  }
+
+  #card-1,
+  #card-2,
+  #card-3 {
+    width: 100%;
+  }
+
+  #cgu, #pdc {
+    width: 95%;
+  }
 }

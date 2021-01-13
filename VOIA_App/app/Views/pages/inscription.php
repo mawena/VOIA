@@ -104,10 +104,16 @@
                     <option value="Femme">Femme</option>
                 </select>
             </div>
+            
+            <div style="margin: 10px;display:flex; width:100%" >
+                <input type="checkbox" name="cgu-accepted" id="cgu-accepted" class="">
+                <div style="margin: 10px;font-size:15px" >J'ai lu et j'accepte les <strong class="cgu-box-show" style="cursor: pointer;" >conditions d'utilisations</strong> de V.O.I.A</div>
+            </div>
+            
             <div id="state">
 
             </div>
-            <input class="btn" type="submit" value="Inscription">
+            <input disabled class="btn" type="submit" value="Inscription">
 
         </div>
     </form>
@@ -124,7 +130,13 @@
         return object[index]["phone_code"]
     }
     
-    //getCodeByCountry(pays, "a b")
+     $("#cgu-accepted").on('change', function(e){
+        if($("#cgu-accepted").is(':checked')){
+            $("input[value='Inscription']").prop( "disabled", false )
+        }else{
+            $("input[value='Inscription']").prop( "disabled", true )
+        }
+    })
     
     for (let index = 0; index < country_list_index.length; index++) {
         let element = country_list_index[index]
@@ -194,7 +206,7 @@
                     $("#state").slideDown()
                     $("#state").removeClass("error")
                     $("#state").addClass("suuccess")
-                    isCommercial ? $("#state").text("Inscription terminée! Commercial ajouté !") : $("#state").text("Inscription terminée! Le compte sera activé après confirmation du paiement des frais d'inscription !")
+                    isCommercial ? $("#state").text("Inscription terminée! Communicateur ajouté !") : $("#state").text("Inscription terminée! Le compte sera activé après confirmation du paiement des frais d'inscription !")
 
                 } else if (data.status == "failed") {
                     $("#state").show()

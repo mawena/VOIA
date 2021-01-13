@@ -148,6 +148,81 @@ class UsersController extends ResourceController
         }
     }
 
+
+    public function searchUser()
+    {
+        $userModel = new UserModel();
+        if ($this->request->getMethod() == "post") {
+            if ($this->validate(["searchType" => "required"])) {
+                if ($this->validate(["searchType" => "in_list[KV,DF,GB]"])) {
+                    $currentSearchType = $this->request->getPost("searchType");
+                    if ($currentSearchType == "KV") {
+                        if ($this->validate(["key" => "required"])) {
+                            if ($this->validate(["key" => "in_list[username,type,last_name,first_name,country]"])) {
+                                $currentSearchData["key"] = $this->request->getPost("key");
+                            } else {
+                                return $this->respond([
+                                    "status" => "failed",
+                                    "message" => "La clé est invalide!"
+                                ]);
+                            }
+                        } else {
+                            return $this->respond([
+                                "status" => "failed",
+                                "message" => "La clé de la recherche de type 'clé/valeur' est manquante!"
+                            ]);
+                        }
+
+                        if ($this->validate(["value" => "required"])) {
+                            if ($this->validate(["value" => "min_length[1]"])) {
+                                $currentSearchData["value"] = $this->request->getPost("value");
+                            } else {
+                                return $this->respond([
+                                    "status" => "failed",
+                                    "message" => "La value doit contenir un caractère"
+                                ]);
+                            }
+                        } else {
+                            return $this->respond([
+                                "status" => "failed",
+                                "message" => "La valeur de la recherche de type 'clé/valeur' est manquante!"
+                            ]);
+                        }
+
+                        $currentResponse = $userModel->like([$currentSearchData["key"] => $currentSearchData["value"]])->orderBy("admissionDate", "DESC")->findAll();
+                        if ($currentResponse == [] or $currentResponse == null) {
+                            return $this->respond([
+                                "status" => "failed",
+                                "message" => "Aucun résultat!"
+                            ]);
+                        } else {
+                            return $this->respond($currentResponse);
+                        }
+                    } elseif ($currentSearchType == "DF") {
+                        echo "test";
+                    } elseif ($currentSearchType == "GB") {
+                        echo "test";
+                    }
+                } else {
+                    return $this->respond([
+                        "status" => "failed",
+                        "message" => "Le type de la recherche est invalide"
+                    ]);
+                }
+            } else {
+                return $this->respond([
+                    "status" => "failed",
+                    "message" => "Le type de la recherche est manquante!"
+                ]);
+            }
+        } else {
+            return $this->respond([
+                "status" => "failed",
+                "message" => "La méthode utilisé doit être 'post'!"
+            ]);
+        }
+    }
+
     /**
      * Ajoute un utilisateur à la base de données
      *
@@ -567,14 +642,14 @@ class UsersController extends ResourceController
                 ]);
             } else {
                 $currentSubscribedPackageArray = $subscribedPackagesModel->where(["userToken" => $token])->findAll();
-                if($currentSubscribedPackageArray != [] || $currentSubscribedPackageArray != null){
+                if ($currentSubscribedPackageArray != [] || $currentSubscribedPackageArray != null) {
                     foreach ($currentSubscribedPackageArray as $currentSubscribedPackage) {
                         $subscribedPackagesModel->delete($currentSubscribedPackage["token"]);
                     } //Supréssion de la souscrition à un package
                 }
 
                 $currentGodFather = ($sponsorshipsModel->where(["godDauhterToken" => $token])->first());
-                if($currentGodFather != null){
+                if ($currentGodFather != null) {
                     $sponsorshipsModel->delete($currentGodFather["token"]);   //Supréssion du parrainage
                 }
 

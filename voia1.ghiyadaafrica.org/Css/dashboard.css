@@ -1,6 +1,4 @@
-li {
-  list-style-type: none;
-}
+
 @font-face {
   font-family: "Josefin Sans";
   src: url("/Fonts/Josefin_Sans/JosefinSans-VariableFont_wght.ttf");
@@ -23,7 +21,6 @@ li {
   padding: 20px;
   margin-top: 130px;
   height: 76vh;
-  overflow-y: hidden;
 }
 #left-side,
 #right-side {
@@ -34,17 +31,20 @@ li {
 
 #left-side {
   width: 20%;
+  overflow-y: auto;
 }
-#left-side > li {
+
+#left-side li {
   padding: 10px;
   border: 1px solid white;
   cursor: pointer;
   font-weight: bold;
   margin-bottom: 5px;
-  font-size: 16px;
+  font-size: 14px;
+  width: 100%;
 }
 
-#left-side > li:hover {
+#left-side li:hover {
   border: 1px solid black;
 }
 

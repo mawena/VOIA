@@ -83,6 +83,7 @@ $routes->post('/apis/users/store', 'UsersController::storeUser/$1');
 $routes->get('/apis/users/delete/(:segment)', 'UsersController::deleteUser/$1');
 $routes->get("/apis/parains/get/(:segment)", "UsersController::getParain/$1");
 $routes->get('/apis/users/godFather/godDauhters/(:segment)', "UsersController::getAllGodDauhter/$1");
+$routes->post("/apis/users/search", "UsersController::searchUser");
 
 //UsersWaiting
 $routes->get('/apis/userswaiting', 'UsersWaitingController::getAllUserWaiting');
