@@ -39,13 +39,22 @@
         }
 
         #communicateurs-list,
+        #waiting-list,
+        #valides-list,
+        #hors-systeme-list {
+            display: none;
+        }
+
         #communicateurs {
             display: none;
         }
 
         /* #commerciaux-list-box {} */
 
-        #communicateurs-list {
+        #communicateurs-list,
+        #waiting-list,
+        #valides-list,
+        #hors-systeme-list {
             display: none;
             width: 90%;
             height: auto;
@@ -183,7 +192,10 @@
                 width: 50%;
             }
 
-            #communicateurs-list {
+            #communicateurs-list,
+            #waiting-list,
+            #valides-list,
+            #hors-systeme-list {
                 width: 100%;
                 margin: 0;
             }
@@ -213,7 +225,10 @@
                 width: 100%;
             }
 
-            #commerciaux-list-box {
+            #commerciaux-list-box,
+            #waiting-list-box,
+            #valides-list-box,
+            #hors-systeme-list-box {
                 width: 100%;
             }
         }
@@ -221,26 +236,83 @@
         * {
             scrollbar-width: thin;
         }
+
+        #left-side>div>div>div {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid black;
+            margin: 3px;
+            padding: 10px;
+        }
+
+        a>li>i {
+            cursor: pointer;
+        }
     </style>
 </head>
 
 <body>
     <div id='dashboard'>
         <div id="left-side">
-            <a href="#waiting">
-                <li class="activeD"> <i class="fas fa-hourglass"></i> <span> Liste d'attente <?php echo "<div class='badge badge-primary'>" . (!empty($userWaitingArray) ? count($userWaitingArray) : 0) . "</div>" ?></span> </li>
-            </a>
-            <a href="#valides">
-                <li> <i class="fas fa-check"></i> <span> Validés <?php echo "<div class='badge badge-primary'>" . (!empty($validateUserArray) ? count($validateUserArray) : 0) . "</div>" ?></span> </li>
-            </a>
-            <a href="#hors-systeme">
-                <li> <i class="fas fa-times"></i> <span> Hors Système <?php echo "<div class='badge badge-primary'>0</div>" ?></span> </li>
-            </a>
+            <div id="waiting-list-box">
+                <a href="#waiting">
+                    <li style="display: flex;flex-direction:row;justify-content:space-between;align-items:center" class="activeD"> <span><i class="fas fa-hourglass"></i> <span> Liste d'attente <?php echo "<div class='badge badge-primary'>" . (!empty($userWaitingArray) ? count($userWaitingArray) : 0) . "</div>" ?></span></span> <i title="Dérouler/Enrouler" style="font-size : 20px" class="fas fa-chevron-circle-left"></i> </li>
+                </a>
+
+                <div id="waiting-list">
+                    <div>
+                        <a href="#waiting-com-digitale">COMMUNICATION DIGITALE</a>
+                    </div>
+                    <div>
+                        <a href="#waiting-pellage">PELLAGE</a>
+                    </div>
+                    <div>
+                        <a href="#waiting-sapo">SAPONNIFICATION</a>
+                    </div>
+                </div>
+            </div>
+
+            <div id="valides-list-box">
+                <a href="#valides">
+                    <li style="display: flex;flex-direction:row;justify-content:space-between;align-items:center"> <span><i class="fas fa-check"></i> <span> Validés <?php echo "<div class='badge badge-primary'>" . (!empty($validateUserArray) ? count($validateUserArray) : 0) . "</div>" ?></span></span> <i title="Dérouler/Enrouler" style="font-size : 20px" class="fas fa-chevron-circle-left"></i> </li>
+                </a>
+
+                <div id="valides-list">
+                    <div>
+                        <a href="#valides-com-digitale">COMMUNICATION DIGITALE</a>
+                    </div>
+                    <div>
+                        <a href="#valides-pellage">PELLAGE</a>
+                    </div>
+                    <div>
+                        <a href="#valides-sapo">SAPONNIFICATION</a>
+                    </div>
+                </div>
+            </div>
+
+            <div id="hors-systeme-list-box">
+                <a href="#hors-systeme">
+                    <li style="display: flex;flex-direction:row;justify-content:space-between;align-items:center"> <span><i class="fas fa-times"></i> <span> Hors Système <?php echo "<div class='badge badge-primary'>0</div>" ?></span></span> <i title="Dérouler/Enrouler" style="font-size : 20px" class="fas fa-chevron-circle-left"></i> </li>
+                </a>
+                <div id="hors-systeme-list">
+                    <div>
+                        <a href="#hors-systeme-com-digitale">COMMUNICATION DIGITALE</a>
+                    </div>
+                    <div>
+                        <a href="#hors-systeme-pellage">PELLAGE</a>
+                    </div>
+                    <div>
+                        <a href="#hors-systeme-sapo">SAPONNIFICATION</a>
+                    </div>
+                </div>
+            </div>
+
             <div id="commerciaux-list-box">
                 <a href="#communicateurs">
                     <li style="display: flex;flex-direction:row;justify-content:space-between;align-items:center"><span><i class="fas fa-users"></i> Communicateurs <?php echo "<div class='badge badge-primary'>" . (!empty($communicateurUserArray) ? count($communicateurUserArray) : 0) . "</div>" ?> </span> <i title="Dérouler/Enrouler" style="font-size : 20px" class="fas fa-chevron-circle-left"></i> </li>
                 </a>
-
                 <div id="communicateurs-list">
                     <?php
 

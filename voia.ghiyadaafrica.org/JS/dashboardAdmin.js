@@ -9,7 +9,7 @@ function show_waiting(params = "on") {
     $("#waiting").css({
       display: "block",
     });
-    $("#communicateurs-list").hide();
+    // $("#communicateurs-list").hide();
   } else if (params == "off") {
     $("#waiting").css({
       display: "none",
@@ -35,7 +35,7 @@ function show_valides(params = "on") {
     $("#valides").css({
       display: "block",
     });
-    $("#communicateurs-list").hide();
+    // $("#communicateurs-list").hide();
   } else if (params == "off") {
     $("#valides").css({
       display: "none",
@@ -48,7 +48,7 @@ function show_hs(params = "on") {
     $("#hors-systeme").css({
       display: "block",
     });
-    $("#communicateurs-list").hide();
+    // $("#communicateurs-list").hide();
   } else if (params == "off") {
     $("#hors-systeme").css({
       display: "none",
@@ -56,7 +56,7 @@ function show_hs(params = "on") {
   }
 }
 
-// ------------------ changement de pages suivant le bouton cliqué -------
+// ----------------------------------------- changement de pages suivant le bouton cliqué ------------------------------
 
 let changePage = () => {
   switch (window.location.hash) {
@@ -65,16 +65,6 @@ let changePage = () => {
       show_waiting();
       show_valides("off");
       show_hs("off");
-
-      $("#left-side a li").removeClass("activeD");
-      $("#left-side > a:nth-child(1) li").addClass("activeD");
-
-      $("#commerciaux-list-box i:last-child()").addClass(
-        "fa-chevron-circle-left"
-      );
-      $("#commerciaux-list-box i:last-child()").removeClass(
-        "fa-chevron-circle-down"
-      );
       break;
 
     case "#valides":
@@ -82,16 +72,6 @@ let changePage = () => {
       show_communicateurs("off");
       show_hs("off");
       show_valides();
-
-      $("#left-side a li").removeClass("activeD");
-      $("#left-side > a:nth-child(2)  li").addClass("activeD");
-
-      $("#commerciaux-list-box i:last-child()").addClass(
-        "fa-chevron-circle-left"
-      );
-      $("#commerciaux-list-box i:last-child()").removeClass(
-        "fa-chevron-circle-down"
-      );
       break;
 
     case "#communicateurs":
@@ -99,10 +79,6 @@ let changePage = () => {
       show_communicateurs();
       show_hs("off");
       show_valides("off");
-
-      $("#left-side > a  li").removeClass("activeD");
-      $("#left-side > div  li").addClass("activeD");
-
       break;
 
     case "#hors-systeme":
@@ -110,19 +86,10 @@ let changePage = () => {
       show_communicateurs("off");
       show_valides("off");
       show_hs();
-
-      $("#left-side a li").removeClass("activeD");
-      $("#left-side > a:nth-child(3)  li").addClass("activeD");
-
-      $("#commerciaux-list-box i:last-child()").addClass(
-        "fa-chevron-circle-left"
-      );
-      $("#commerciaux-list-box i:last-child()").removeClass(
-        "fa-chevron-circle-down"
-      );
       break;
 
     default:
+      window.location.hash = "#waiting";
       break;
   }
 };
@@ -133,14 +100,12 @@ window.addEventListener("hashchange", function (e) {
 });
 
 $(" a > li > i").on("click", function (e) {
-  $("#communicateurs-list").slideToggle();
-  $("#commerciaux-list-box i:last-child()").toggleClass(
-    "fa-chevron-circle-left"
-  );
-  $("#commerciaux-list-box i:last-child()").toggleClass(
-    "fa-chevron-circle-down"
-  );
+  e.preventDefault();
+  $(e.target.parentElement.parentElement.nextElementSibling).slideToggle();
+  $(e.target).toggleClass("fa-chevron-circle-left");
+  $(e.target).toggleClass("fa-chevron-circle-down");
 });
+
 //  fonction de suppression des elements en liste d'attente
 
 let deleteWaitingUser = (node, token) => {
@@ -162,6 +127,7 @@ let deleteWaitingUser = (node, token) => {
     },
   });
 };
+
 // Function de validation des elements en liste d'attente
 
 let validateWaitingUser = (node, token) => {
@@ -394,6 +360,7 @@ let show_communicateur_detail = (token) => {
 for (let index = 0; index < communicateurs.length; index++) {
   const element = communicateurs[index];
   element.children[0].addEventListener("click", function (e) {
+    window.location.hash = "#communicateurs"
     show_communicateur_detail(element.children[0].children[0].textContent);
   });
 
