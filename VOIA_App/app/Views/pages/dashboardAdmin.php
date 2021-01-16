@@ -351,8 +351,13 @@
                 <button id="search-button" type="button" class="btn btn-primary"> <i class="fa fa-search"></i> </button>
             </div>
             <div id="waiting">
-                <h3>Liste des utilisateurs en attente</h3>
+                <h3>Liste des utilisateurs en attente
+                    <hr>
+                </h3>
                 <div>
+                    <h4>
+                        Communication Digitale
+                    </h4>
                     <?php
 
                     if (isset($userWaitingArray) && !empty($userWaitingArray)) {
@@ -391,12 +396,19 @@
             </div>
 
             <div id="hors-systeme">
-                <h3>Hors système</h3>
+                <h3>Hors système
+                    <hr>
+                </h3>
+                <div>
+                    <h4>
+                        Communication Digitale
+                    </h4>
+                </div>
             </div>
 
             <div id="communicateurs">
                 <div style="display:flex; justify-content:space-between;align-items:center;padding:10px">
-                    <h3>Communicateurs</h3>
+                    <h3>Communicateurs </h3>
                     <a href="<?php echo Helper::getBaseUrl(); ?>/inscription/02047r01212/niveau-2" target="_blank" rel="noopener noreferrer">
                         <i title="Ajouter un communicateur" style="border-radius:50%;font-size:20px; color:white;background-color:#1d75bd;height:40px;width:40px;padding: 10px;text-align:center" class="fa fa-plus"> </i>
                     </a>
@@ -415,8 +427,13 @@
             </div>
 
             <div id="valides">
-                <h3>Liste des utilisateurs validés </h3>
+                <h3>Liste des utilisateurs validés
+                    <hr>
+                </h3>
                 <div>
+                    <h4>
+                        Communication Digitale
+                    </h4>
                     <?php
                     if (isset($validateUserArray) && !empty($validateUserArray))
                         foreach ($validateUserArray as $user) {
@@ -443,14 +460,12 @@
                 </div>
             </div>
         </div>
-
 </body>
 <div id="confBox">
     <div>
         <div>
             Voulez-vous vraiment réaliser cette action ?
         </div>
-
         <div style="display: flex; flex-direction:row; justify-content:space-around;width:60%">
             <button type="button" class="btn btn-primary ok ">Continuer</button>
             <button type="button" class="btn btn-danger cancel ">Annuler</button>

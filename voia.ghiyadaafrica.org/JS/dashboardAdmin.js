@@ -1,3 +1,6 @@
+// TODO: Ajouter ce que font les autres hashs
+
+
 $("#confBox button.cancel").on("click", function (e) {
   $("#confBox").fadeOut();
 });
@@ -9,7 +12,6 @@ function show_waiting(params = "on") {
     $("#waiting").css({
       display: "block",
     });
-    // $("#communicateurs-list").hide();
   } else if (params == "off") {
     $("#waiting").css({
       display: "none",
@@ -22,7 +24,6 @@ function show_communicateurs(params = "on") {
     $("#communicateurs").css({
       display: "block",
     });
-    // $("#communicateurs-list").slideToggle();
   } else if (params == "off") {
     $("#communicateurs").css({
       display: "none",
@@ -35,7 +36,6 @@ function show_valides(params = "on") {
     $("#valides").css({
       display: "block",
     });
-    // $("#communicateurs-list").hide();
   } else if (params == "off") {
     $("#valides").css({
       display: "none",
@@ -48,7 +48,6 @@ function show_hs(params = "on") {
     $("#hors-systeme").css({
       display: "block",
     });
-    // $("#communicateurs-list").hide();
   } else if (params == "off") {
     $("#hors-systeme").css({
       display: "none",
@@ -94,6 +93,7 @@ let changePage = () => {
   }
 };
 
+
 changePage();
 window.addEventListener("hashchange", function (e) {
   changePage();
@@ -128,6 +128,8 @@ let deleteWaitingUser = (node, token) => {
   });
 };
 
+// -------------------------------------------------------------------------------------------------------
+
 // Function de validation des elements en liste d'attente
 
 let validateWaitingUser = (node, token) => {
@@ -149,6 +151,8 @@ let validateWaitingUser = (node, token) => {
     },
   });
 };
+
+// -----------------------------------------------------------------------------------------
 
 let waiting_users = document.getElementsByClassName("waiting-user");
 
@@ -360,7 +364,7 @@ let show_communicateur_detail = (token) => {
 for (let index = 0; index < communicateurs.length; index++) {
   const element = communicateurs[index];
   element.children[0].addEventListener("click", function (e) {
-    window.location.hash = "#communicateurs"
+    window.location.hash = "#communicateurs";
     show_communicateur_detail(element.children[0].children[0].textContent);
   });
 
