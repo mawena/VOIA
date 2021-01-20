@@ -28,7 +28,7 @@
                     if (isset($subscribedPackage)) {
                         $niveau1_lenght = isset($sponsors["niveau-1"]) ? count($sponsors["niveau-1"]) : 0;
                         $niveau2_lenght = isset($sponsors["niveau-2"]) ? count($sponsors["niveau-2"]) : 0;
-                        
+
                         $pack_user = $subscribedPackage['package']["price"];
                         $type_user = $_SESSION["currentUser"]["type"];
                         $percent = Helper::pourcentage3($pack_user, $type_user, $niveau1_lenght, $niveau2_lenght)[0];
@@ -62,7 +62,7 @@
 
 
                                     <div>
-                                    Code de pairainge <br><br>
+                                        Code de pairainge <br><br>
                                         <div>Package 1
                                             <code style="background-color : white; border-radius : 5px; margin : 10px; color:red;">
                                                 <?php echo Helper::getBaseUrl() . "/inscription/" . $currentUser["matricule"] . "/niveau-1" ?>
@@ -77,7 +77,7 @@
                                     <?php if ($_SESSION["currentUser"]["type"] == "communicateur") { ?>
                                         <div>Quota de parainage : <span> <?php echo $percent2; ?> %</span> </div>
                                         <div class="progress" style="height: 20px; border-radius : 5px">
-                                            <div class="progress-bar-striped progress-bar-animated bg-info" role="progressbar" style="width: <?php echo $percent2 ; ?>%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                            <div class="progress-bar-striped progress-bar-animated bg-info" role="progressbar" style="width: <?php echo $percent2; ?>%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                                         </div>
                                     <?php } ?>
 
@@ -107,7 +107,33 @@
                     <!-- 2- Containers : Liste des fileuls -->
                     <div id="fileuls">
                         <?php
+
+                        function ranger($array)
+                        {
+                            $_array = [];
+
+                            $_niveau_tmp = [];
+
+                            foreach ($array as $key => $value) {
+                                foreach ($array[$key] as $key1 => $value1) {
+                                    $_niveau_tmp[$key1] = $value1['admissionDate'];
+                                }
+                                asort($_niveau_tmp);
+                                foreach ($_niveau_tmp as $key2 => $value) {
+                                    $_niveau_tmp[$key2]  = $array[$key][$key2];
+                                }
+
+                                $_array[$key] = $_niveau_tmp;
+                            }
+
+                            return $_array;
+                        }
+
+
                         if (isset($sponsors) && !empty($sponsors)) {
+
+                            $sponsors = ranger($sponsors);
+
                             $niveau1 = isset($sponsors["niveau-1"]) ? $sponsors["niveau-1"] : [];
                             $niveau2 = isset($sponsors["niveau-2"]) ? $sponsors["niveau-2"] : [];
                         ?>
@@ -158,6 +184,6 @@
     </div>
 </body>
 
-<script src="/JS/dashboard.js" ></script>
+<script src="/JS/dashboard.js"></script>
 
 </html>

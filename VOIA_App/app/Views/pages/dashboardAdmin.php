@@ -266,7 +266,7 @@
                         <a href="#waiting-com-digitale">COMMUNICATION DIGITALE</a>
                     </div>
                     <div>
-                        <a href="#waiting-pellage">PELLAGE</a>
+                        <a href="#waiting-perlage">PERLAGE</a>
                     </div>
                     <div>
                         <a href="#waiting-sapo">SAPONNIFICATION</a>
@@ -284,7 +284,7 @@
                         <a href="#valides-com-digitale">COMMUNICATION DIGITALE</a>
                     </div>
                     <div>
-                        <a href="#valides-pellage">PELLAGE</a>
+                        <a href="#valides-perlage">PERLAGE</a>
                     </div>
                     <div>
                         <a href="#valides-sapo">SAPONNIFICATION</a>
@@ -301,7 +301,7 @@
                         <a href="#hors-systeme-com-digitale">COMMUNICATION DIGITALE</a>
                     </div>
                     <div>
-                        <a href="#hors-systeme-pellage">PELLAGE</a>
+                        <a href="#hors-systeme-perlage">PERLAGE</a>
                     </div>
                     <div>
                         <a href="#hors-systeme-sapo">SAPONNIFICATION</a>
@@ -340,23 +340,110 @@
 
         </div>
         <div id="right-side">
-            <div id="search_box">
-                <select class="form-control" name="filter" id="filter">
-                    <option value="0">Nom</option>
-                    <option value="0">Prenoms</option>
-                    <option value="0">Pays</option>
-                    <option value="0">Type</option>
+            <form method="POST" id="search_box">
+                <a href="/admin/dashboard" style="font-size:30px; cursor:pointer" title="Reinitialiser">&times;</a>
+                <select class="form-control" name="key" id="filter">
+                    <option value="last_name">Nom</option>
+                    <option value=first_name>Prenoms</option>
+                    <option value="country">Pays</option>
+                    <option value="type">Type</option>
                 </select>
-                <input class="form-control" type="text" placeholder="Recherche">
+                <input class="form-control" name="value" type="text" placeholder="Recherche">
+                <input id="page" class="form-control" name="page" type="hidden" />
                 <button id="search-button" type="button" class="btn btn-primary"> <i class="fa fa-search"></i> </button>
-            </div>
+            </form>
             <div id="waiting">
                 <h3>Liste des utilisateurs en attente
                     <hr>
                 </h3>
-                <div>
+
+                <div id="waiting-com-digitale">
                     <h4>
                         Communication Digitale
+                    </h4>
+                    <?php
+
+                    if (isset($userWaitingArray) && !empty($userWaitingArray)) {
+                        foreach ($userWaitingArray as $userwaiting) {
+                            // var_dump($userwaiting);
+                    ?>
+                            <div class="card card-body bg-dark waiting-user">
+                                <div>
+                                    <?php echo ("<div > Nom : " . $userwaiting["first_name"] . " " . $userwaiting['last_name'] . "</div>"); ?>
+                                    <?php echo ("<div hidden >" . $userwaiting["token"] . "</div>"); ?>
+                                    <?php echo ("<div >Email : " . $userwaiting["email"] . "</div>"); ?>
+                                    <?php echo ("<div >Sexe : " . $userwaiting["sex"] . "</div>"); ?>
+                                    <?php echo ("<div >Tel : " . $userwaiting["phoneNumber"] . "</div>"); ?>
+                                    <?php echo ("<div >Whatsapp : " . $userwaiting["whatsappNumber"] . "</div>"); ?>
+                                    <?php echo ("<div >Pays : " . $userwaiting["country"] . "</div>"); ?>
+                                    <?php echo ("<div > Date : " . $userwaiting["admissionDate"] . "</div>"); ?>
+                                    <?php echo ("<div > Parrain : " . $userwaiting["parrain"]["last_name"] . " " . $userwaiting["parrain"]["first_name"] . "</div>"); ?>
+                                    <?php
+                                    if ($userwaiting["slugPackage"] == "niveau-2") {
+                                        echo ("<div > Package : 2</div>");
+                                    } else if ($userwaiting["slugPackage"] == "niveau-1") {
+                                        echo ("<div > Package : 1</div>");
+                                    }
+                                    ?>
+                                </div>
+                                <div>
+                                    <button title="Valider"> <i class="fa fa-check"></i> </button>
+                                    <button title="Supprimer"> &times; </button>
+                                </div>
+                            </div>
+                        <?php } ?>
+                    <?php } else { ?>
+                        <h5>Il n'y a personne ici !</h5>
+                    <?php } ?>
+                </div>
+
+                <hr>
+
+                <div id="waiting-perlage">
+                    <h4>
+                        Perlage
+                    </h4>
+                    <?php
+
+                    if (isset($userWaitingArray) && !empty($userWaitingArray)) {
+                        foreach ($userWaitingArray as $userwaiting) {
+                            // var_dump($userwaiting);
+                    ?>
+                            <div class="card card-body bg-dark waiting-user">
+                                <div>
+                                    <?php echo ("<div > Nom : " . $userwaiting["first_name"] . " " . $userwaiting['last_name'] . "</div>"); ?>
+                                    <?php echo ("<div hidden >" . $userwaiting["token"] . "</div>"); ?>
+                                    <?php echo ("<div >Email : " . $userwaiting["email"] . "</div>"); ?>
+                                    <?php echo ("<div >Sexe : " . $userwaiting["sex"] . "</div>"); ?>
+                                    <?php echo ("<div >Tel : " . $userwaiting["phoneNumber"] . "</div>"); ?>
+                                    <?php echo ("<div >Whatsapp : " . $userwaiting["whatsappNumber"] . "</div>"); ?>
+                                    <?php echo ("<div >Pays : " . $userwaiting["country"] . "</div>"); ?>
+                                    <?php echo ("<div > Date : " . $userwaiting["admissionDate"] . "</div>"); ?>
+                                    <?php echo ("<div > Parrain : " . $userwaiting["parrain"]["last_name"] . " " . $userwaiting["parrain"]["first_name"] . "</div>"); ?>
+                                    <?php
+                                    if ($userwaiting["slugPackage"] == "niveau-2") {
+                                        echo ("<div > Package : 2</div>");
+                                    } else if ($userwaiting["slugPackage"] == "niveau-1") {
+                                        echo ("<div > Package : 1</div>");
+                                    }
+                                    ?>
+                                </div>
+                                <div>
+                                    <button title="Valider"> <i class="fa fa-check"></i> </button>
+                                    <button title="Supprimer"> &times; </button>
+                                </div>
+                            </div>
+                        <?php } ?>
+                    <?php } else { ?>
+                        <h5>Il n'y a personne ici !</h5>
+                    <?php } ?>
+                </div>
+
+                <hr>
+
+                <div id="waiting-sapo">
+                    <h4>
+                        Saponification
                     </h4>
                     <?php
 
@@ -430,9 +517,68 @@
                 <h3>Liste des utilisateurs validés
                     <hr>
                 </h3>
-                <div>
+                <div id="valides-com-digitale">
                     <h4>
                         Communication Digitale
+                    </h4>
+                    <?php
+                    if (isset($validateUserArray) && !empty($validateUserArray))
+                        foreach ($validateUserArray as $user) {
+                    ?>
+                        <div class="card card-body bg-dark user">
+                            <div>
+                                <?php echo "<div hidden >" . $user['token'] . "</div>" ?>
+                                <?php echo "<div> Nom : " . $user['last_name'] . "</div>" ?>
+                                <?php echo "<div> Prenom : " . $user['first_name'] . "</div>" ?>
+                                <?php echo "<div> Sexe : " . $user['sex'] . "</div>" ?>
+                                <?php echo "<div> Package : " . $user["package"]['designation'] . "</div>" ?>
+                                <?php echo "<div> Email : " . $user['email'] . "</div>" ?>
+                                <?php echo ("<div >Tel : " . $user["phoneNumber"] . "</div>"); ?>
+                                <?php echo ("<div >Whatsapp : " . $user["whatsappNumber"] . "</div>"); ?>
+                                <?php echo ("<div >Pays : " . $user["country"] . "</div>"); ?>
+                                <?php echo ("<div >" . $user["package"]["designation"] . "</div>"); ?>
+                                <?php echo ("<div >Parrain : " . $user["parrain"]["last_name"] . ' ' . $user["parrain"]["first_name"] . "</div>"); ?>
+                                <?php echo ("<div >Parrain originale : " . $user["original_parrain"] . "</div>"); ?>
+                            </div>
+                            <div>
+                                <button title="Supprimer"> &times; </button>
+                            </div>
+                        </div>
+                    <?php } ?>
+                </div>
+
+                <div id="valides-perlage">
+                    <h4>
+                        Perlage
+                    </h4>
+                    <?php
+                    if (isset($validateUserArray) && !empty($validateUserArray))
+                        foreach ($validateUserArray as $user) {
+                    ?>
+                        <div class="card card-body bg-dark user">
+                            <div>
+                                <?php echo "<div hidden >" . $user['token'] . "</div>" ?>
+                                <?php echo "<div> Nom : " . $user['last_name'] . "</div>" ?>
+                                <?php echo "<div> Prenom : " . $user['first_name'] . "</div>" ?>
+                                <?php echo "<div> Sexe : " . $user['sex'] . "</div>" ?>
+                                <?php echo "<div> Package : " . $user["package"]['designation'] . "</div>" ?>
+                                <?php echo "<div> Email : " . $user['email'] . "</div>" ?>
+                                <?php echo ("<div >Tel : " . $user["phoneNumber"] . "</div>"); ?>
+                                <?php echo ("<div >Whatsapp : " . $user["whatsappNumber"] . "</div>"); ?>
+                                <?php echo ("<div >Pays : " . $user["country"] . "</div>"); ?>
+                                <?php echo ("<div >" . $user["package"]["designation"] . "</div>"); ?>
+                                <?php echo ("<div >Parrain : " . $user["parrain"]["last_name"] . ' ' . $user["parrain"]["first_name"] . "</div>"); ?>
+                            </div>
+                            <div>
+                                <button title="Supprimer"> &times; </button>
+                            </div>
+                        </div>
+                    <?php } ?>
+                </div>
+
+                <div id="valides-sapo">
+                    <h4>
+                        Saponification
                     </h4>
                     <?php
                     if (isset($validateUserArray) && !empty($validateUserArray))

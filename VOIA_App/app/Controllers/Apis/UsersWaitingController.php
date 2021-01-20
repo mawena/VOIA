@@ -9,6 +9,7 @@ use App\Models\UserWaitingModel;
 use App\Models\SponsorshipsModel;
 use App\Models\SubscribedPackagesModel;
 use CodeIgniter\RESTful\ResourceController;
+use App\Libraries\Helper;
 
 class UsersWaitingController extends ResourceController
 {
@@ -126,12 +127,50 @@ class UsersWaitingController extends ResourceController
                     ]);
                 } else {
 
+
+                    // ici 
+
                     $currentUserWaiting["package"] = $packageModel->where(["slug" => $currentUserWaiting["slugPackage"]])->first();
-                    if (count($sponsorshipsModel->where(["godFatherToken" => $currentParain["token"]])->findAll()) >= (int) ($currentUserWaiting["package"]["numberPerson"]) && $currentParain["type"] != "communicateur") {
-                        // $parrainSuscribedPackage = $subscribedPackagesModel->where(["packageToken" => $currentUserWaiting["package"]["token"]])->orderBy("subscriptionDate")->first();
-                        // $currentParain = $userModel->find($parrainSuscribedPackage["userToken"]);
-                        $currentParain = ($userModel->orderBy("admissionDate")->findAll())[0];
+                    $baseUrl = Helper::getBaseUrl();
+                    $userModel = new UserModel();
+                    $subscribedPackagesModel = new SubscribedPackagesModel();
+                    $sponsorArray = [];
+                    $currentSponsorshipArray = json_decode(file_get_contents($baseUrl . "/apis/sponsorships/godFather/get/" . $currentParain["token"]));
+
+                    if (isset($currentSponsorshipArray->status) && $currentSponsorshipArray->status == "failed") {
+                        $sponsorArray = [];
+                    } else {
+                        foreach ($currentSponsorshipArray as $sponsorship) {
+                            $tmpUser = get_object_vars(json_decode(file_get_contents($baseUrl . "/apis/users/get/" . (get_object_vars($sponsorship))["godDauhterToken"])));
+                            $tmpUser["subscribedPackage"] = get_object_vars(json_decode(file_get_contents($baseUrl . "/apis/subscribedPackages/users/get/" . $tmpUser["token"])));
+                            $tmpUser["package"] = get_object_vars(json_decode(file_get_contents($baseUrl . "/apis/packages/get/" . $tmpUser["subscribedPackage"]["packageToken"])));
+                            $tmpUser["package"]["product"] = get_object_vars($tmpUser["package"]["product"]);
+                            $sponsorArray[$tmpUser["package"]["slug"]][] = $tmpUser;
+                        }
+                    } //Juste pour recuperer les filleuls
+
+                    if ($currentParain["type"] != "communicateur") {
+
+                        $currentParainPackage = $packageModel->where(['token' => $subscribedPackagesModel->where(["userToken" => $currentParain["token"]])->first()['packageToken']])->first()['slug'];
+
+                        $niveau1_lenght = isset($sponsorArray["niveau-1"]) ? count($sponsorArray["niveau-1"]) : 0;
+                        $niveau2_lenght = isset($sponsorArray["niveau-2"]) ? count($sponsorArray["niveau-2"]) : 0;
+
+                        if ($currentParainPackage == "niveau-1") {
+                            if ($niveau1_lenght + $niveau2_lenght >= 10) {
+                                $currentUserWaiting["original_parrain"] = $currentParain["last_name"] . ' ' . $currentParain["first_name"];
+                                $currentParain = ($userModel->orderBy("admissionDate")->findAll())[0];
+                            }
+                        } elseif ($currentParainPackage == "niveau-2") {
+                            $quota = 0.5 * $niveau1_lenght + $niveau2_lenght;
+                            if ($quota >= 5) {
+                                $currentUserWaiting["original_parrain"] = $currentParain["last_name"] . ' ' . $currentParain["first_name"];
+                                $currentParain = ($userModel->orderBy("admissionDate")->findAll())[0];
+                            }
+                        }
                     } // Si le quotta du package est atteint et que le parrain n'est pas un communicateur on met le premier inscrit avec le même package comme parrain
+
+                    // à là
 
                     $subscribedPackagesModel->insert([
                         "token" => sha1($currentUserWaiting["token"] . $currentUserWaiting["package"]["token"]),
@@ -151,6 +190,7 @@ class UsersWaitingController extends ResourceController
                     $currentUserWaiting["admissionDate"] = date("Y-m-d H:i:s");
                     $userModel->insert($currentUserWaiting);
                     $userWaitingModel->delete($token);
+
                     return $this->respond([
                         "status" => "success",
                         "data" => $currentUserWaiting

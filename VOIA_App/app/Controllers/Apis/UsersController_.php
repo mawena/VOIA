@@ -138,114 +138,13 @@ class UsersController extends ResourceController
                 } else {
                     $currentGodDauhterArray = [];
                     foreach ($currentSponsorshipsArray as $key => $tmpSponsorship) {
-                        $tmpGodDauhter = $userModel->orderBy("id", "DESC")->find($tmpSponsorship["godDauhterToken"]);
+                        $tmpGodDauhter = $userModel->find($tmpSponsorship["godDauhterToken"]);
                         $tmpGodDauhterPackage = $packagesModel->find(($subscribedPackagesModel->where(["userToken" => $tmpGodDauhter["token"]])->first())["packageToken"]);
                         $currentGodDauhterArray[$tmpGodDauhterPackage["slug"]][] = $tmpGodDauhter;
                     }
                     return $this->respond($currentGodDauhterArray);
                 }
             }
-        }
-    }
-    
-    /**
-     * Recherche 
-     *
-     * @return void
-     */
-    public function searchUser()
-    {
-        if ($this->request->getMethod() == "post") {
-            if ($this->validate(["key" => "required"])) {
-                if ($this->validate(["key" => "in_list[username,type,last_name,first_name,country]"])) {
-                    $currentSearchData["key"] = $this->request->getPost("key");
-                } else {
-                    return $this->respond([
-                        "status" => "failed",
-                        "message" => "La clé est invalide!"
-                    ]);
-                }
-            } else {
-                return $this->respond([
-                    "status" => "failed",
-                    "message" => "La clé de la recherche de type 'clé/valeur' est manquante!"
-                ]);
-            }
-
-            if ($this->validate(["value" => "required"])) {
-                if ($this->validate(["value" => "min_length[1]"])) {
-                    $currentSearchData["value"] = $this->request->getPost("value");
-                } else {
-                    return $this->respond([
-                        "status" => "failed",
-                        "message" => "La value doit contenir un caractère"
-                    ]);
-                }
-            } else {
-                return $this->respond([
-                    "status" => "failed",
-                    "message" => "La valeur de la recherche de type 'clé/valeur' est manquante!"
-                ]);
-            }
-
-            if (isset($_POST["storageKey"]) && !empty($_POST["storageKey"])) {
-                if ($this->validate(["storageKey" => "in_list[username,type,last_name,first_name,country,admissionDate]"])) {
-                    $currentSearchData["storageKey"] = $this->request->getPost("storageKey");
-                } else {
-                    return $this->respond([
-                        "status" => "failed",
-                        "message" => "Le critère de rangement est invalide"
-                    ]);
-                }
-            } else {
-                $currentSearchData["storageKey"] = "admissionDate";
-            }
-
-            if (isset($_POST["storageOrder"]) && !empty($_POST["storageOrder"])) {
-                if ($this->validate(["storageOrder" => "in_list[ASC,DESC]"])) {
-                    $currentSearchData["storageOrder"] = $this->request->getPost("storageOrder");
-                } else {
-                    return $this->respond([
-                        "status" => "failed",
-                        "message" => "L'odre de rangement doit être 'ASC' ou 'DESC'"
-                    ]);
-                }
-            } else {
-                $currentSearchData["storageOrder"] = "DESC";
-            }
-
-            if ($this->validate(["userStatus" => "required"])) {
-                $currentSearchData["userStatus"] = $this->request->getPost("userStatus");
-                if ($currentSearchData["userStatus"] == "user") {
-                    $currentResponse = (new UserModel())->like([$currentSearchData["key"] => $currentSearchData["value"]])->orderBy($currentSearchData["storageKey"], $currentSearchData["storageOrder"])->findAll();
-                } elseif ($currentSearchData["userStatus"] == "userWaiting") {
-                    $currentResponse = (new UserWaitingModel())->like([$currentSearchData["key"] => $currentSearchData["value"]])->orderBy($currentSearchData["storageKey"], $currentSearchData["storageOrder"])->findAll();
-                } else {
-                    return $this->respond([
-                        "status" => "failed",
-                        "message" => "Le status des utilisateurs à chercher est invalide!"
-                    ]);
-                }
-
-                if ($currentResponse == [] or $currentResponse == null) {
-                    return $this->respond([
-                        "status" => "failed",
-                        "message" => "Aucun résultat!"
-                    ]);
-                } else {
-                    return $this->respond($currentResponse);
-                }
-            } else {
-                return $this->respond([
-                    "status" => "failed",
-                    "message" => "Le statut (user/userWainting) des utilisateurs à chercher est manquant!"
-                ]);
-            }
-        } else {
-            return $this->respond([
-                "status" => "failed",
-                "message" => "La méthode utilisé doit être 'post'!"
-            ]);
         }
     }
 
@@ -469,7 +368,6 @@ class UsersController extends ResourceController
             $userModel->insert($currentUser);
             return $this->respond([
                 "status" => "success",
-                "data" => $currentUser
             ]);
         } else {
             return $this->respond([
@@ -485,7 +383,7 @@ class UsersController extends ResourceController
      * @param string $userToken
      * @return json
      */
-    public function updateUser(string $userToken = null) // modifié pour permettre la recuperation de mot de passe
+    public function updateUser(string $userToken = null)
     {
         $method = "post";
         $userModel = new UserModel();
@@ -524,15 +422,13 @@ class UsersController extends ResourceController
                     if ($this->validate(["password" => "min_length[8]"])) {
                         if ($this->validate(["oldPassword" => "required"])) {
                             $oldPassword = $this->request->getPost("oldPassword");
-                            //if (password_verify($oldPassword, $dataBaseUser["password"])) {
+                            // if (password_verify($oldPassword, $dataBaseUser["password"])) {
                             if ($oldPassword == $dataBaseUser["password"]) {
-                                //$currentUser["password"] = $this->request->getPost("password");
                                 $currentUser["password"] = password_hash($this->request->getPost("password"), PASSWORD_BCRYPT);
-
                             } else {
                                 return $this->respond([
                                     "status" => "failed",
-                                    "message" => "L'ancien mot de passe est incorrect!"
+                                    "message" => "L'ancien mot de passe est incorrect!",
                                 ]);
                             }
                         } else {
@@ -671,14 +567,14 @@ class UsersController extends ResourceController
                 ]);
             } else {
                 $currentSubscribedPackageArray = $subscribedPackagesModel->where(["userToken" => $token])->findAll();
-                if($currentSubscribedPackageArray != [] || $currentSubscribedPackageArray != null){
+                if ($currentSubscribedPackageArray != [] || $currentSubscribedPackageArray != null) {
                     foreach ($currentSubscribedPackageArray as $currentSubscribedPackage) {
                         $subscribedPackagesModel->delete($currentSubscribedPackage["token"]);
                     } //Supréssion de la souscrition à un package
                 }
 
                 $currentGodFather = ($sponsorshipsModel->where(["godDauhterToken" => $token])->first());
-                if($currentGodFather != null){
+                if ($currentGodFather != null) {
                     $sponsorshipsModel->delete($currentGodFather["token"]);   //Supréssion du parrainage
                 }
 

@@ -54,6 +54,7 @@ $routes->get('/cours/(:segment)', 'CoursesController::show/$1');
 
 $routes->get('/dashboard', 'DashboardController::dashboard');
 $routes->get("/admin/dashboard", "SuperAdminsController::superAdminDashboard");
+$routes->post("/admin/dashboard", "SuperAdminsController::superAdminDashboardSearch");
 
 
 
@@ -85,6 +86,7 @@ $routes->post('/apis/users/update/(:segment)', 'UsersController::updateUser/$1')
 $routes->get('/apis/users/delete/(:segment)', 'UsersController::deleteUser/$1');
 $routes->get("/apis/parains/get/(:segment)", "UsersController::getParain/$1");
 $routes->get('/apis/users/godFather/godDauhters/(:segment)', "UsersController::getAllGodDauhter/$1");
+$routes->post("/apis/users/search", "UsersController::searchUser");
 
 //UsersWaiting
 $routes->get('/apis/userswaiting', 'UsersWaitingController::getAllUserWaiting');

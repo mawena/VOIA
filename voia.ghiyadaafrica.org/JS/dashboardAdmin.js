@@ -1,5 +1,6 @@
 // TODO: Ajouter ce que font les autres hashs
-
+// TODO: euh, rendre possible la recherche à leur niveau
+//TODO: Demander a charles de me renvoyer le mot cle et le critere
 
 $("#confBox button.cancel").on("click", function (e) {
   $("#confBox").fadeOut();
@@ -60,17 +61,27 @@ function show_hs(params = "on") {
 let changePage = () => {
   switch (window.location.hash) {
     case "#waiting":
+    case "#waiting-sapo":
+    case "#waiting-perlage":
+    case "#waiting-com-digitale":
       show_communicateurs("off");
       show_waiting();
       show_valides("off");
       show_hs("off");
+      $("#page").val("waiting");
+      // window.location.hash = window.location.hash;
       break;
 
     case "#valides":
+    case "#valides-sapo":
+    case "#valides-perlage":
+    case "#valides-com-digitale":
       show_waiting("off");
       show_communicateurs("off");
       show_hs("off");
       show_valides();
+      $("#page").val("valides");
+      // window.location.hash = window.location.hash;
       break;
 
     case "#communicateurs":
@@ -78,21 +89,27 @@ let changePage = () => {
       show_communicateurs();
       show_hs("off");
       show_valides("off");
+      $("#page").val(null);
       break;
 
     case "#hors-systeme":
+    case "#hors-systeme-sapo":
+    case "#hors-systeme-perlage":
+    case "#hors-systeme-com-digitale":
       show_waiting("off");
       show_communicateurs("off");
       show_valides("off");
       show_hs();
+      $("#page").val("hors-systeme");
+      // window.location.hash = window.location.hash;
       break;
 
     default:
       window.location.hash = "#waiting";
       break;
   }
+  window.location.hash = window.location.hash;
 };
-
 
 changePage();
 window.addEventListener("hashchange", function (e) {
@@ -101,10 +118,13 @@ window.addEventListener("hashchange", function (e) {
 
 $(" a > li > i").on("click", function (e) {
   e.preventDefault();
+  window.location.hash = e.target.parentElement.parentElement.hash;
   $(e.target.parentElement.parentElement.nextElementSibling).slideToggle();
   $(e.target).toggleClass("fa-chevron-circle-left");
   $(e.target).toggleClass("fa-chevron-circle-down");
 });
+
+$("a > *").on("");
 
 //  fonction de suppression des elements en liste d'attente
 
@@ -385,7 +405,7 @@ $("#search-button").on("click", function (e) {
     url: "/apis/session/setCurrentPage/" + window.location.hash.substr(1),
     type: "GET",
     success: function (data) {
-      window.location.reload();
+      $("#search_box").submit();  
     },
     error: function (data) {
       alert("Error Session");

@@ -8,7 +8,7 @@ class UserModel extends Model
 {
     protected $table = 'users';
     protected $primaryKey = "token";
-    protected $allowedFields = ['token', 'username', 'password', 'type', 'last_name', 'first_name', 'email', 'phoneNumber', 'whatsappNumber', 'country', 'sex', 'matricule', 'admissionDate'];
+    protected $allowedFields = ['token', 'username', 'password', 'type', 'last_name', 'first_name', 'email', 'phoneNumber', 'whatsappNumber', 'country', 'sex', 'matricule', 'original_parrain', 'admissionDate'];
 
     /**
      * Retourne l'id du dernier utilisateur enregistré!
