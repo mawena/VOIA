@@ -41,7 +41,7 @@
                     <div class="cours">
                         <h3 class="card-header bg-orange"><?= esc($course_item['name']) ?></h3>
                         <div class="card-body bg-blue">
-                            <div style="color:white;" >
+                            <div style="color:white;">
                                 <?php if ($course_item['certified']) { ?>
                                     <h5>Formation Certifié</h5>
                                 <?php } ?>

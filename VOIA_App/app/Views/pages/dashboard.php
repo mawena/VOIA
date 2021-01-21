@@ -29,6 +29,13 @@
                         $niveau1_lenght = isset($sponsors["niveau-1"]) ? count($sponsors["niveau-1"]) : 0;
                         $niveau2_lenght = isset($sponsors["niveau-2"]) ? count($sponsors["niveau-2"]) : 0;
 
+                        if ($niveau1_lenght == 0 && $niveau2_lenght == 0) {
+                            $niveau1_lenght = isset($sponsors["niveau-3"]) ? count($sponsors["niveau-3"]) : 0;
+                            $niveau2_lenght = isset($sponsors["niveau-4"]) ? count($sponsors["niveau-4"]) : 0;
+                        }
+                        // $niveau3_lenght = isset($sponsors["niveau-3"]) ? count($sponsors["niveau-3"]) : 0;
+                        // $niveau4_lenght = isset($sponsors["niveau-4"]) ? count($sponsors["niveau-4"]) : 0;
+
                         $pack_user = $subscribedPackage['package']["price"];
                         $type_user = $_SESSION["currentUser"]["type"];
                         $percent = Helper::pourcentage3($pack_user, $type_user, $niveau1_lenght, $niveau2_lenght)[0];
@@ -45,6 +52,10 @@
 
                             <div id="product-content">
                                 <div id="package-info">
+
+                                    <?php //var_dump($subscribedPackage['package']);  
+                                    ?>
+
                                     <div>Package : <span> <?php echo $_SESSION["currentUser"]["type"] == 'communicateur' ? "Package 1, Package 2" : $subscribedPackage['package']["designation"]; ?> </span></div>
                                     <?php echo $_SESSION["currentUser"]["type"] == 'communicateur' ? '' : "<div>Souscription : <span>" . $subscribedPackage['package']["price"] . " fr CFA</span></div>" ?>
 
@@ -53,7 +64,15 @@
                                     </div>
                                     <!-- Package 1  -->
 
-                                    <div style="padding: 10px;font-size:15px;text-align:center"> Package 1 </div>
+                                    <div style="padding: 10px;font-size:15px;text-align:center">
+                                        <?php
+                                        if ($subscribedPackage['package']["slug"] != "niveau-1" && $subscribedPackage['package']["slug"] != "niveau-2") {
+                                            echo $subscribedPackage['package']["designation"];
+                                        } else {
+                                            echo 'Package 1';
+                                        }
+                                        ?>
+                                    </div>
 
                                     <div>Quota de parainage : <span> <?php echo $percent; ?> %</span> </div>
                                     <div class="progress" style="height: 20px; border-radius : 5px">
@@ -63,31 +82,55 @@
 
                                     <div>
                                         Code de pairainge <br><br>
-                                        <div>Package 1
-                                            <code style="background-color : white; border-radius : 5px; margin : 10px; color:red;">
-                                                <?php echo Helper::getBaseUrl() . "/inscription/" . $currentUser["matricule"] . "/niveau-1" ?>
-                                            </code>
-                                        </div>
+
+                                        <!-- verification pour les cas des packages != 1 et 2 -->
+
+
+                                        <?php
+                                        if ($subscribedPackage['package']["slug"] != "niveau-1" && $subscribedPackage['package']["slug"] != "niveau-2") { ?>
+                                            <div> <?php echo $subscribedPackage['package']["designation"] ?>
+                                                <code style="background-color : white; border-radius : 5px; margin : 10px; color:red;">
+
+                                                    <?php echo Helper::getBaseUrl() . "/inscription/" . $currentUser["matricule"] . '/' . $subscribedPackage['package']["slug"] ?>
+                                                </code>
+                                            </div>
+                                        <?php } else { ?>
+                                            <div>Package 1
+                                                <code style="background-color : white; border-radius : 5px; margin : 10px; color:red;">
+
+                                                    <?php echo Helper::getBaseUrl() . "/inscription/" . $currentUser["matricule"] . "/niveau-1" ?>
+                                                </code>
+                                            </div>
+
+                                        <?php } ?>
                                     </div>
 
-                                    <!-- Package 2  -->
+                                    <!-- verification pour les cas des packages != 1 et 2 -->
 
-                                    <div style="padding: 10px;font-size:15px;text-align:center"> Package 2 </div>
+                                    <?php if ($subscribedPackage['package']["slug"] == "niveau-1" || $subscribedPackage['package']["slug"] == "niveau-2") { ?>
 
-                                    <?php if ($_SESSION["currentUser"]["type"] == "communicateur") { ?>
-                                        <div>Quota de parainage : <span> <?php echo $percent2; ?> %</span> </div>
-                                        <div class="progress" style="height: 20px; border-radius : 5px">
-                                            <div class="progress-bar-striped progress-bar-animated bg-info" role="progressbar" style="width: <?php echo $percent2; ?>%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                        <!-- Package 2  -->
+
+                                        <div style="padding: 10px;font-size:15px;text-align:center"> Package 2 </div>
+
+                                        <?php if ($_SESSION["currentUser"]["type"] == "communicateur") { ?>
+                                            <div>Quota de parainage : <span> <?php echo $percent2; ?> %</span> </div>
+                                            <div class="progress" style="height: 20px; border-radius : 5px">
+                                                <div class="progress-bar-striped progress-bar-animated bg-info" role="progressbar" style="width: <?php echo $percent2; ?>%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                            </div>
+                                        <?php } ?>
+
+                                        <div> Code de pairainge <br><br>
+                                            <div>Package 2
+                                                <code style="background-color : white; border-radius : 5px; margin : 10px; color:red;">
+                                                    <?php echo Helper::getBaseUrl() . "/inscription/" . $currentUser["matricule"] . "/niveau-2" ?>
+                                                </code>
+                                            </div>
                                         </div>
                                     <?php } ?>
 
-                                    <div> Code de pairainge <br><br>
-                                        <div>Package 2
-                                            <code style="background-color : white; border-radius : 5px; margin : 10px; color:red;">
-                                                <?php echo Helper::getBaseUrl() . "/inscription/" . $currentUser["matricule"] . "/niveau-2" ?>
-                                            </code>
-                                        </div>
-                                    </div>
+
+
 
                                 </div>
                                 <div id="bonus">
@@ -97,7 +140,17 @@
                                     </div>
                                     <div> Caracteristiques du telephone</div>
                                     <div style="max-height : 200px; overflow-y : auto;">
-                                        <div style='text-align:justify;'>Système d'exploitation (OS) : Androïde 10.0 ; mesure de l'écran : 6 pouces ; Processeur : Mediatek MT6580 ; RAM 2GB ; Espace intérieur : 32GB ; appareil photo : 5 MP ; Réseau : 3G UMTS HSDPA 850/1900, 4G FDD LTE, Ne prend pas en charge le réseau 4G LTE ; SIM : Deux tranches (nano-sim, double veille) ; Technologie de l'écran : IPS LCD capacitive touchscreen 16, 16 millions de couleurs ; Batterie : 5000 MAH, Li-polymère, non amovible ; Caméra fond : 5 MP, Les fonctions de la caméra : Mise au point de géolocalisation, flash LED, Tournage vidéo : 720 pixel 30 ips, Caméra frontale : 8 MP.</div>
+                                        <div style='text-align:justify;'>Système d'exploitation (OS) : Androïde 10.0 ; <br> Mesure de l'écran : 6 pouces ; <br>
+                                            <hr> Processeur : Mediatek MT6580 ; <br>
+                                            <hr> RAM 2GB ; <br>
+                                            <hr> Espace intérieur : 32GB ; <br>
+                                            <hr> appareil photo : 5 MP ; <br>
+                                            <hr> Réseau : 3G UMTS HSDPA 850/1900, 4G FDD LTE, Ne prend pas en charge le réseau 4G LTE ; <br>
+                                            <hr> SIM : Deux tranches (nano-sim, double veille) ; <br>
+                                            <hr> Technologie de l'écran : IPS LCD capacitive touchscreen 16, 16 millions de couleurs ; <br>
+                                            <hr> Batterie : 5000 MAH, Li-polymère, non amovible ; <br>
+                                            <hr> Caméra fond : 5 MP, Les fonctions de la caméra : Mise au point de géolocalisation, flash LED, Tournage vidéo : 720 pixel 30 ips, Caméra frontale : 8 MP.
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -136,39 +189,83 @@
 
                             $niveau1 = isset($sponsors["niveau-1"]) ? $sponsors["niveau-1"] : [];
                             $niveau2 = isset($sponsors["niveau-2"]) ? $sponsors["niveau-2"] : [];
+
+                            if (count($niveau1) == 0 && count($niveau2) == 0) {
+                                $niveau1 = isset($sponsors["niveau-3"]) ? $sponsors["niveau-3"] : [];
+                                $niveau2 = isset($sponsors["niveau-4"]) ? $sponsors["niveau-4"] : [];
+                            }
+
+                            // $niveau3 = isset($sponsors["niveau-3"]) ? $sponsors["niveau-3"] : [];
+                            // $niveau4 = isset($sponsors["niveau-4"]) ? $sponsors["niveau-4"] : [];
                         ?>
                             <div class="parain-tree-header"> <span>Filleuls </span> <i class="fa fa-minus"></i></div>
                             <div id="parain-tree-list">
                                 <!-- 2.1- Liste des fileuls -->
-                                <div class="fileul-wrap">
-                                    <h3>Package 1 <span style="font-size: 14px" class="badge badge-secondary"> <?php echo $niveau1_lenght; ?> </span> </h3>
-                                    <?php
-                                    foreach ($niveau1 as $key) {
-                                    ?>
-                                        <div class="fileul">
-                                            <div class="fileul-data">
-                                                <div><?php echo $key["first_name"] . ' ' . $key['last_name']; ?></div>
-                                                <div><?php echo $key['type']; ?></div>
-                                                <div><?php echo $key['email']; ?></div>
+                                <?php
+                                if ($niveau1_lenght != 0) {
+
+                                ?>
+                                    <div class="fileul-wrap">
+                                        <h3>
+                                            <?php
+
+
+                                            if ($subscribedPackage['package']['slug'] != "niveau-1" && $subscribedPackage['package']['slug'] != "niveau-2") {
+                                                echo $subscribedPackage['package']['designation'];
+                                            } else {
+
+                                                echo "Package 1";
+                                            }
+
+                                            ?>
+                                            <span style="font-size: 14px" class="badge badge-secondary"> <?php echo $niveau1_lenght; ?> </span>
+                                        </h3>
+                                        <?php
+                                        foreach ($niveau1 as $key) {
+                                        ?>
+                                            <div class="fileul">
+                                                <div class="fileul-data">
+                                                    <div><?php echo $key["first_name"] . ' ' . $key['last_name']; ?></div>
+                                                    <div><?php echo $key['type']; ?></div>
+                                                    <div><?php echo $key['email']; ?></div>
+                                                </div>
                                             </div>
-                                        </div>
-                                    <?php } ?>
-                                </div>
-                                <div class="fileul-wrap">
-                                    <h3>Package 2 <span style="font-size: 14px" class="badge badge-secondary"> <?php echo $niveau2_lenght; ?> </span> </h3>
-                                    <?php
-                                    foreach ($niveau2 as $key) {
-                                        //var_dump($key);
-                                    ?>
-                                        <div class="fileul">
-                                            <div class="fileul-data">
-                                                <div><?php echo $key["first_name"] . ' ' . $key['last_name']; ?></div>
-                                                <div><?php echo $key['type']; ?></div>
-                                                <div><?php echo $key['email']; ?></div>
+                                        <?php } ?>
+                                    </div>
+                                <?php } ?>
+                                <?php
+                                if ($niveau2_lenght != 0) {
+
+                                ?>
+                                    <div class="fileul-wrap">
+                                        <h3>
+                                            <?php
+
+
+                                            if ($subscribedPackage['package']['slug'] != "niveau-1" && $subscribedPackage['package']['slug'] != "niveau-2") {
+                                                echo $subscribedPackage['package']['designation'];
+                                            } else {
+
+                                                echo "Package 2";
+                                            }
+
+                                            ?>
+                                            <span style="font-size: 14px" class="badge badge-secondary"> <?php echo $niveau2_lenght; ?> </span>
+                                        </h3>
+                                        <?php
+                                        foreach ($niveau2 as $key) {
+                                            //var_dump($key);
+                                        ?>
+                                            <div class="fileul">
+                                                <div class="fileul-data">
+                                                    <div><?php echo $key["first_name"] . ' ' . $key['last_name']; ?></div>
+                                                    <div><?php echo $key['type']; ?></div>
+                                                    <div><?php echo $key['email']; ?></div>
+                                                </div>
                                             </div>
-                                        </div>
-                                    <?php } ?>
-                                </div>
+                                        <?php } ?>
+                                    </div>
+                                <?php } ?>
                             <?php } else { ?>
                                 <h4>
                                     Pas de filleuls !

@@ -22,6 +22,21 @@ class CoursesController extends Controller
         echo view('templates/footer', $data);
     }
 
+    public function getCoursesByTrainingGroup($training_group_slug = null)
+    {
+        $model = new CoursesModel();
+        $data = [
+            'courses' => $model->findBy('training_group_slug', $training_group_slug),
+            'title' => 'Cours',
+            'currentPage' => 'formations',
+        ];
+
+        echo view('templates/header', $data);
+        echo view('templates/nav', $data);
+        echo view('pages/courses', $data);
+        echo view('templates/footer', $data);
+    }
+
     public function show($slug = NULL)
     {
         $model = new CoursesModel();

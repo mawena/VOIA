@@ -50,7 +50,7 @@
         #prix img:hover {
             scale: 1.1;
             border-radius: 5px;
-            z-index:1;
+            z-index: 1;
         }
 
         #prix img:nth-child(1) {
@@ -104,20 +104,19 @@
             transform: translate3d(-100%, 0, 0);
         }
     }
-    
 </style>
 
 
 <div class="container">
-    
+
     <div id="home-presentation">
         <div>
             <h2>Bienvenue
                 <hr />
             </h2>
             <div style="text-align: justify;">
-                Bienvenue au programme de Vulgarisation de l’Outil Informatique en Afrique(VOIA). <br/>
-En participant à notre formation sur les métiers du digital, bénéficiez de connaissances pratiques sur 7 modules en plus de l’opportunité de gagner le téléphone ci-dessous.
+                Bienvenue au programme de Vulgarisation de l’Outil Informatique en Afrique(VOIA). <br />
+                En participant à notre formation sur les métiers du digital, bénéficiez de connaissances pratiques sur 7 modules en plus de l’opportunité de gagner le téléphone ci-dessous.
             </div>
 
         </div>
@@ -162,30 +161,31 @@ En participant à notre formation sur les métiers du digital, bénéficiez de c
     <div class="marquee-rtl">
         <div>Bénéficiez de toutes ces <a href="/cours"> <strong style="color:black;">formations</strong> </a> à 5.000 Fcfa ou 10.000 Fcfa selon le niveau pour lequel vous optez</div>
     </div>
-    
+
     <div class="card-wrapper">
-    <?php 
-    
-    function idSelect($list){
-        $id ='';
+        <?php
 
-        switch (count($list)) {
-            case 1:
-                $id ="card-1";
-                break;
+        function idSelect($list)
+        {
+            $id = '';
 
-            default:
-                $id ="card-2";
-                break;
+            switch (count($list)) {
+                case 1:
+                    $id = "card-1";
+                    break;
+
+                default:
+                    $id = "card-2";
+                    break;
+            }
+
+            return $id;
         }
-        
-        return $id;
-    }
-    ?>
+        ?>
 
         <?php foreach ($trainings as $training_item) : ?>
-            <div class="card" id=<?php echo idSelect($trainings); ?> >
-                <img src="/Images/backgrounds/bg-2.jpg" alt="card background" class="card-img">
+            <div class="card" id=<?php echo idSelect($trainings); ?>>
+                <img src="/Images/trainings/<?= esc($training_item['slug'] . '_bg.png') ?>" alt="card background" class="card-img">
                 <img src="/Images/trainings/<?= esc($training_item['slug']); ?>.png" alt="profile image" class="profile-img">
                 <h1><?= esc($training_item['name']) ?></h1>
                 <p class="job-title">
@@ -199,13 +199,13 @@ En participant à notre formation sur les métiers du digital, bénéficiez de c
                 <p class="about">
                     <?= word_limiter($training_item['description'], 300, "..."); ?>
                 </p>
-                <a href="/cours" class="btn">Voir Plus</a>
+                <a href="/cours/list/<?= esc($training_item['slug']) ?>" class="btn">Voir Plus</a>
             </div>
         <?php endforeach; ?>
     </div>
 </div>
 <script>
-    $('#cgu button.btn.btn-secondary').on("click", function(e){
+    $('#cgu button.btn.btn-secondary').on("click", function(e) {
         $("#cgu-box").slideUp()
     })
 </script>

@@ -361,6 +361,7 @@
                     <h4>
                         Communication Digitale
                     </h4>
+
                     <?php
 
                     if (isset($userWaitingArray) && !empty($userWaitingArray)) {
@@ -383,6 +384,14 @@
                                         echo ("<div > Package : 2</div>");
                                     } else if ($userwaiting["slugPackage"] == "niveau-1") {
                                         echo ("<div > Package : 1</div>");
+                                    } else if ($userwaiting["slugPackage"] == "niveau-3") {
+                                        echo ("<div > Package : 3</div>");
+                                    } else if ($userwaiting["slugPackage"] == "niveau-4") {
+                                        echo ("<div > Package : 4</div>");
+                                    } else if ($userwaiting["slugPackage"] == "niveau-3") {
+                                        echo ("<div > Package : 3</div>");
+                                    } else if ($userwaiting["slugPackage"] == "niveau-4") {
+                                        echo ("<div > Package : 4</div>");
                                     }
                                     ?>
                                 </div>
@@ -405,8 +414,10 @@
                     </h4>
                     <?php
 
-                    if (isset($userWaitingArray) && !empty($userWaitingArray)) {
-                        foreach ($userWaitingArray as $userwaiting) {
+                    $userWaitingArray_perlage = [];
+
+                    if (isset($userWaitingArray_perlage) && !empty($userWaitingArray_perlage)) {
+                        foreach ($userWaitingArray_perlage as $userwaiting) {
                             // var_dump($userwaiting);
                     ?>
                             <div class="card card-body bg-dark waiting-user">
@@ -425,6 +436,10 @@
                                         echo ("<div > Package : 2</div>");
                                     } else if ($userwaiting["slugPackage"] == "niveau-1") {
                                         echo ("<div > Package : 1</div>");
+                                    } else if ($userwaiting["slugPackage"] == "niveau-3") {
+                                        echo ("<div > Package : 3</div>");
+                                    } else if ($userwaiting["slugPackage"] == "niveau-4") {
+                                        echo ("<div > Package : 4</div>");
                                     }
                                     ?>
                                 </div>
@@ -446,9 +461,10 @@
                         Saponification
                     </h4>
                     <?php
+                    $userWaitingArray_saponification = [];
 
-                    if (isset($userWaitingArray) && !empty($userWaitingArray)) {
-                        foreach ($userWaitingArray as $userwaiting) {
+                    if (isset($userWaitingArray_saponification) && !empty($userWaitingArray_saponification)) {
+                        foreach ($userWaitingArray_saponification as $userwaiting) {
                             // var_dump($userwaiting);
                     ?>
                             <div class="card card-body bg-dark waiting-user">
@@ -467,6 +483,14 @@
                                         echo ("<div > Package : 2</div>");
                                     } else if ($userwaiting["slugPackage"] == "niveau-1") {
                                         echo ("<div > Package : 1</div>");
+                                    } else if ($userwaiting["slugPackage"] == "niveau-3") {
+                                        echo ("<div > Package : 3</div>");
+                                    } else if ($userwaiting["slugPackage"] == "niveau-4") {
+                                        echo ("<div > Package : 4</div>");
+                                    } else if ($userwaiting["slugPackage"] == "niveau-3") {
+                                        echo ("<div > Package : 3</div>");
+                                    } else if ($userwaiting["slugPackage"] == "niveau-4") {
+                                        echo ("<div > Package : 4</div>");
                                     }
                                     ?>
                                 </div>
@@ -522,6 +546,7 @@
                         Communication Digitale
                     </h4>
                     <?php
+
                     if (isset($validateUserArray) && !empty($validateUserArray))
                         foreach ($validateUserArray as $user) {
                     ?>
@@ -538,22 +563,31 @@
                                 <?php echo ("<div >Pays : " . $user["country"] . "</div>"); ?>
                                 <?php echo ("<div >" . $user["package"]["designation"] . "</div>"); ?>
                                 <?php echo ("<div >Parrain : " . $user["parrain"]["last_name"] . ' ' . $user["parrain"]["first_name"] . "</div>"); ?>
-                                <?php echo ("<div >Parrain originale : " . $user["original_parrain"] . "</div>"); ?>
+                                <?php echo $user["original_parrain"] ? ("<div >Parrain originale : " . $user["original_parrain"] . "</div>") : null  ?>
+                                <?php echo ("<div >Date de validation : " . $user["admissionDate"] . "</div>"); ?>
                             </div>
                             <div>
                                 <button title="Supprimer"> &times; </button>
                             </div>
                         </div>
+                    <?php }
+                    else { ?>
+                        <h5>
+                            Il y'a personne ici
+                        </h5>
                     <?php } ?>
                 </div>
+                <hr>
 
                 <div id="valides-perlage">
                     <h4>
                         Perlage
                     </h4>
                     <?php
-                    if (isset($validateUserArray) && !empty($validateUserArray))
-                        foreach ($validateUserArray as $user) {
+                    $validateUserArray_perlage = [];
+
+                    if (isset($validateUserArray_perlage) && !empty($validateUserArray_perlage))
+                        foreach ($validateUserArray_perlage as $user) {
                     ?>
                         <div class="card card-body bg-dark user">
                             <div>
@@ -573,16 +607,24 @@
                                 <button title="Supprimer"> &times; </button>
                             </div>
                         </div>
+                    <?php }
+                    else { ?>
+                        <h5>
+                            Il y'a personne ici
+                        </h5>
                     <?php } ?>
                 </div>
+                <hr>
 
                 <div id="valides-sapo">
                     <h4>
                         Saponification
                     </h4>
                     <?php
-                    if (isset($validateUserArray) && !empty($validateUserArray))
-                        foreach ($validateUserArray as $user) {
+                    $validateUserArray_saponification = [];
+
+                    if (isset($validateUserArray_saponification) && !empty($validateUserArray_saponification))
+                        foreach ($validateUserArray_saponification as $user) {
                     ?>
                         <div class="card card-body bg-dark user">
                             <div>
@@ -602,6 +644,11 @@
                                 <button title="Supprimer"> &times; </button>
                             </div>
                         </div>
+                    <?php }
+                    else { ?>
+                        <h5>
+                            Il y'a personne ici
+                        </h5>
                     <?php } ?>
                 </div>
             </div>

@@ -48,9 +48,10 @@ $routes->get("/admin/connexion", "SuperAdminsController::superAdminConnexion");
 $routes->get('/inscription', 'RegistrationController::registration');
 $routes->get('/inscription/(:segment)/(:segment)', 'RegistrationController::registration/$1/$2');
 
-$routes->get('/cours', 'CoursesController::index');
+// $routes->get('/cours', 'CoursesController::index');
 $routes->post('/cours', 'CoursesController::search');
 $routes->get('/cours/(:segment)', 'CoursesController::show/$1');
+$routes->get('/cours/list/(:segment)', 'CoursesController::getCoursesByTrainingGroup/$1');
 
 $routes->get('/dashboard', 'DashboardController::dashboard');
 $routes->get("/admin/dashboard", "SuperAdminsController::superAdminDashboard");
