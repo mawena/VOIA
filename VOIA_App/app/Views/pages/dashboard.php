@@ -56,7 +56,17 @@
                                     <?php //var_dump($subscribedPackage['package']);  
                                     ?>
 
-                                    <div>Package : <span> <?php echo $_SESSION["currentUser"]["type"] == 'communicateur' ? "Package 1, Package 2" : $subscribedPackage['package']["designation"]; ?> </span></div>
+                                    <div>Package :
+                                        <span>
+                                            <?php
+                                            if ($_SESSION["currentUser"]["type"] == 'communicateur' && ($subscribedPackage['package']["slug"] == 'niveau-1' && $subscribedPackage['package']["slug"] == 'niveau-2')) {
+                                                echo "Package 1, Package 2";
+                                            } else {
+                                                echo $subscribedPackage['package']["designation"];
+                                            }
+                                            ?>
+                                        </span>
+                                    </div>
                                     <?php echo $_SESSION["currentUser"]["type"] == 'communicateur' ? '' : "<div>Souscription : <span>" . $subscribedPackage['package']["price"] . " fr CFA</span></div>" ?>
 
                                     <div> Description du package :

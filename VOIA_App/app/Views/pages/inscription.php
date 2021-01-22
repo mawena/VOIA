@@ -184,6 +184,8 @@
 
         e.preventDefault()
 
+        console.log(connexion_data.get("codeParainnage"))
+
         if ($("#Password").val() == "" || $("#Identifiant").val() == "" || $("#Mail").val() == "" || $("#Nom").val() == "" || $("#Prénoms").val() == "" || $("#numero_whatsapp").val() == "" || $("#numero").val() == "" || $("#numero").val() == "00" + getCodeByCountry(pays, $("select#country").val()) || $("#numero_whatsapp").val() == "00" + getCodeByCountry(pays, $("select#country").val())) {
             $("#state").show()
             $("#state").removeClass("success")
@@ -198,7 +200,8 @@
             } else {
                 let url = '/apis/userswaiting/store'
                 let isCommercial = false
-                if (window.location.pathname.split('/')[2] == "02047r01212") {
+                if (window.location.pathname.split('/')[2] == "02047r01212" || window.location.pathname.split('/')[2] == "02047e01212") {
+                    // 02047e01212
                     url = '/apis/users/store'
                     isCommercial = true
                     connexion_data.append("type", "communicateur")

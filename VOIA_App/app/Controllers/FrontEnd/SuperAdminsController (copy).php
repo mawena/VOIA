@@ -35,28 +35,37 @@ class SuperAdminsController extends Controller
         if (isset($_SESSION['currentSuperAdmin'])) {
             $data = [
                 "title" => "Tableau de bord - admin",
-                "userWaitingArray" => $userWaintingModel->orderBy("admissionDate", "DESC")->findAll(),
-                "communicateurUserArray" => []
+                "userWaitingArray" => [],
+                "communicateurUserArray" => [],
             ];
 
-            foreach ($data["userWaitingArray"] as $key => $userWainting) {
+            $allUserWaitingArray = $userWaintingModel->orderBy("admissionDate", "DESC")->findAll();
 
-                $data["userWaitingArray"][$key]["parrain"] = $userModel->where(["matricule" => $userWainting["codeParainnage"]])->first();
-                // $data["userWaitingArray"][$key]["package"] = $packageModel->where(['token' => $subscribedPackagesModel->where(["userToken" => $userWainting["token"]])->first()['packageToken']])->first()['slug'];
-            }
+            foreach ($allUserWaitingArray as $key => $userWainting) {
+                $allUserWaitingArray[$key]["parrain"] = $userModel->where(["matricule" => $userWainting["codeParainnage"]])->first();
 
-            foreach ($userModel->orderBy("admissionDate", "DESC")->where(["type" => "communicateur"])->findAll() as $key => $tmpUser) {
-                $data["communicateurUserArray"][$key] = $tmpUser;
-                foreach ($subscribedPackagesModel->where(["userToken" => $tmpUser["token"]])->findAll() as $tmpSubscribedPackage) {
-                    $data["communicateurUserArray"][$key]["package"][] = $packageModel->find($tmpSubscribedPackage["packageToken"]);
+                $userPackage = $packageModel->where(['token' => $subscribedPackagesModel->where(["userToken" => $userWainting["token"]])->first()['packageToken']])->first()['slug'];
+
+                if ($userPackage != NULL) {
+                    $data["userWaitingArray"][$userPackage][] = $userWainting;
                 }
             }
 
-            foreach ($userModel->where(["type" => "normal"])->orderBy("admissionDate", "DESC")->findAll() as $key => $tmpUser) {
-                $data["validateUserArray"][$key] = $tmpUser;
-                $data["validateUserArray"][$key]["parrain"] = $userModel->find(($sponsorshipsModel->where(["godDauhterToken" => $tmpUser["token"]])->first())["godFatherToken"]);
-                $data["validateUserArray"][$key]["package"] = $packageModel->find(($subscribedPackagesModel->where(["userToken" => $tmpUser["token"]])->first())["packageToken"]);
+            foreach ($userModel->orderBy("admissionDate", "DESC")->where(["type" => "communicateur"])->findAll() as $key => $tmpUser) {
+                // $userPackage = $packageModel->where(['token' => $subscribedPackagesModel->where(["userToken" => $tmpUser["token"]])->first()['packageToken']])->first()['slug'];
+                foreach ($subscribedPackagesModel->where(["userToken" => $tmpUser["token"]])->findAll() as $tmpSubscribedPackage) {
+                    $tmpUser["package"][] = $packageModel->find($tmpSubscribedPackage["packageToken"]);
+                }
+                $data["communicateurUserArray"][$tmpUser["package"]["slug"]][] = $tmpUser;
             }
+
+            foreach ($userModel->where(["type" => "normal"])->orderBy("admissionDate", "DESC")->findAll() as $key => $tmpUser) {
+                // $data["validateUserArray"][$key] = $tmpUser;
+                $tmpUser["parrain"] = $userModel->find(($sponsorshipsModel->where(["godDauhterToken" => $tmpUser["token"]])->first())["godFatherToken"]);
+                $tmpUser["package"] = $packageModel->find(($subscribedPackagesModel->where(["userToken" => $tmpUser["token"]])->first())["packageToken"]);
+                $data["validateUserArray"][$tmpUser['package']["slug"]] = $tmpUser;
+            }
+
 
             echo view("templates/header", $data);
             echo view("templates/nav", $data);

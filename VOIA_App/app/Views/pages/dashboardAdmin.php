@@ -49,8 +49,7 @@
             display: none;
         }
 
-        /* #commerciaux-list-box {} */
-
+        /* Box */
         #communicateurs-list,
         #waiting-list,
         #valides-list,
@@ -60,6 +59,14 @@
             height: auto;
             margin-left: 10%;
             /* overflow-y: scroll; */
+        }
+
+        /* liste des communicateurs */
+        .communicateurs-list {
+            display: none;
+            width: 95%;
+            margin-left: 5%;
+            justify-content: space-between;
         }
 
         .communicateurs-item {
@@ -174,7 +181,6 @@
             display: none;
         }
 
-
         @media all and (max-width:700px) {
             #dashboard {
                 display: flex;
@@ -238,13 +244,16 @@
         }
 
         #left-side>div>div>div {
-            display: flex;
-            flex-direction: row;
-            justify-content: space-between;
-            align-items: center;
+            /* display: flex; */
+            /* flex-direction: row; */
+            /* justify-content: space-between; */
             border: 1px solid black;
             margin: 3px;
             padding: 10px;
+        }
+
+        #left-side>div>div>div {
+            cursor: pointer;
         }
 
         a>li>i {
@@ -310,31 +319,106 @@
             </div>
 
             <div id="commerciaux-list-box">
+                <!-- TODO: Ajouter le moyen de selectionner le type de commercial que l'on veut creer -->
                 <a href="#communicateurs">
                     <li style="display: flex;flex-direction:row;justify-content:space-between;align-items:center"><span><i class="fas fa-users"></i> Communicateurs <?php echo "<div class='badge badge-primary'>" . (!empty($communicateurUserArray) ? count($communicateurUserArray) : 0) . "</div>" ?> </span> <i title="Dérouler/Enrouler" style="font-size : 20px" class="fas fa-chevron-circle-left"></i> </li>
                 </a>
+
                 <div id="communicateurs-list">
-                    <?php
+                    <div>
+                        <span>
+                            COMMUNICATION DIGITALE
+                            <span class="badge badge-primary"> <?php echo count($communicateurUserArray) ?> </span>
+                        </span>
+                        <!-- <a href="#hors-systeme-com-digitale">COMMUNICATION DIGITALE</a> -->
+                    </div>
 
-                    use App\Libraries\Helper;
+                    <!-- Liste des commerciaux de com digitale -->
+                    <div class="communicateurs-list" style="flex-direction:column; border:none">
+                        <?php
 
-                    if (isset($communicateurUserArray) && !empty($communicateurUserArray)) {
-                        foreach ($communicateurUserArray as $key) {
-                            if (strtolower($key['first_name']) != "voia") {
-                    ?>
-                                <div class="communicateurs-item">
-                                    <div style="cursor:pointer;">
-                                        <?php echo "<div hidden >" . $key['token'] . "</div>" ?>
-                                        <?php echo "<div>" . $key['last_name'] . "</div>" ?>
-                                        <?php echo "<div>" . $key['first_name'] . "</div>" ?>
+                        use App\Libraries\Helper;
+
+                        if (isset($communicateurUserArray) && !empty($communicateurUserArray)) {
+                            foreach ($communicateurUserArray as $key) {
+                                if (strtolower($key['first_name']) != "voia") {
+                        ?>
+                                    <div class="communicateurs-item">
+                                        <div style="cursor:pointer;">
+                                            <?php echo "<div hidden >" . $key['token'] . "</div>" ?>
+                                            <?php echo "<div>" . $key['last_name'] . "</div>" ?>
+                                            <?php echo "<div>" . $key['first_name'] . "</div>" ?>
+                                        </div>
+                                        <div style="font-size : 14px; font-weight : bold; cursor:pointer;">
+                                            &times;
+                                        </div>
                                     </div>
-                                    <div style="font-size : 14px; font-weight : bold; cursor:pointer;">
-                                        &times;
-                                    </div>
-                                </div>
+                                <?php } ?>
                             <?php } ?>
                         <?php } ?>
-                    <?php } ?>
+                    </div>
+
+                    <div>
+                        <span>
+                            PERLAGE
+                            <span class="badge badge-primary"> <?php echo count($communicateurUserArray) ?> </span>
+                        </span>
+                        <!-- <a href="#hors-systeme-perlage">PERLAGE</a> -->
+                    </div>
+
+                    <!-- Liste des commerciaux de perlage -->
+                    <div class="communicateurs-list" style="flex-direction:column; border:none">
+                        <?php
+
+                        if (isset($communicateurUserArray) && !empty($communicateurUserArray)) {
+                            foreach ($communicateurUserArray as $key) {
+                                if (strtolower($key['first_name']) != "voia") {
+                        ?>
+                                    <div class="communicateurs-item">
+                                        <div style="cursor:pointer;">
+                                            <?php echo "<div hidden >" . $key['token'] . "</div>" ?>
+                                            <?php echo "<div>" . $key['last_name'] . "</div>" ?>
+                                            <?php echo "<div>" . $key['first_name'] . "</div>" ?>
+                                        </div>
+                                        <div style="font-size : 14px; font-weight : bold; cursor:pointer;">
+                                            &times;
+                                        </div>
+                                    </div>
+                                <?php } ?>
+                            <?php } ?>
+                        <?php } ?>
+                    </div>
+
+                    <div>
+                        <span>
+                            SAPONNIFICATION
+                            <span class="badge badge-primary"> <?php echo count($communicateurUserArray) ?> </span>
+                        </span>
+                        <!-- <a href="#hors-systeme-sapo">SAPONNIFICATION</a> -->
+                    </div>
+
+                    <!-- Liste des commerciaux de sapo -->
+                    <div class="communicateurs-list" style="flex-direction:column; border:none">
+                        <?php
+
+                        if (isset($communicateurUserArray) && !empty($communicateurUserArray)) {
+                            foreach ($communicateurUserArray as $key) {
+                                if (strtolower($key['first_name']) != "voia") {
+                        ?>
+                                    <div class="communicateurs-item">
+                                        <div style="cursor:pointer;">
+                                            <?php echo "<div hidden >" . $key['token'] . "</div>" ?>
+                                            <?php echo "<div>" . $key['last_name'] . "</div>" ?>
+                                            <?php echo "<div>" . $key['first_name'] . "</div>" ?>
+                                        </div>
+                                        <div style="font-size : 14px; font-weight : bold; cursor:pointer;">
+                                            &times;
+                                        </div>
+                                    </div>
+                                <?php } ?>
+                            <?php } ?>
+                        <?php } ?>
+                    </div>
                 </div>
             </div>
 
@@ -366,41 +450,40 @@
 
                     if (isset($userWaitingArray) && !empty($userWaitingArray)) {
                         foreach ($userWaitingArray as $userwaiting) {
-                            // var_dump($userwaiting);
+                            if ($userwaiting["slugPackage"] == 'niveau-1' || $userwaiting["slugPackage"] == 'niveau-2') {
+
+                                // var_dump($userwaiting);
                     ?>
-                            <div class="card card-body bg-dark waiting-user">
-                                <div>
-                                    <?php echo ("<div > Nom : " . $userwaiting["first_name"] . " " . $userwaiting['last_name'] . "</div>"); ?>
-                                    <?php echo ("<div hidden >" . $userwaiting["token"] . "</div>"); ?>
-                                    <?php echo ("<div >Email : " . $userwaiting["email"] . "</div>"); ?>
-                                    <?php echo ("<div >Sexe : " . $userwaiting["sex"] . "</div>"); ?>
-                                    <?php echo ("<div >Tel : " . $userwaiting["phoneNumber"] . "</div>"); ?>
-                                    <?php echo ("<div >Whatsapp : " . $userwaiting["whatsappNumber"] . "</div>"); ?>
-                                    <?php echo ("<div >Pays : " . $userwaiting["country"] . "</div>"); ?>
-                                    <?php echo ("<div > Date : " . $userwaiting["admissionDate"] . "</div>"); ?>
-                                    <?php echo ("<div > Parrain : " . $userwaiting["parrain"]["last_name"] . " " . $userwaiting["parrain"]["first_name"] . "</div>"); ?>
-                                    <?php
-                                    if ($userwaiting["slugPackage"] == "niveau-2") {
-                                        echo ("<div > Package : 2</div>");
-                                    } else if ($userwaiting["slugPackage"] == "niveau-1") {
-                                        echo ("<div > Package : 1</div>");
-                                    } else if ($userwaiting["slugPackage"] == "niveau-3") {
-                                        echo ("<div > Package : 3</div>");
-                                    } else if ($userwaiting["slugPackage"] == "niveau-4") {
-                                        echo ("<div > Package : 4</div>");
-                                    } else if ($userwaiting["slugPackage"] == "niveau-3") {
-                                        echo ("<div > Package : 3</div>");
-                                    } else if ($userwaiting["slugPackage"] == "niveau-4") {
-                                        echo ("<div > Package : 4</div>");
-                                    }
-                                    ?>
+                                <div class="card card-body bg-dark waiting-user">
+                                    <div>
+                                        <?php echo ("<div > Nom : " . $userwaiting["first_name"] . " " . $userwaiting['last_name'] . "</div>"); ?>
+                                        <?php echo ("<div hidden >" . $userwaiting["token"] . "</div>"); ?>
+                                        <?php echo ("<div >Email : " . $userwaiting["email"] . "</div>"); ?>
+                                        <?php echo ("<div >Sexe : " . $userwaiting["sex"] . "</div>"); ?>
+                                        <?php echo ("<div >Tel : " . $userwaiting["phoneNumber"] . "</div>"); ?>
+                                        <?php echo ("<div >Whatsapp : " . $userwaiting["whatsappNumber"] . "</div>"); ?>
+                                        <?php echo ("<div >Pays : " . $userwaiting["country"] . "</div>"); ?>
+                                        <?php echo ("<div > Date : " . $userwaiting["admissionDate"] . "</div>"); ?>
+                                        <?php echo ("<div > Parrain : " . $userwaiting["parrain"]["last_name"] . " " . $userwaiting["parrain"]["first_name"] . "</div>"); ?>
+                                        <?php
+                                        if ($userwaiting["slugPackage"] == "niveau-2") {
+                                            echo ("<div > Package : 2</div>");
+                                        } else if ($userwaiting["slugPackage"] == "niveau-1") {
+                                            echo ("<div > Package : 1</div>");
+                                        } else if ($userwaiting["slugPackage"] == "niveau-3") {
+                                            echo ("<div > Package : 3</div>");
+                                        } else if ($userwaiting["slugPackage"] == "niveau-4") {
+                                            echo ("<div > Package : 4</div>");
+                                        }
+                                        ?>
+                                    </div>
+                                    <div>
+                                        <button title="Valider"> <i class="fa fa-check"></i> </button>
+                                        <button title="Supprimer"> &times; </button>
+                                    </div>
                                 </div>
-                                <div>
-                                    <button title="Valider"> <i class="fa fa-check"></i> </button>
-                                    <button title="Supprimer"> &times; </button>
-                                </div>
-                            </div>
-                        <?php } ?>
+                        <?php }
+                        } ?>
                     <?php } else { ?>
                         <h5>Il n'y a personne ici !</h5>
                     <?php } ?>
@@ -414,41 +497,41 @@
                     </h4>
                     <?php
 
-                    $userWaitingArray_perlage = [];
-
-                    if (isset($userWaitingArray_perlage) && !empty($userWaitingArray_perlage)) {
-                        foreach ($userWaitingArray_perlage as $userwaiting) {
-                            // var_dump($userwaiting);
+                    if (isset($userWaitingArray) && !empty($userWaitingArray)) {
+                        foreach ($userWaitingArray as $userwaiting) {
+                            if ($userwaiting["slugPackage"] == 'niveau-3') {
+                                // var_dump($userwaiting);
                     ?>
-                            <div class="card card-body bg-dark waiting-user">
-                                <div>
-                                    <?php echo ("<div > Nom : " . $userwaiting["first_name"] . " " . $userwaiting['last_name'] . "</div>"); ?>
-                                    <?php echo ("<div hidden >" . $userwaiting["token"] . "</div>"); ?>
-                                    <?php echo ("<div >Email : " . $userwaiting["email"] . "</div>"); ?>
-                                    <?php echo ("<div >Sexe : " . $userwaiting["sex"] . "</div>"); ?>
-                                    <?php echo ("<div >Tel : " . $userwaiting["phoneNumber"] . "</div>"); ?>
-                                    <?php echo ("<div >Whatsapp : " . $userwaiting["whatsappNumber"] . "</div>"); ?>
-                                    <?php echo ("<div >Pays : " . $userwaiting["country"] . "</div>"); ?>
-                                    <?php echo ("<div > Date : " . $userwaiting["admissionDate"] . "</div>"); ?>
-                                    <?php echo ("<div > Parrain : " . $userwaiting["parrain"]["last_name"] . " " . $userwaiting["parrain"]["first_name"] . "</div>"); ?>
-                                    <?php
-                                    if ($userwaiting["slugPackage"] == "niveau-2") {
-                                        echo ("<div > Package : 2</div>");
-                                    } else if ($userwaiting["slugPackage"] == "niveau-1") {
-                                        echo ("<div > Package : 1</div>");
-                                    } else if ($userwaiting["slugPackage"] == "niveau-3") {
-                                        echo ("<div > Package : 3</div>");
-                                    } else if ($userwaiting["slugPackage"] == "niveau-4") {
-                                        echo ("<div > Package : 4</div>");
-                                    }
-                                    ?>
+                                <div class="card card-body bg-dark waiting-user">
+                                    <div>
+                                        <?php echo ("<div > Nom : " . $userwaiting["first_name"] . " " . $userwaiting['last_name'] . "</div>"); ?>
+                                        <?php echo ("<div hidden >" . $userwaiting["token"] . "</div>"); ?>
+                                        <?php echo ("<div >Email : " . $userwaiting["email"] . "</div>"); ?>
+                                        <?php echo ("<div >Sexe : " . $userwaiting["sex"] . "</div>"); ?>
+                                        <?php echo ("<div >Tel : " . $userwaiting["phoneNumber"] . "</div>"); ?>
+                                        <?php echo ("<div >Whatsapp : " . $userwaiting["whatsappNumber"] . "</div>"); ?>
+                                        <?php echo ("<div >Pays : " . $userwaiting["country"] . "</div>"); ?>
+                                        <?php echo ("<div > Date : " . $userwaiting["admissionDate"] . "</div>"); ?>
+                                        <?php echo ("<div > Parrain : " . $userwaiting["parrain"]["last_name"] . " " . $userwaiting["parrain"]["first_name"] . "</div>"); ?>
+                                        <?php
+                                        if ($userwaiting["slugPackage"] == "niveau-2") {
+                                            echo ("<div > Package : 2</div>");
+                                        } else if ($userwaiting["slugPackage"] == "niveau-1") {
+                                            echo ("<div > Package : 1</div>");
+                                        } else if ($userwaiting["slugPackage"] == "niveau-3") {
+                                            echo ("<div > Package : 3</div>");
+                                        } else if ($userwaiting["slugPackage"] == "niveau-4") {
+                                            echo ("<div > Package : 4</div>");
+                                        }
+                                        ?>
+                                    </div>
+                                    <div>
+                                        <button title="Valider"> <i class="fa fa-check"></i> </button>
+                                        <button title="Supprimer"> &times; </button>
+                                    </div>
                                 </div>
-                                <div>
-                                    <button title="Valider"> <i class="fa fa-check"></i> </button>
-                                    <button title="Supprimer"> &times; </button>
-                                </div>
-                            </div>
-                        <?php } ?>
+                        <?php }
+                        } ?>
                     <?php } else { ?>
                         <h5>Il n'y a personne ici !</h5>
                     <?php } ?>
@@ -461,45 +544,42 @@
                         Saponification
                     </h4>
                     <?php
-                    $userWaitingArray_saponification = [];
 
-                    if (isset($userWaitingArray_saponification) && !empty($userWaitingArray_saponification)) {
-                        foreach ($userWaitingArray_saponification as $userwaiting) {
-                            // var_dump($userwaiting);
+                    if (isset($userWaitingArray) && !empty($userWaitingArray)) {
+                        foreach ($userWaitingArray as $userwaiting) {
+                            if ($userwaiting["slugPackage"] == 'niveau-4') {
+                                // var_dump($userwaiting);
                     ?>
-                            <div class="card card-body bg-dark waiting-user">
-                                <div>
-                                    <?php echo ("<div > Nom : " . $userwaiting["first_name"] . " " . $userwaiting['last_name'] . "</div>"); ?>
-                                    <?php echo ("<div hidden >" . $userwaiting["token"] . "</div>"); ?>
-                                    <?php echo ("<div >Email : " . $userwaiting["email"] . "</div>"); ?>
-                                    <?php echo ("<div >Sexe : " . $userwaiting["sex"] . "</div>"); ?>
-                                    <?php echo ("<div >Tel : " . $userwaiting["phoneNumber"] . "</div>"); ?>
-                                    <?php echo ("<div >Whatsapp : " . $userwaiting["whatsappNumber"] . "</div>"); ?>
-                                    <?php echo ("<div >Pays : " . $userwaiting["country"] . "</div>"); ?>
-                                    <?php echo ("<div > Date : " . $userwaiting["admissionDate"] . "</div>"); ?>
-                                    <?php echo ("<div > Parrain : " . $userwaiting["parrain"]["last_name"] . " " . $userwaiting["parrain"]["first_name"] . "</div>"); ?>
-                                    <?php
-                                    if ($userwaiting["slugPackage"] == "niveau-2") {
-                                        echo ("<div > Package : 2</div>");
-                                    } else if ($userwaiting["slugPackage"] == "niveau-1") {
-                                        echo ("<div > Package : 1</div>");
-                                    } else if ($userwaiting["slugPackage"] == "niveau-3") {
-                                        echo ("<div > Package : 3</div>");
-                                    } else if ($userwaiting["slugPackage"] == "niveau-4") {
-                                        echo ("<div > Package : 4</div>");
-                                    } else if ($userwaiting["slugPackage"] == "niveau-3") {
-                                        echo ("<div > Package : 3</div>");
-                                    } else if ($userwaiting["slugPackage"] == "niveau-4") {
-                                        echo ("<div > Package : 4</div>");
-                                    }
-                                    ?>
+                                <div class="card card-body bg-dark waiting-user">
+                                    <div>
+                                        <?php echo ("<div > Nom : " . $userwaiting["first_name"] . " " . $userwaiting['last_name'] . "</div>"); ?>
+                                        <?php echo ("<div hidden >" . $userwaiting["token"] . "</div>"); ?>
+                                        <?php echo ("<div >Email : " . $userwaiting["email"] . "</div>"); ?>
+                                        <?php echo ("<div >Sexe : " . $userwaiting["sex"] . "</div>"); ?>
+                                        <?php echo ("<div >Tel : " . $userwaiting["phoneNumber"] . "</div>"); ?>
+                                        <?php echo ("<div >Whatsapp : " . $userwaiting["whatsappNumber"] . "</div>"); ?>
+                                        <?php echo ("<div >Pays : " . $userwaiting["country"] . "</div>"); ?>
+                                        <?php echo ("<div > Date : " . $userwaiting["admissionDate"] . "</div>"); ?>
+                                        <?php echo ("<div > Parrain : " . $userwaiting["parrain"]["last_name"] . " " . $userwaiting["parrain"]["first_name"] . "</div>"); ?>
+                                        <?php
+                                        if ($userwaiting["slugPackage"] == "niveau-2") {
+                                            echo ("<div > Package : 2</div>");
+                                        } else if ($userwaiting["slugPackage"] == "niveau-1") {
+                                            echo ("<div > Package : 1</div>");
+                                        } else if ($userwaiting["slugPackage"] == "niveau-3") {
+                                            echo ("<div > Package : 3</div>");
+                                        } else if ($userwaiting["slugPackage"] == "niveau-4") {
+                                            echo ("<div > Package : 4</div>");
+                                        }
+                                        ?>
+                                    </div>
+                                    <div>
+                                        <button title="Valider"> <i class="fa fa-check"></i> </button>
+                                        <button title="Supprimer"> &times; </button>
+                                    </div>
                                 </div>
-                                <div>
-                                    <button title="Valider"> <i class="fa fa-check"></i> </button>
-                                    <button title="Supprimer"> &times; </button>
-                                </div>
-                            </div>
-                        <?php } ?>
+                        <?php }
+                        } ?>
                     <?php } else { ?>
                         <h5>Il n'y a personne ici !</h5>
                     <?php } ?>
@@ -549,28 +629,29 @@
 
                     if (isset($validateUserArray) && !empty($validateUserArray))
                         foreach ($validateUserArray as $user) {
+                            if ($user["package"]["slug"] == 'niveau-1' || $user["package"]["slug"] == 'niveau-2') {
                     ?>
-                        <div class="card card-body bg-dark user">
-                            <div>
-                                <?php echo "<div hidden >" . $user['token'] . "</div>" ?>
-                                <?php echo "<div> Nom : " . $user['last_name'] . "</div>" ?>
-                                <?php echo "<div> Prenom : " . $user['first_name'] . "</div>" ?>
-                                <?php echo "<div> Sexe : " . $user['sex'] . "</div>" ?>
-                                <?php echo "<div> Package : " . $user["package"]['designation'] . "</div>" ?>
-                                <?php echo "<div> Email : " . $user['email'] . "</div>" ?>
-                                <?php echo ("<div >Tel : " . $user["phoneNumber"] . "</div>"); ?>
-                                <?php echo ("<div >Whatsapp : " . $user["whatsappNumber"] . "</div>"); ?>
-                                <?php echo ("<div >Pays : " . $user["country"] . "</div>"); ?>
-                                <?php echo ("<div >" . $user["package"]["designation"] . "</div>"); ?>
-                                <?php echo ("<div >Parrain : " . $user["parrain"]["last_name"] . ' ' . $user["parrain"]["first_name"] . "</div>"); ?>
-                                <?php echo $user["original_parrain"] ? ("<div >Parrain originale : " . $user["original_parrain"] . "</div>") : null  ?>
-                                <?php echo ("<div >Date de validation : " . $user["admissionDate"] . "</div>"); ?>
+                            <div class="card card-body bg-dark user">
+                                <div>
+                                    <?php echo "<div hidden >" . $user['token'] . "</div>" ?>
+                                    <?php echo "<div> Nom : " . $user['last_name'] . "</div>" ?>
+                                    <?php echo "<div> Prenom : " . $user['first_name'] . "</div>" ?>
+                                    <?php echo "<div> Sexe : " . $user['sex'] . "</div>" ?>
+                                    <?php echo "<div> Email : " . $user['email'] . "</div>" ?>
+                                    <?php echo ("<div >Tel : " . $user["phoneNumber"] . "</div>"); ?>
+                                    <?php echo ("<div >Whatsapp : " . $user["whatsappNumber"] . "</div>"); ?>
+                                    <?php echo ("<div >Pays : " . $user["country"] . "</div>"); ?>
+                                    <?php echo ("<div >" . $user["package"]["designation"] . "</div>"); ?>
+                                    <?php echo ("<div >Parrain : " . $user["parrain"]["last_name"] . ' ' . $user["parrain"]["first_name"] . "</div>"); ?>
+                                    <?php echo $user["original_parrain"] ? ("<div >Parrain originale : " . $user["original_parrain"] . "</div>") : null  ?>
+                                    <?php echo ("<div >Date de validation : " . $user["admissionDate"] . "</div>"); ?>
+                                </div>
+                                <div>
+                                    <button title="Supprimer"> &times; </button>
+                                </div>
                             </div>
-                            <div>
-                                <button title="Supprimer"> &times; </button>
-                            </div>
-                        </div>
-                    <?php }
+                        <?php }
+                        }
                     else { ?>
                         <h5>
                             Il y'a personne ici
@@ -584,30 +665,32 @@
                         Perlage
                     </h4>
                     <?php
-                    $validateUserArray_perlage = [];
 
-                    if (isset($validateUserArray_perlage) && !empty($validateUserArray_perlage))
-                        foreach ($validateUserArray_perlage as $user) {
+                    if (isset($validateUserArray) && !empty($validateUserArray))
+                        foreach ($validateUserArray as $user) {
+
+                            if ($user["package"]["slug"] == 'niveau-3') {
+
                     ?>
-                        <div class="card card-body bg-dark user">
-                            <div>
-                                <?php echo "<div hidden >" . $user['token'] . "</div>" ?>
-                                <?php echo "<div> Nom : " . $user['last_name'] . "</div>" ?>
-                                <?php echo "<div> Prenom : " . $user['first_name'] . "</div>" ?>
-                                <?php echo "<div> Sexe : " . $user['sex'] . "</div>" ?>
-                                <?php echo "<div> Package : " . $user["package"]['designation'] . "</div>" ?>
-                                <?php echo "<div> Email : " . $user['email'] . "</div>" ?>
-                                <?php echo ("<div >Tel : " . $user["phoneNumber"] . "</div>"); ?>
-                                <?php echo ("<div >Whatsapp : " . $user["whatsappNumber"] . "</div>"); ?>
-                                <?php echo ("<div >Pays : " . $user["country"] . "</div>"); ?>
-                                <?php echo ("<div >" . $user["package"]["designation"] . "</div>"); ?>
-                                <?php echo ("<div >Parrain : " . $user["parrain"]["last_name"] . ' ' . $user["parrain"]["first_name"] . "</div>"); ?>
+                            <div class="card card-body bg-dark user">
+                                <div>
+                                    <?php echo "<div hidden >" . $user['token'] . "</div>" ?>
+                                    <?php echo "<div> Nom : " . $user['last_name'] . "</div>" ?>
+                                    <?php echo "<div> Prenom : " . $user['first_name'] . "</div>" ?>
+                                    <?php echo "<div> Sexe : " . $user['sex'] . "</div>" ?>
+                                    <?php echo "<div> Email : " . $user['email'] . "</div>" ?>
+                                    <?php echo ("<div >Tel : " . $user["phoneNumber"] . "</div>"); ?>
+                                    <?php echo ("<div >Whatsapp : " . $user["whatsappNumber"] . "</div>"); ?>
+                                    <?php echo ("<div >Pays : " . $user["country"] . "</div>"); ?>
+                                    <?php echo ("<div >" . $user["package"]["designation"] . "</div>"); ?>
+                                    <?php echo ("<div >Parrain : " . $user["parrain"]["last_name"] . ' ' . $user["parrain"]["first_name"] . "</div>"); ?>
+                                </div>
+                                <div>
+                                    <button title="Supprimer"> &times; </button>
+                                </div>
                             </div>
-                            <div>
-                                <button title="Supprimer"> &times; </button>
-                            </div>
-                        </div>
-                    <?php }
+                        <?php }
+                        }
                     else { ?>
                         <h5>
                             Il y'a personne ici
@@ -621,30 +704,31 @@
                         Saponification
                     </h4>
                     <?php
-                    $validateUserArray_saponification = [];
 
-                    if (isset($validateUserArray_saponification) && !empty($validateUserArray_saponification))
-                        foreach ($validateUserArray_saponification as $user) {
+                    if (isset($validateUserArray) && !empty($validateUserArray))
+                        foreach ($validateUserArray as $user) {
+                            if ($user["package"]["slug"] == 'niveau-4') {
+
                     ?>
-                        <div class="card card-body bg-dark user">
-                            <div>
-                                <?php echo "<div hidden >" . $user['token'] . "</div>" ?>
-                                <?php echo "<div> Nom : " . $user['last_name'] . "</div>" ?>
-                                <?php echo "<div> Prenom : " . $user['first_name'] . "</div>" ?>
-                                <?php echo "<div> Sexe : " . $user['sex'] . "</div>" ?>
-                                <?php echo "<div> Package : " . $user["package"]['designation'] . "</div>" ?>
-                                <?php echo "<div> Email : " . $user['email'] . "</div>" ?>
-                                <?php echo ("<div >Tel : " . $user["phoneNumber"] . "</div>"); ?>
-                                <?php echo ("<div >Whatsapp : " . $user["whatsappNumber"] . "</div>"); ?>
-                                <?php echo ("<div >Pays : " . $user["country"] . "</div>"); ?>
-                                <?php echo ("<div >" . $user["package"]["designation"] . "</div>"); ?>
-                                <?php echo ("<div >Parrain : " . $user["parrain"]["last_name"] . ' ' . $user["parrain"]["first_name"] . "</div>"); ?>
+                            <div class="card card-body bg-dark user">
+                                <div>
+                                    <?php echo "<div hidden >" . $user['token'] . "</div>" ?>
+                                    <?php echo "<div> Nom : " . $user['last_name'] . "</div>" ?>
+                                    <?php echo "<div> Prenom : " . $user['first_name'] . "</div>" ?>
+                                    <?php echo "<div> Sexe : " . $user['sex'] . "</div>" ?>
+                                    <?php echo "<div> Email : " . $user['email'] . "</div>" ?>
+                                    <?php echo ("<div >Tel : " . $user["phoneNumber"] . "</div>"); ?>
+                                    <?php echo ("<div >Whatsapp : " . $user["whatsappNumber"] . "</div>"); ?>
+                                    <?php echo ("<div >Pays : " . $user["country"] . "</div>"); ?>
+                                    <?php echo ("<div >" . $user["package"]["designation"] . "</div>"); ?>
+                                    <?php echo ("<div >Parrain : " . $user["parrain"]["last_name"] . ' ' . $user["parrain"]["first_name"] . "</div>"); ?>
+                                </div>
+                                <div>
+                                    <button title="Supprimer"> &times; </button>
+                                </div>
                             </div>
-                            <div>
-                                <button title="Supprimer"> &times; </button>
-                            </div>
-                        </div>
-                    <?php }
+                        <?php }
+                        }
                     else { ?>
                         <h5>
                             Il y'a personne ici

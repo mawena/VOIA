@@ -69,7 +69,6 @@ let changePage = () => {
       show_valides("off");
       show_hs("off");
       $("#page").val("waiting");
-      // window.location.hash = window.location.hash;
       break;
 
     case "#valides":
@@ -81,7 +80,6 @@ let changePage = () => {
       show_hs("off");
       show_valides();
       $("#page").val("valides");
-      // window.location.hash = window.location.hash;
       break;
 
     case "#communicateurs":
@@ -101,7 +99,6 @@ let changePage = () => {
       show_valides("off");
       show_hs();
       $("#page").val("hors-systeme");
-      // window.location.hash = window.location.hash;
       break;
 
     default:
@@ -124,7 +121,10 @@ $(" a > li > i").on("click", function (e) {
   $(e.target).toggleClass("fa-chevron-circle-down");
 });
 
-$("a > *").on("");
+$("#left-side>div>div>div>span").on("click", function (e) {
+  $(e.target.parentElement.nextElementSibling).slideToggle();
+  // $(e.target.parentElement.nextElementSibling).css({ display: "flex" });
+});
 
 //  fonction de suppression des elements en liste d'attente
 
@@ -234,7 +234,6 @@ for (let index = 0; index < validate_users.length; index++) {
   if (validate_users.length > 0) {
     const element = validate_users[index];
     element.children[1].children[0].addEventListener("click", function (e) {
-      // console.log(element.children[0].children[0].textContent)
       $("#confBox").fadeIn();
       $("#confBox").css({
         display: "flex",
@@ -250,7 +249,7 @@ for (let index = 0; index < validate_users.length; index++) {
 
 // ----------------------------------------------------------------------
 
-let communicateurs = document.querySelectorAll("#communicateurs-list > div");
+let communicateurs = document.querySelectorAll(".communicateurs-list > div");
 
 $(".communicateur-perso-detail").html("");
 let show_communicateur_detail = (token) => {
@@ -289,8 +288,12 @@ let show_communicateur_detail = (token) => {
                 // remplir les infos sur les fileuls
                 let fileuls1 = "";
                 let fileuls2 = "";
+                let fileuls3 = "";
+                let fileuls4 = "";
                 let fileuls1_length = 0;
                 let fileuls2_length = 0;
+                let fileuls3_length = 0;
+                let fileuls4_length = 0;
 
                 if (data["niveau-1"]) {
                   fileuls1_length = data["niveau-1"].length;
@@ -349,16 +352,73 @@ let show_communicateur_detail = (token) => {
                   }
                 }
 
-                let fil =
-                  '<h5>Package 1 <span class="badge badge-primary">' +
-                  fileuls1_length +
-                  "</span> </h5><div>" +
-                  fileuls1 +
-                  '</div><hr/><h5>Package 2 <span class="badge badge-primary">' +
-                  fileuls2_length +
-                  "</span> </h5><div>" +
-                  fileuls2 +
-                  "</div>";
+                if (data["niveau-3"]) {
+                  fileuls3_length = data["niveau-3"].length;
+
+                  for (
+                    let index = 0;
+                    index < data["niveau-3"].length;
+                    index++
+                  ) {
+                    let element = data["niveau-3"][index];
+                    let fileul =
+                      '<div class="communicateur-fileul-detail card card-body bg-dark "><div>' +
+                      element.first_name +
+                      " " +
+                      element.last_name +
+                      "</div><div style='text-transform : uppercase;' >" +
+                      element.type +
+                      "</div><div> " +
+                      element.email +
+                      " </div><div> " +
+                      element.phoneNumber +
+                      " </div><div> " +
+                      element.sex +
+                      " </div><div> " +
+                      element.country +
+                      " </div></div>";
+                    fileuls3 += fileul;
+                  }
+                }
+
+                if (data["niveau-4"]) {
+                  fileuls4s_length = data["niveau-4"].length;
+
+                  for (
+                    let index = 0;
+                    index < data["niveau-4"].length;
+                    index++
+                  ) {
+                    let element = data["niveau-4"][index];
+                    let fileul =
+                      '<div class="communicateur-fileul-detail card card-body bg-dark "><div>' +
+                      element.first_name +
+                      " " +
+                      element.last_name +
+                      "</div><div style='text-transform : uppercase;' >" +
+                      element.type +
+                      "</div><div> " +
+                      element.email +
+                      " </div><div> " +
+                      element.phoneNumber +
+                      " </div><div> " +
+                      element.sex +
+                      " </div><div> " +
+                      element.country +
+                      " </div></div>";
+                    fileuls4 += fileul;
+                  }
+                }
+
+                // console.log(data)
+
+                let fil = ""
+
+                fil += fileuls1_length != 0 ?'<h5>Package 1 <span class="badge badge-primary">' + fileuls1_length + "</span> </h5><div>" +fileuls1 +'</div><hr/>' : ''
+                fil += fileuls2_length != 0 ?'<h5>Package 2 <span class="badge badge-primary">' + fileuls2_length + "</span> </h5><div>" +fileuls2 +'</div><hr/>' : ''
+                fil += fileuls3_length != 0 ?'<h5>Package 3 <span class="badge badge-primary">' + fileuls3_length + "</span> </h5><div>" +fileuls3 +'</div><hr/>' : ''
+                fil += fileuls4_length != 0 ?'<h5>Package 4 <span class="badge badge-primary">' + fileuls4_length + "</span> </h5><div>" +fileuls4 +'</div><hr/>' : ''
+
                 $(".communicateur-fileul-list").html(fil);
               } else {
                 $(".communicateur-fileul-list").html(data.message);
@@ -405,7 +465,7 @@ $("#search-button").on("click", function (e) {
     url: "/apis/session/setCurrentPage/" + window.location.hash.substr(1),
     type: "GET",
     success: function (data) {
-      $("#search_box").submit();  
+      $("#search_box").submit();
     },
     error: function (data) {
       alert("Error Session");

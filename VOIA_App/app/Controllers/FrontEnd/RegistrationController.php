@@ -4,6 +4,7 @@ namespace App\Controllers\FrontEnd;
 
 use App\Libraries\Helper;
 use App\Models\PackagesModel;
+use App\Models\UserModel;
 use App\Models\SubscribedPackagesModel;
 use CodeIgniter\Controller;
 
@@ -21,6 +22,7 @@ class RegistrationController extends Controller
         $subscribedPackagesModel = new SubscribedPackagesModel();
         $packageModel = new PackagesModel();
         $data = [];
+        $parrainUserPackage = null;
 
         if ($parainMatricule == null or $slugPackage == null) {
             return redirect()->to("/");
@@ -37,6 +39,24 @@ class RegistrationController extends Controller
                 $parrainUser = get_object_vars(json_decode(file_get_contents(Helper::getBaseUrl() . "/apis/parains/get/" . $parainMatricule)));
                 if (isset($parrainUser["status"]) && $parrainUser["status"] == "failed") {
                     return redirect()->to("/");
+                } else {
+                    $firstParain = ((new UserModel())->orderBy("admissionDate")->findAll())[0];
+                    if ($parainMatricule != $firstParain["matricule"]) {
+                        $parrainUserPackage = $packageModel->where(['token' => $subscribedPackagesModel->where(["userToken" => $parrainUser["token"]])->first()['packageToken']])->first()['slug'];
+                        if ($parrainUserPackage != "") {
+                            if (in_array($parrainUserPackage, ["niveau-1", "niveau-2"])) {
+                                if (!in_array($slugPackage, ["niveau-1", "niveau-2"])) {
+                                    return redirect()->to('/');
+                                }
+                            } else {
+                                if ($slugPackage != $parrainUserPackage) {
+                                    return redirect()->to('/');
+                                }
+                            }
+                        } else {
+                            return redirect()->to('/');
+                        }
+                    }
                 }
             } else {
                 return redirect()->to("/");
@@ -46,7 +66,7 @@ class RegistrationController extends Controller
         $data = [
             "title" => "Inscription",
             "parrainUser" => $parrainUser,
-            "slugPackage" => $slugPackage
+            "slugPackage" => $slugPackage,
         ];
         echo view('templates/header', $data);
         echo view('templates/nav');

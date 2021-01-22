@@ -147,7 +147,7 @@ class UsersController extends ResourceController
             }
         }
     }
-    
+
     /**
      * Recherche 
      *
@@ -263,11 +263,13 @@ class UsersController extends ResourceController
         $userModel = new UserModel();
         $userWaitingModel = new UserWaitingModel();
         $subscribedPackagesModel = new SubscribedPackagesModel();
-        $subscribedPackagesModel = new PackagesModel();
+        $packageModel = new PackagesModel();
+        // $subscribedPackagesModel = new PackagesModel();
         $countryModel = new CountryModel();
 
         if ($this->request->getMethod() == $method) {
             $currentUser["username"] = $this->request->getPost("username");
+
             if ($this->validate(["username" => "required"])) {
                 if ($this->validate(["username" => "min_length[2]"])) {
                     if ($userWaitingModel->where(["username" => $currentUser["username"]])->first() == null) {
@@ -445,10 +447,27 @@ class UsersController extends ResourceController
                 ]);
             }
 
+            if ($this->validate(["slugPackage" => "required"])) {
+                $currentUser["slugPackage"] = $this->request->getPost("slugPackage");
+                $currentUser["package"] = $packageModel->where(["slug" => $currentUser["slugPackage"]])->first();
+                if ($currentUser["package"] == null) {
+                    return $this->respond([
+                        'status' => "failed",
+                        "message" => "Le package auquel vous tentez vous inscrire n existe pas"
+                    ]);
+                }
+            } else {
+                return $this->respond([
+                    'status' => "failed",
+                    "message" => "Le package est manquant"
+                ]);
+            }
+
             $currentUser["token"] = sha1($currentUser["username"] . $currentUser["last_name"] . $currentUser["first_name"] . date("Y-m-d H:i:s"));
-            if ($this->validate(["codeParainage" => "required"])) {
-                $currentUser["codeParainage"] = $this->request->getPost("codeParainage");
-                $godFatherUser = $userModel->asArray()->where(["matricule" => $currentUser["codeParainage"]])->first();
+
+            if ($this->validate(["codeParainnage" => "required"])) {
+                $currentUser["codeParainnage"] = $this->request->getPost("codeParainnage");
+                $godFatherUser = $userModel->asArray()->where(["matricule" => $currentUser["codeParainnage"]])->first();
                 if ($godFatherUser == null or $godFatherUser == []) {
                     return $this->respond([
                         "status" => "failed",
@@ -461,6 +480,15 @@ class UsersController extends ResourceController
                         "godDauhterToken" => $currentUser["token"]
                     ]);
                 }
+            }
+
+            if ($currentUser['slugPackage'] != "niveau-1" && $currentUser['slugPackage'] != "niveau-2") {
+                $subscribedPackagesModel->insert([
+                    "token" => sha1($currentUser["token"] . $currentUser["package"]["token"]),
+                    "userToken" => $currentUser["token"],
+                    "packageToken" => $currentUser["package"]["token"],
+                    "subscriptionDate" => time()
+                ]);
             }
 
             $currentUser["matricule"] =  $userModel->countAll() . date("y") . date("s") . $currentUser["username"]["1"] . $userModel->getLastedId() . date("d") . date("j");
@@ -528,7 +556,6 @@ class UsersController extends ResourceController
                             if ($oldPassword == $dataBaseUser["password"]) {
                                 //$currentUser["password"] = $this->request->getPost("password");
                                 $currentUser["password"] = password_hash($this->request->getPost("password"), PASSWORD_BCRYPT);
-
                             } else {
                                 return $this->respond([
                                     "status" => "failed",
@@ -671,14 +698,14 @@ class UsersController extends ResourceController
                 ]);
             } else {
                 $currentSubscribedPackageArray = $subscribedPackagesModel->where(["userToken" => $token])->findAll();
-                if($currentSubscribedPackageArray != [] || $currentSubscribedPackageArray != null){
+                if ($currentSubscribedPackageArray != [] || $currentSubscribedPackageArray != null) {
                     foreach ($currentSubscribedPackageArray as $currentSubscribedPackage) {
                         $subscribedPackagesModel->delete($currentSubscribedPackage["token"]);
                     } //Supréssion de la souscrition à un package
                 }
 
                 $currentGodFather = ($sponsorshipsModel->where(["godDauhterToken" => $token])->first());
-                if($currentGodFather != null){
+                if ($currentGodFather != null) {
                     $sponsorshipsModel->delete($currentGodFather["token"]);   //Supréssion du parrainage
                 }
 
