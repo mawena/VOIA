@@ -159,7 +159,7 @@
 
     <h2><?= esc($title); ?></h2>
     <div class="marquee-rtl">
-        <div>Bénéficiez de toutes ces <a href="/cours"> <strong style="color:black;">formations</strong> </a> à 5.000 Fcfa ou 10.000 Fcfa selon le niveau pour lequel vous optez</div>
+        <div>Bénéficiez de toutes ces <a href="/"> <strong style="color:black;">formations</strong> </a> à 5.000 Fcfa ou 10.000 Fcfa selon le niveau pour lequel vous optez</div>
     </div>
 
     <div class="card-wrapper">

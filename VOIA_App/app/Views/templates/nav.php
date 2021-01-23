@@ -22,7 +22,7 @@ $functions = new Complements();
       <div class="collapse navbar-collapse" id="navbarColor01">
         <ul class="navbar-nav mr-auto">
           <?php echo $functions->get_nav_li($content = "Acceuil", $href = "/", $active = "/", $li_class = "nav-item", $a_class = "nav-link", $i_class = "fas fa-home"); ?>
-          <?php echo $functions->get_nav_li($content = "Cours", $href = "/cours", $active = "cours", $li_class = "nav-item", $a_class = "nav-link", $i_class = "fas fa-book"); ?>
+          <?php echo $functions->get_nav_li($content = "Cours", $href = "/cours/list/communication-digitale", $active = ".", $li_class = "nav-item", $a_class = "nav-link", $i_class = "fas fa-book"); ?>
           <?php if ($session->get('currentUser') !== NULL) : ?>
             <?php echo $functions->get_nav_li($content = "Tableau de bord", $href = "/dashboard", $active = "dashboard", $li_class = "nav-item", $a_class = "nav-link", $i_class = "fas fa-columns"); ?>
             <?php // echo $functions->get_nav_li($content = "Paramètres", $href = "#settings", $active = "settings", $li_class = "nav-item", $a_class = "nav-link", $i_class = "fas fa-cog"); 

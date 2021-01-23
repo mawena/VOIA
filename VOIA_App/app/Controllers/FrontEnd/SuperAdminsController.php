@@ -58,6 +58,8 @@ class SuperAdminsController extends Controller
                 $data["validateUserArray"][$key]["package"] = $packageModel->find(($subscribedPackagesModel->where(["userToken" => $tmpUser["token"]])->first())["packageToken"]);
             }
 
+            // var_dump($data["communicateurUserArray"]);
+
             echo view("templates/header", $data);
             echo view("templates/nav", $data);
             echo view("pages/dashboardAdmin", $data);

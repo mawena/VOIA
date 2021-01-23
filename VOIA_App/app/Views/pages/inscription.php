@@ -219,7 +219,9 @@
                             $("#state").removeClass("error")
                             $("#state").addClass("suuccess")
                             isCommercial ? $("#state").text("Inscription terminée! Communicateur ajouté !") : $("#state").text("Inscription terminée! Le compte sera activé après confirmation du paiement des frais d'inscription! Assurez-vous de bien garder votre nom d'utilisateur et votre mot de passe sinon vous ne pourrez pas vous connecter sans ces informations.")
-
+                            setTimeout(() => {
+                                window.location.pathname = '/connexion'
+                            }, 4000)
                         } else if (data.status == "failed") {
                             $("#state").show()
                             $("#state").removeClass("success")

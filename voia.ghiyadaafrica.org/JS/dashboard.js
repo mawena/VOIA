@@ -10,13 +10,28 @@ function show_parainages(params = "on") {
   }
 }
 
-$("#left-side li:nth(1)").on("click", function (e) {
-  show_parainages("off");
-});
+function show_cours(params = "on") {
+  if (params == "on") {
+    $("#cours").css({
+      display: "flex",
+    });
+  } else if (params == "off") {
+    $("#cours").css({
+      display: "none",
+    });
+  }
+}
 
 $("#left-side li:nth(0)").on("click", function (e) {
   show_parainages();
+  show_cours('off');
 });
+
+$("#left-side li:nth(1)").on("click", function (e) {
+  show_parainages("off");
+  show_cours();
+});
+
 
 $(".parain-tree-header i").on("click", function () {
   $(".parain-tree-header i").toggleClass("fa fa-plus");
