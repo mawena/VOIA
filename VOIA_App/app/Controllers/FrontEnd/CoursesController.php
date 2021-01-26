@@ -3,6 +3,7 @@
 namespace App\Controllers\FrontEnd;
 
 use App\Models\CoursesModel;
+use App\Models\TrainingsModel;
 use CodeIgniter\Controller;
 
 class CoursesController extends Controller
@@ -24,12 +25,19 @@ class CoursesController extends Controller
 
     public function getCoursesByTrainingGroup($training_group_slug = null)
     {
-        $model = new CoursesModel();
         $data = [
-            'courses' => $model->findBy('training_group_slug', $training_group_slug),
             'title' => 'Cours',
             'currentPage' => 'formations',
         ];
+
+        $data["currentFormation"] = (new TrainingsModel())->where(["slug" => $training_group_slug])->first()["name"];
+
+        if ($training_group_slug == "communication-digitale") {
+            $model = new CoursesModel();
+            $data["courses"] = $model->findBy('training_group_slug', $training_group_slug);
+        } elseif ($training_group_slug == "perlage") {
+            $data["courses"] = "perlage";
+        }
 
         echo view('templates/header', $data);
         echo view('templates/nav', $data);

@@ -115,7 +115,7 @@
                 <hr />
             </h2>
             <div style="text-align: justify;">
-                Bienvenue au programme de Vulgarisation de l’Outil Informatique en Afrique(VOIA). <br />
+                Bienvenue au programme de Vulgarisation de l’Outil Informatique en Afrique (VOIA). <br />
                 En participant à notre formation sur les métiers du digital, bénéficiez de connaissances pratiques sur 7 modules en plus de l’opportunité de gagner le téléphone ci-dessous.
             </div>
 
@@ -159,7 +159,7 @@
 
     <h2><?= esc($title); ?></h2>
     <div class="marquee-rtl">
-        <div>Bénéficiez de toutes ces <a href="/"> <strong style="color:black;">formations</strong> </a> à 5.000 Fcfa ou 10.000 Fcfa selon le niveau pour lequel vous optez</div>
+        <div>Bénéficiez de toutes ces <a href="/"> <strong style="color:black;">formations</strong> </a> à 10.000 Fcfa selon le niveau pour lequel vous optez</div>
     </div>
 
     <div class="card-wrapper">

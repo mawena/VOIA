@@ -12,7 +12,7 @@
     <div id='dashboard'>
         <div id="left-side">
             <li><i class="fas fa-handshake"></i><span> Parainages</span> </li>
-            <?php echo !in_array($subscribedPackage['package']["slug"], ["niveau-1", "niveau2"]) ? '<li><i class="fas fa-book"></i><span> Details de cours </span> </li>' : ''  ?>
+            <?php echo $subscribedPackage['package']["slug"] == "niveau-3" ? '<li><i class="fas fa-book"></i><span> Exemplaires </span> </li>' : ''  ?>
         </div>
         <div id="right-side">
             <!-- parainages -->
@@ -286,15 +286,24 @@
                     </div>
                 </div>
             </div>
-            <div id="cours">
-                <div class="card text-white bg-secondary mb-3" style="max-width: 18rem;">
-                    <div class="card-header">Header</div>
-                    <div class="card-body">
-                        <h5 class="card-title">Secondary card title</h5>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+            <?php if ($subscribedPackage["package"]["slug"] == "niveau-3") { ?>
+                <div id="cours">
+                    <div class="card text-white bg-dark" style="padding: 20px">
+                        <h4>Exemplaires d'accessoires à concevoir</h4>
+                    </div>
+                    <div>
+                        <?php
+                        $images = scandir('Images/IMAGES-FORMATION');
+                        foreach ($images as $key => $value) {
+                            if (!in_array($value, [".", ".."]) && $value != null) {
+                                echo ("<img class='exple-pic' src='/Images/IMAGES-FORMATION/" . $value . "' />");
+                            }
+                        }
+                        ?>
                     </div>
                 </div>
-            </div>
+
+            <?php } ?>
         </div>
     </div>
     </div>

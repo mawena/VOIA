@@ -244,9 +244,6 @@
         }
 
         #left-side>div>div>div {
-            /* display: flex; */
-            /* flex-direction: row; */
-            /* justify-content: space-between; */
             border: 1px solid black;
             margin: 3px;
             padding: 10px;
@@ -259,14 +256,29 @@
         a>li>i {
             cursor: pointer;
         }
+
+        #floating-button-wrapper {
+            display: none;
+            position: fixed;
+            bottom: 15%;
+            right: 5%;
+            padding: 15px;
+            background-color: black;
+            color: white;
+            z-index: 100000000000;
+            cursor: pointer;
+            font-size: 15px;
+            transition: .1s ease-in-out;
+        }
+
+        #floating-button-wrapper:hover {
+            scale: 0.9;
+            transition: .1s ease-in-out;
+        }
     </style>
 </head>
 
 <?php
-
-// var_dump($communicateurUserArray);
-// var_dump($validateUserArray);
-// var_dump($userWaitingArray);
 
 $userWaitingArray_ComDigitale = array_filter($userWaitingArray, function ($v, $k) {
     return $v['slugPackage'] ? in_array($v['slugPackage'], ["niveau-1", "niveau-2"]) || $v['slugPackage'] == null : false;
@@ -332,10 +344,12 @@ $validateUserArray_Sapo = array_filter($validateUserArray, function ($v, $k) {
 
 ?>
 
-
 <!--  -->
 
 <body>
+    <div id="floating-button-wrapper">
+        <i class="fa fa-chevron-up"></i>
+    </div>
     <div id='dashboard'>
         <div id="left-side">
             <div id="waiting-list-box">

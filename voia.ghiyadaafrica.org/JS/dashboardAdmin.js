@@ -412,12 +412,40 @@ let show_communicateur_detail = (token) => {
 
                 // console.log(data)
 
-                let fil = ""
+                let fil = "";
 
-                fil += fileuls1_length != 0 ?'<h5>Package 1 <span class="badge badge-primary">' + fileuls1_length + "</span> </h5><div>" +fileuls1 +'</div><hr/>' : ''
-                fil += fileuls2_length != 0 ?'<h5>Package 2 <span class="badge badge-primary">' + fileuls2_length + "</span> </h5><div>" +fileuls2 +'</div><hr/>' : ''
-                fil += fileuls3_length != 0 ?'<h5>Package 3 <span class="badge badge-primary">' + fileuls3_length + "</span> </h5><div>" +fileuls3 +'</div><hr/>' : ''
-                fil += fileuls4_length != 0 ?'<h5>Package 4 <span class="badge badge-primary">' + fileuls4_length + "</span> </h5><div>" +fileuls4 +'</div><hr/>' : ''
+                fil +=
+                  fileuls1_length != 0
+                    ? '<h5>Package 1 <span class="badge badge-primary">' +
+                      fileuls1_length +
+                      "</span> </h5><div>" +
+                      fileuls1 +
+                      "</div><hr/>"
+                    : "";
+                fil +=
+                  fileuls2_length != 0
+                    ? '<h5>Package 2 <span class="badge badge-primary">' +
+                      fileuls2_length +
+                      "</span> </h5><div>" +
+                      fileuls2 +
+                      "</div><hr/>"
+                    : "";
+                fil +=
+                  fileuls3_length != 0
+                    ? '<h5>Package 3 <span class="badge badge-primary">' +
+                      fileuls3_length +
+                      "</span> </h5><div>" +
+                      fileuls3 +
+                      "</div><hr/>"
+                    : "";
+                fil +=
+                  fileuls4_length != 0
+                    ? '<h5>Package 4 <span class="badge badge-primary">' +
+                      fileuls4_length +
+                      "</span> </h5><div>" +
+                      fileuls4 +
+                      "</div><hr/>"
+                    : "";
 
                 $(".communicateur-fileul-list").html(fil);
               } else {
@@ -472,4 +500,23 @@ $("#search-button").on("click", function (e) {
       console.log(data);
     },
   });
+});
+
+// BOUTON FLOTTANT
+
+let right_side = document.getElementById("right-side");
+
+$("#floating-button-wrapper").on("click", function (e) {
+  right_side.scrollTo({
+    top: right_side.offsetTop,
+    behavior: "smooth",
+  });
+});
+
+$("#right-side").on("scroll", function (e) {
+  if (right_side.scrollTop >= 1000) {
+    $("#floating-button-wrapper").fadeIn();
+  } else {
+    $("#floating-button-wrapper").fadeOut();
+  }
 });

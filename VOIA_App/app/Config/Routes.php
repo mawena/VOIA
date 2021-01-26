@@ -52,7 +52,6 @@ $routes->get('/inscription/(:segment)/(:segment)', 'RegistrationController::regi
 $routes->post('/cours', 'CoursesController::search');
 $routes->get('/cours/(:segment)', 'CoursesController::show/$1');
 $routes->get('/cours/list/(:segment)', 'CoursesController::getCoursesByTrainingGroup/$1');
-
 $routes->get('/dashboard', 'DashboardController::dashboard');
 $routes->get("/admin/dashboard", "SuperAdminsController::superAdminDashboard");
 $routes->post("/admin/dashboard", "SuperAdminsController::superAdminDashboardSearch");

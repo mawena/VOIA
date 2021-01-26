@@ -196,7 +196,7 @@
                 $("#state").show()
                 $("#state").removeClass("success")
                 $("#state").addClass("error")
-                $("#state").text('Les mots de passe sont incompatibles')
+                $("#state").text('Les Imots de passe sont incompatibles')
             } else {
                 let url = '/apis/userswaiting/store'
                 let isCommercial = false
