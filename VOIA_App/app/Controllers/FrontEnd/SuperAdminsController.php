@@ -36,7 +36,7 @@ class SuperAdminsController extends Controller
             $data = [
                 "title" => "Tableau de bord - admin",
                 "userWaitingArray" => $userWaintingModel->orderBy("admissionDate", "DESC")->findAll(),
-                "communicateurUserArray" => []
+                "communicateurUserArray" => [],
             ];
 
             foreach ($data["userWaitingArray"] as $key => $userWainting) {

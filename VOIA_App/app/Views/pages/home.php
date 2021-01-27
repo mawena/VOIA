@@ -159,10 +159,10 @@
 
     <h2><?= esc($title); ?></h2>
     <div class="marquee-rtl">
-        <div>Bénéficiez de toutes ces <a href="/"> <strong style="color:black;">formations</strong> </a> à 10.000 Fcfa selon le niveau pour lequel vous optez</div>
+        <div>Bénéficiez de toutes ces <a href="/#list"> <strong style="color:black;">formations</strong> </a> à 10.000 Fcfa selon le niveau pour lequel vous optez</div>
     </div>
 
-    <div class="card-wrapper">
+    <div class="card-wrapper" id="list" >
         <?php
 
         function idSelect($list)

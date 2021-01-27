@@ -1,5 +1,3 @@
-// TODO: Ajouter ce que font les autres hashs
-// TODO: euh, rendre possible la recherche à leur niveau
 //TODO: Demander a charles de me renvoyer le mot cle et le critere
 
 $("#confBox button.cancel").on("click", function (e) {
@@ -64,6 +62,7 @@ let changePage = () => {
     case "#waiting-sapo":
     case "#waiting-perlage":
     case "#waiting-com-digitale":
+    case "#waiting-entrep":
       show_communicateurs("off");
       show_waiting();
       show_valides("off");
@@ -75,6 +74,7 @@ let changePage = () => {
     case "#valides-sapo":
     case "#valides-perlage":
     case "#valides-com-digitale":
+    case "#valides-entrep":
       show_waiting("off");
       show_communicateurs("off");
       show_hs("off");
@@ -94,6 +94,7 @@ let changePage = () => {
     case "#hors-systeme-sapo":
     case "#hors-systeme-perlage":
     case "#hors-systeme-com-digitale":
+    case "#hors-systeme-entrep":
       show_waiting("off");
       show_communicateurs("off");
       show_valides("off");
@@ -416,7 +417,7 @@ let show_communicateur_detail = (token) => {
 
                 fil +=
                   fileuls1_length != 0
-                    ? '<h5>Package 1 <span class="badge badge-primary">' +
+                    ? '<h5>Package Dig (I) <span class="badge badge-primary">' +
                       fileuls1_length +
                       "</span> </h5><div>" +
                       fileuls1 +
@@ -424,7 +425,7 @@ let show_communicateur_detail = (token) => {
                     : "";
                 fil +=
                   fileuls2_length != 0
-                    ? '<h5>Package 2 <span class="badge badge-primary">' +
+                    ? '<h5>Package Dig (II) <span class="badge badge-primary">' +
                       fileuls2_length +
                       "</span> </h5><div>" +
                       fileuls2 +
@@ -432,7 +433,7 @@ let show_communicateur_detail = (token) => {
                     : "";
                 fil +=
                   fileuls3_length != 0
-                    ? '<h5>Package 3 <span class="badge badge-primary">' +
+                    ? '<h5>Package App <span class="badge badge-primary">' +
                       fileuls3_length +
                       "</span> </h5><div>" +
                       fileuls3 +
@@ -440,7 +441,7 @@ let show_communicateur_detail = (token) => {
                     : "";
                 fil +=
                   fileuls4_length != 0
-                    ? '<h5>Package 4 <span class="badge badge-primary">' +
+                    ? '<h5>Package Sap <span class="badge badge-primary">' +
                       fileuls4_length +
                       "</span> </h5><div>" +
                       fileuls4 +

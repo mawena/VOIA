@@ -28,16 +28,10 @@ class CoursesController extends Controller
         $data = [
             'title' => 'Cours',
             'currentPage' => 'formations',
+            "currentFormation" => (new TrainingsModel())->where(["slug" => $training_group_slug])->first()["name"]
         ];
-
-        $data["currentFormation"] = (new TrainingsModel())->where(["slug" => $training_group_slug])->first()["name"];
-
-        if ($training_group_slug == "communication-digitale") {
-            $model = new CoursesModel();
-            $data["courses"] = $model->findBy('training_group_slug', $training_group_slug);
-        } elseif ($training_group_slug == "perlage") {
-            $data["courses"] = "perlage";
-        }
+        $model = new CoursesModel();
+        $data["courses"] = $model->findBy('training_group_slug', $training_group_slug);
 
         echo view('templates/header', $data);
         echo view('templates/nav', $data);

@@ -7,6 +7,23 @@ use App\Libraries\Helper;
 helper('url');
 $functions = new Complements();
 ?>
+<style>
+  #cours-dropdown {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 10px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: .2s ease-in-out;
+  }
+
+  #cours-dropdown:hover {
+    scale: 0.9;
+    transition: .2s ease-in-out;
+  }
+</style>
 
 <div>
   <?php if (strstr(uri_string(), "dashboard")) : ?>
@@ -21,12 +38,32 @@ $functions = new Complements();
       <?php $session = \Config\Services::session(); ?>
       <div class="collapse navbar-collapse" id="navbarColor01">
         <ul class="navbar-nav mr-auto">
-          <?php echo $functions->get_nav_li($content = "Acceuil", $href = "/", $active = "/", $li_class = "nav-item", $a_class = "nav-link", $i_class = "fas fa-home"); ?>
-          <?php echo $functions->get_nav_li($content = "Cours", $href = "/cours/list/communication-digitale", $active = ".", $li_class = "nav-item", $a_class = "nav-link", $i_class = "fas fa-book"); ?>
+
+          <li id="cours-dropdown" class="nav-item">
+            <a href="/" class="nav-link"><i class="fas fa-home"></i> Accueil</a>
+          </li>
+
+          <li class="dropdown" id="cours-dropdown">
+            <span id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="fa fa-book"></i> Cours </span>
+
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+
+              <a class="dropdown-item" href="/cours/list/communication-digitale">
+                Communication Digitale
+              </a>
+              <a class="dropdown-item" href="/cours/list/perlage">
+                Accessoires Pagnes et perlage
+              </a>
+              <a class="dropdown-item" href="/cours/list/sapo">
+                Saponification
+              </a>
+            </div>
+          </li>
+
           <?php if ($session->get('currentUser') !== NULL) : ?>
-            <?php echo $functions->get_nav_li($content = "Tableau de bord", $href = "/dashboard", $active = "dashboard", $li_class = "nav-item", $a_class = "nav-link", $i_class = "fas fa-columns"); ?>
-            <?php // echo $functions->get_nav_li($content = "Paramètres", $href = "#settings", $active = "settings", $li_class = "nav-item", $a_class = "nav-link", $i_class = "fas fa-cog"); 
-            ?>
+            <li id="cours-dropdown" class="nav-item">
+              <a href="/dashboard" class="nav-link"><i class="fas fa-columns"></i> Tableau de bord</a>
+            </li>
           <?php endif ?>
         </ul>
 

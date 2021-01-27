@@ -275,6 +275,11 @@
             scale: 0.9;
             transition: .1s ease-in-out;
         }
+
+        #right-side hr {
+            border: 2px solid red;
+            margin: 10px;
+        }
     </style>
 </head>
 
@@ -290,6 +295,10 @@ $userWaitingArray_Perlage = array_filter($userWaitingArray, function ($v, $k) {
 
 $userWaitingArray_Sapo = array_filter($userWaitingArray, function ($v, $k) {
     return $v['slugPackage'] ? $v['slugPackage'] == "niveau-4" : false;
+}, ARRAY_FILTER_USE_BOTH);
+
+$userWaitingArray_Entrep = array_filter($userWaitingArray, function ($v, $k) {
+    return $v['slugPackage'] ? $v['slugPackage'] == "niveau-5" : false;
 }, ARRAY_FILTER_USE_BOTH);
 
 
@@ -314,6 +323,13 @@ $communicateurUserArray_Sapo = array_filter($communicateurUserArray, function ($
 
     if (isset($v["package"])) {
         return $v["package"][0]["slug"] == "niveau-4";
+    }
+}, ARRAY_FILTER_USE_BOTH);
+
+$communicateurUserArray_Entrep = array_filter($communicateurUserArray, function ($v, $k) {
+
+    if (isset($v["package"])) {
+        return $v["package"][0]["slug"] == "niveau-5";
     }
 }, ARRAY_FILTER_USE_BOTH);
 
@@ -342,6 +358,28 @@ $validateUserArray_Sapo = array_filter($validateUserArray, function ($v, $k) {
     }
 }, ARRAY_FILTER_USE_BOTH);
 
+$validateUserArray_Entrep = array_filter($validateUserArray, function ($v, $k) {
+
+    if (isset($v["package"])) {
+        return $v["package"]["slug"] == "niveau-5";
+    }
+}, ARRAY_FILTER_USE_BOTH);
+
+function getPackBySlug($slug)
+{
+    if ($slug == "niveau-2") {
+        return "<div > Package Dig (II) </div>";
+    } else if ($slug == "niveau-1") {
+        return "<div > Package Dig (I)</div>";
+    } else if ($slug == "niveau-3") {
+        return "<div > Package App</div>";
+    } else if ($slug == "niveau-4") {
+        return "<div > Package : Sap</div>";
+    } else if ($slug == "niveau-5") {
+        return "<div > Package : Entrep</div>";
+    }
+}
+
 ?>
 
 <!--  -->
@@ -367,6 +405,10 @@ $validateUserArray_Sapo = array_filter($validateUserArray, function ($v, $k) {
                     <div>
                         <a href="#waiting-sapo">SAPONNIFICATION <span class="badge badge-primary"> <?php echo count($userWaitingArray_Sapo); ?> </span></a>
                     </div>
+
+                    <div>
+                        <a href="#waiting-entrep">ENTREPRENEURAIT <span class="badge badge-primary"> <?php echo count($userWaitingArray_Entrep) ?> </span></a>
+                    </div>
                 </div>
             </div>
 
@@ -385,6 +427,9 @@ $validateUserArray_Sapo = array_filter($validateUserArray, function ($v, $k) {
                     <div>
                         <a href="#valides-sapo">SAPONNIFICATION <span class="badge badge-primary"> <?php echo count($validateUserArray_Sapo); ?> </span> </a>
                     </div>
+                    <div>
+                        <a href="#valides-entrep">ENTREPRENEURAIT <span class="badge badge-primary"> <?php echo count($validateUserArray_Entrep); ?> </span> </a>
+                    </div>
                 </div>
             </div>
 
@@ -402,11 +447,13 @@ $validateUserArray_Sapo = array_filter($validateUserArray, function ($v, $k) {
                     <div>
                         <a href="#hors-systeme-sapo">SAPONNIFICATION</a>
                     </div>
+                    <div>
+                        <a href="#hors-systeme-entrep">ENTREPRENEURAIT</a>
+                    </div>
                 </div>
             </div>
 
             <div id="commerciaux-list-box">
-                <!-- TODO: Ajouter le moyen de selectionner le type de commercial que l'on veut creer -->
                 <a href="#communicateurs">
                     <li style="display: flex;flex-direction:row;justify-content:space-between;align-items:center"><span><i class="fas fa-users"></i> Communicateurs <?php echo "<div class='badge badge-primary'>" . (!empty($communicateurUserArray) ? count($communicateurUserArray) : 0) . "</div>" ?> </span> <i title="Dérouler/Enrouler" style="font-size : 20px" class="fas fa-chevron-circle-left"></i> </li>
                 </a>
@@ -509,6 +556,39 @@ $validateUserArray_Sapo = array_filter($validateUserArray, function ($v, $k) {
                             <?php } ?>
                         <?php } ?>
                     </div>
+
+                    <div>
+                        <span>
+                            ENTREPRENEURIAT
+                            <span class="badge badge-primary"> <?php echo count($communicateurUserArray_Entrep) ?> </span>
+                        </span>
+                        <!-- <a href="#hors-systeme-sapo">SAPONNIFICATION</a> -->
+                    </div>
+
+                    <!-- Liste des commerciaux de sapo -->
+                    <div class="communicateurs-list" style="flex-direction:column; border:none">
+                        <?php
+
+                        if (isset($communicateurUserArray_Entrep) && !empty($communicateurUserArray_Entrep)) {
+                            foreach ($communicateurUserArray_Entrep as $communicateur) {
+                                if (strtolower($communicateur['first_name']) != "voia") {
+                        ?>
+                                    <div class="communicateurs-item">
+                                        <div style="cursor:pointer;">
+                                            <?php echo "<div hidden >" . $communicateur['token'] . "</div>" ?>
+                                            <?php echo "<div>" . $communicateur['last_name'] . "</div>" ?>
+                                            <?php echo "<div>" . $communicateur['first_name'] . "</div>" ?>
+                                        </div>
+                                        <div style="font-size : 14px; font-weight : bold; cursor:pointer;">
+                                            &times;
+                                        </div>
+                                    </div>
+                                <?php  }
+                                ?>
+                            <?php } ?>
+                        <?php } ?>
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -552,17 +632,7 @@ $validateUserArray_Sapo = array_filter($validateUserArray, function ($v, $k) {
                                     <?php echo ("<div >Pays : " . $userwaiting["country"] . "</div>"); ?>
                                     <?php echo ("<div > Date : " . $userwaiting["admissionDate"] . "</div>"); ?>
                                     <?php echo ("<div > Parrain : " . $userwaiting["parrain"]["last_name"] . " " . $userwaiting["parrain"]["first_name"] . "</div>"); ?>
-                                    <?php
-                                    if ($userwaiting["slugPackage"] == "niveau-2") {
-                                        echo ("<div > Package : 2</div>");
-                                    } else if ($userwaiting["slugPackage"] == "niveau-1") {
-                                        echo ("<div > Package : 1</div>");
-                                    } else if ($userwaiting["slugPackage"] == "niveau-3") {
-                                        echo ("<div > Package : 3</div>");
-                                    } else if ($userwaiting["slugPackage"] == "niveau-4") {
-                                        echo ("<div > Package : 4</div>");
-                                    }
-                                    ?>
+                                    <?php echo getPackBySlug($userwaiting["slugPackage"]) ?>
                                 </div>
                                 <div>
                                     <button title="Valider"> <i class="fa fa-check"></i> </button>
@@ -598,17 +668,7 @@ $validateUserArray_Sapo = array_filter($validateUserArray, function ($v, $k) {
                                     <?php echo ("<div >Pays : " . $userwaiting["country"] . "</div>"); ?>
                                     <?php echo ("<div > Date : " . $userwaiting["admissionDate"] . "</div>"); ?>
                                     <?php echo ("<div > Parrain : " . $userwaiting["parrain"]["last_name"] . " " . $userwaiting["parrain"]["first_name"] . "</div>"); ?>
-                                    <?php
-                                    if ($userwaiting["slugPackage"] == "niveau-2") {
-                                        echo ("<div > Package : 2</div>");
-                                    } else if ($userwaiting["slugPackage"] == "niveau-1") {
-                                        echo ("<div > Package : 1</div>");
-                                    } else if ($userwaiting["slugPackage"] == "niveau-3") {
-                                        echo ("<div > Package : 3</div>");
-                                    } else if ($userwaiting["slugPackage"] == "niveau-4") {
-                                        echo ("<div > Package : 4</div>");
-                                    }
-                                    ?>
+                                    <?php echo getPackBySlug($userwaiting["slugPackage"]) ?>
                                 </div>
                                 <div>
                                     <button title="Valider"> <i class="fa fa-check"></i> </button>
@@ -646,17 +706,8 @@ $validateUserArray_Sapo = array_filter($validateUserArray, function ($v, $k) {
                                         <?php echo ("<div >Pays : " . $userwaiting["country"] . "</div>"); ?>
                                         <?php echo ("<div > Date : " . $userwaiting["admissionDate"] . "</div>"); ?>
                                         <?php echo ("<div > Parrain : " . $userwaiting["parrain"]["last_name"] . " " . $userwaiting["parrain"]["first_name"] . "</div>"); ?>
-                                        <?php
-                                        if ($userwaiting["slugPackage"] == "niveau-2") {
-                                            echo ("<div > Package : 2</div>");
-                                        } else if ($userwaiting["slugPackage"] == "niveau-1") {
-                                            echo ("<div > Package : 1</div>");
-                                        } else if ($userwaiting["slugPackage"] == "niveau-3") {
-                                            echo ("<div > Package : 3</div>");
-                                        } else if ($userwaiting["slugPackage"] == "niveau-4") {
-                                            echo ("<div > Package : 4</div>");
-                                        }
-                                        ?>
+                                        <?php echo getPackBySlug($userwaiting["slugPackage"]) ?>
+
                                     </div>
                                     <div>
                                         <button title="Valider"> <i class="fa fa-check"></i> </button>
@@ -666,6 +717,43 @@ $validateUserArray_Sapo = array_filter($validateUserArray, function ($v, $k) {
                         <?php }
                         } ?>
                     <?php } else { ?>
+                        <h5>Il n'y a personne ici !</h5>
+                    <?php } ?>
+                </div>
+
+                <hr>
+
+                <div id="waiting-entrep">
+                    <h4>
+                        Entrepreneuriat
+                    </h4>
+
+                    <?php
+
+                    if (isset($userWaitingArray_Entrep) && !empty($userWaitingArray_Entrep)) {
+                        foreach ($userWaitingArray_Entrep as $userwaiting) {
+
+                    ?>
+                            <div class="card card-body bg-dark waiting-user">
+                                <div>
+                                    <?php echo ("<div > Nom : " . $userwaiting["first_name"] . " " . $userwaiting['last_name'] . "</div>"); ?>
+                                    <?php echo ("<div hidden >" . $userwaiting["token"] . "</div>"); ?>
+                                    <?php echo ("<div >Email : " . $userwaiting["email"] . "</div>"); ?>
+                                    <?php echo ("<div >Sexe : " . $userwaiting["sex"] . "</div>"); ?>
+                                    <?php echo ("<div >Tel : " . $userwaiting["phoneNumber"] . "</div>"); ?>
+                                    <?php echo ("<div >Whatsapp : " . $userwaiting["whatsappNumber"] . "</div>"); ?>
+                                    <?php echo ("<div >Pays : " . $userwaiting["country"] . "</div>"); ?>
+                                    <?php echo ("<div > Date : " . $userwaiting["admissionDate"] . "</div>"); ?>
+                                    <?php echo ("<div > Parrain : " . $userwaiting["parrain"]["last_name"] . " " . $userwaiting["parrain"]["first_name"] . "</div>"); ?>
+                                    <?php echo getPackBySlug($userwaiting["slugPackage"]) ?>
+                                </div>
+                                <div>
+                                    <button title="Valider"> <i class="fa fa-check"></i> </button>
+                                    <button title="Supprimer"> &times; </button>
+                                </div>
+                            </div>
+                        <?php }
+                    } else { ?>
                         <h5>Il n'y a personne ici !</h5>
                     <?php } ?>
                 </div>
@@ -699,6 +787,9 @@ $validateUserArray_Sapo = array_filter($validateUserArray, function ($v, $k) {
                             <a class="dropdown-item" href="<?php echo Helper::getBaseUrl(); ?>/inscription/02047r01212/niveau-4" target="_blank" rel="noopener noreferrer">
                                 Saponification
                             </a>
+                            <a class="dropdown-item" href="<?php echo Helper::getBaseUrl(); ?>/inscription/02047r01212/niveau-5" target="_blank" rel="noopener noreferrer">
+                                Entrepreneuriat
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -725,31 +816,29 @@ $validateUserArray_Sapo = array_filter($validateUserArray, function ($v, $k) {
                     </h4>
                     <?php
 
-                    if (isset($validateUserArray) && !empty($validateUserArray))
-                        foreach ($validateUserArray as $user) {
-                            if ($user["package"]["slug"] == 'niveau-1' || $user["package"]["slug"] == 'niveau-2') {
+                    if (isset($validateUserArray_ComDigitale) && !empty($validateUserArray_ComDigitale))
+                        foreach ($validateUserArray_ComDigitale as $user) {
                     ?>
-                            <div class="card card-body bg-dark user">
-                                <div>
-                                    <?php echo "<div hidden >" . $user['token'] . "</div>" ?>
-                                    <?php echo "<div> Nom : " . $user['last_name'] . "</div>" ?>
-                                    <?php echo "<div> Prenom : " . $user['first_name'] . "</div>" ?>
-                                    <?php echo "<div> Sexe : " . $user['sex'] . "</div>" ?>
-                                    <?php echo "<div> Email : " . $user['email'] . "</div>" ?>
-                                    <?php echo ("<div >Tel : " . $user["phoneNumber"] . "</div>"); ?>
-                                    <?php echo ("<div >Whatsapp : " . $user["whatsappNumber"] . "</div>"); ?>
-                                    <?php echo ("<div >Pays : " . $user["country"] . "</div>"); ?>
-                                    <?php echo ("<div >" . $user["package"]["designation"] . "</div>"); ?>
-                                    <?php echo ("<div >Parrain : " . $user["parrain"]["last_name"] . ' ' . $user["parrain"]["first_name"] . "</div>"); ?>
-                                    <?php echo $user["original_parrain"] ? ("<div >Parrain originale : " . $user["original_parrain"] . "</div>") : null  ?>
-                                    <?php echo ("<div >Date de validation : " . $user["admissionDate"] . "</div>"); ?>
-                                </div>
-                                <div>
-                                    <button title="Supprimer"> &times; </button>
-                                </div>
+                        <div class="card card-body bg-dark user">
+                            <div>
+                                <?php echo "<div hidden >" . $user['token'] . "</div>" ?>
+                                <?php echo "<div> Nom : " . $user['last_name'] . "</div>" ?>
+                                <?php echo "<div> Prenom : " . $user['first_name'] . "</div>" ?>
+                                <?php echo "<div> Sexe : " . $user['sex'] . "</div>" ?>
+                                <?php echo "<div> Email : " . $user['email'] . "</div>" ?>
+                                <?php echo ("<div >Tel : " . $user["phoneNumber"] . "</div>"); ?>
+                                <?php echo ("<div >Whatsapp : " . $user["whatsappNumber"] . "</div>"); ?>
+                                <?php echo ("<div >Pays : " . $user["country"] . "</div>"); ?>
+                                <?php echo ("<div >" . $user["package"]["designation"] . "</div>"); ?>
+                                <?php echo ("<div >Parrain : " . $user["parrain"]["last_name"] . ' ' . $user["parrain"]["first_name"] . "</div>"); ?>
+                                <?php echo $user["original_parrain"] ? ("<div >Parrain originale : " . $user["original_parrain"] . "</div>") : null  ?>
+                                <?php echo ("<div >Date de validation : " . $user["admissionDate"] . "</div>"); ?>
                             </div>
-                        <?php }
-                        }
+                            <div>
+                                <button title="Supprimer"> &times; </button>
+                            </div>
+                        </div>
+                    <?php }
                     else { ?>
                         <h5>
                             Il y'a personne ici
@@ -764,32 +853,32 @@ $validateUserArray_Sapo = array_filter($validateUserArray, function ($v, $k) {
                     </h4>
                     <?php
 
-                    if (isset($validateUserArray) && !empty($validateUserArray))
-                        foreach ($validateUserArray as $user) {
+                    if (isset($validateUserArray_Perlage) && !empty($validateUserArray_Perlage))
+                        foreach ($validateUserArray_Perlage as $user) {
 
-                            if ($user["package"]["slug"] == 'niveau-3') {
 
                     ?>
-                            <div class="card card-body bg-dark user">
-                                <div>
-                                    <?php echo "<div hidden >" . $user['token'] . "</div>" ?>
-                                    <?php echo "<div> Nom : " . $user['last_name'] . "</div>" ?>
-                                    <?php echo "<div> Prenom : " . $user['first_name'] . "</div>" ?>
-                                    <?php echo "<div> Sexe : " . $user['sex'] . "</div>" ?>
-                                    <?php echo "<div> Email : " . $user['email'] . "</div>" ?>
-                                    <?php echo ("<div >Tel : " . $user["phoneNumber"] . "</div>"); ?>
-                                    <?php echo ("<div >Whatsapp : " . $user["whatsappNumber"] . "</div>"); ?>
-                                    <?php echo ("<div >Pays : " . $user["country"] . "</div>"); ?>
-                                    <?php echo ("<div >" . $user["package"]["designation"] . "</div>"); ?>
-                                    <?php //echo ("<div >Parrain : " . $user["parrain"]["last_name"] . ' ' . $user["parrain"]["first_name"] . "</div>"); 
-                                    ?>
-                                </div>
-                                <div>
-                                    <button title="Supprimer"> &times; </button>
-                                </div>
+                        <div class="card card-body bg-dark user">
+                            <div>
+                                <?php echo "<div hidden >" . $user['token'] . "</div>" ?>
+                                <?php echo "<div> Nom : " . $user['last_name'] . "</div>" ?>
+                                <?php echo "<div> Prenom : " . $user['first_name'] . "</div>" ?>
+                                <?php echo "<div> Sexe : " . $user['sex'] . "</div>" ?>
+                                <?php echo "<div> Email : " . $user['email'] . "</div>" ?>
+                                <?php echo ("<div >Tel : " . $user["phoneNumber"] . "</div>"); ?>
+                                <?php echo ("<div >Whatsapp : " . $user["whatsappNumber"] . "</div>"); ?>
+                                <?php echo ("<div >Pays : " . $user["country"] . "</div>"); ?>
+                                <?php echo ("<div >" . $user["package"]["designation"] . "</div>"); ?>
+                                <?php echo ("<div >Date de validation : " . $user["admissionDate"] . "</div>"); ?>
+
+                                <?php //echo ("<div >Parrain : " . $user["parrain"]["last_name"] . ' ' . $user["parrain"]["first_name"] . "</div>"); 
+                                ?>
                             </div>
-                        <?php }
-                        }
+                            <div>
+                                <button title="Supprimer"> &times; </button>
+                            </div>
+                        </div>
+                    <?php }
                     else { ?>
                         <h5>
                             Il y'a personne ici
@@ -804,29 +893,64 @@ $validateUserArray_Sapo = array_filter($validateUserArray, function ($v, $k) {
                     </h4>
                     <?php
 
-                    if (isset($validateUserArray) && !empty($validateUserArray))
-                        foreach ($validateUserArray as $user) {
-                            if ($user["package"]["slug"] == 'niveau-4') {
+                    if (isset($validateUserArray_Sapo) && !empty($validateUserArray_Sapo))
+                        foreach ($validateUserArray_Sapo as $user) {
                     ?>
-                            <div class="card card-body bg-dark user">
-                                <div>
-                                    <?php echo "<div hidden >" . $user['token'] . "</div>" ?>
-                                    <?php echo "<div> Nom : " . $user['last_name'] . "</div>" ?>
-                                    <?php echo "<div> Prenom : " . $user['first_name'] . "</div>" ?>
-                                    <?php echo "<div> Sexe : " . $user['sex'] . "</div>" ?>
-                                    <?php echo "<div> Email : " . $user['email'] . "</div>" ?>
-                                    <?php echo ("<div >Tel : " . $user["phoneNumber"] . "</div>"); ?>
-                                    <?php echo ("<div >Whatsapp : " . $user["whatsappNumber"] . "</div>"); ?>
-                                    <?php echo ("<div >Pays : " . $user["country"] . "</div>"); ?>
-                                    <?php echo ("<div >" . $user["package"]["designation"] . "</div>"); ?>
-                                    <?php echo ("<div >Parrain : " . $user["parrain"]["last_name"] . ' ' . $user["parrain"]["first_name"] . "</div>"); ?>
-                                </div>
-                                <div>
-                                    <button title="Supprimer"> &times; </button>
-                                </div>
+                        <div class="card card-body bg-dark user">
+                            <div>
+                                <?php echo "<div hidden >" . $user['token'] . "</div>" ?>
+                                <?php echo "<div> Nom : " . $user['last_name'] . "</div>" ?>
+                                <?php echo "<div> Prenom : " . $user['first_name'] . "</div>" ?>
+                                <?php echo "<div> Sexe : " . $user['sex'] . "</div>" ?>
+                                <?php echo "<div> Email : " . $user['email'] . "</div>" ?>
+                                <?php echo ("<div >Tel : " . $user["phoneNumber"] . "</div>"); ?>
+                                <?php echo ("<div >Whatsapp : " . $user["whatsappNumber"] . "</div>"); ?>
+                                <?php echo ("<div >Pays : " . $user["country"] . "</div>"); ?>
+                                <?php echo ("<div >" . $user["package"]["designation"] . "</div>"); ?>
+                                <?php echo ("<div >Parrain : " . $user["parrain"]["last_name"] . ' ' . $user["parrain"]["first_name"] . "</div>"); ?>
+                                <?php echo ("<div >Date de validation : " . $user["admissionDate"] . "</div>"); ?>
+
                             </div>
-                        <?php }
-                        }
+                            <div>
+                                <button title="Supprimer"> &times; </button>
+                            </div>
+                        </div>
+                    <?php }
+                    else { ?>
+                        <h5>
+                            Il y'a personne ici
+                        </h5>
+                    <?php } ?>
+                </div>
+                <hr>
+                <div id="valides-entrep">
+                    <h4>
+                        Entrepreneuriat
+                    </h4>
+                    <?php
+
+                    if (isset($validateUserArray_Entrep) && !empty($validateUserArray_Entrep))
+                        foreach ($validateUserArray_Entrep as $user) {
+                    ?>
+                        <div class="card card-body bg-dark user">
+                            <div>
+                                <?php echo "<div hidden >" . $user['token'] . "</div>" ?>
+                                <?php echo "<div> Nom : " . $user['last_name'] . "</div>" ?>
+                                <?php echo "<div> Prenom : " . $user['first_name'] . "</div>" ?>
+                                <?php echo "<div> Sexe : " . $user['sex'] . "</div>" ?>
+                                <?php echo "<div> Email : " . $user['email'] . "</div>" ?>
+                                <?php echo ("<div >Tel : " . $user["phoneNumber"] . "</div>"); ?>
+                                <?php echo ("<div >Whatsapp : " . $user["whatsappNumber"] . "</div>"); ?>
+                                <?php echo ("<div >Pays : " . $user["country"] . "</div>"); ?>
+                                <?php echo ("<div >" . $user["package"]["designation"] . "</div>"); ?>
+                                <?php echo ("<div >Parrain : " . $user["parrain"]["last_name"] . ' ' . $user["parrain"]["first_name"] . "</div>"); ?>
+                                <?php echo ("<div >Date de validation : " . $user["admissionDate"] . "</div>"); ?>
+                            </div>
+                            <div>
+                                <button title="Supprimer"> &times; </button>
+                            </div>
+                        </div>
+                    <?php }
                     else { ?>
                         <h5>
                             Il y'a personne ici

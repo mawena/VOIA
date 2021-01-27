@@ -492,7 +492,7 @@ class UsersController extends ResourceController
             }
 
             $currentUser["matricule"] =  $userModel->countAll() . date("y") . date("s") . $currentUser["username"]["1"] . $userModel->getLastedId() . date("d") . date("j");
-            $currentUser["admissionDate"] = date("Y-m-d H:i:s");
+            $currentUser["admissionDate"] = gmdate("Y-m-d H:i:s");
 
             $userModel->insert($currentUser);
             return $this->respond([

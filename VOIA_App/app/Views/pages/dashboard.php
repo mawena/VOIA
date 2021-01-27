@@ -61,7 +61,7 @@
                                         <span>
                                             <?php
                                             if ($_SESSION["currentUser"]["type"] == 'communicateur' && ($subscribedPackage['package']["slug"] == 'niveau-1' && $subscribedPackage['package']["slug"] == 'niveau-2')) {
-                                                echo "Package 1, Package 2";
+                                                echo "Package Dig (I & II)";
                                             } else {
                                                 echo $subscribedPackage['package']["designation"];
                                             }
@@ -219,15 +219,12 @@
                                     <div class="fileul-wrap">
                                         <h3>
                                             <?php
-
-
                                             if ($subscribedPackage['package']['slug'] != "niveau-1" && $subscribedPackage['package']['slug'] != "niveau-2") {
                                                 echo $subscribedPackage['package']['designation'];
                                             } else {
 
-                                                echo "Package 1";
+                                                echo "Package Dig (I)";
                                             }
-
                                             ?>
                                             <span style="font-size: 14px" class="badge badge-secondary"> <?php echo $niveau1_lenght; ?> </span>
                                         </h3>
@@ -246,26 +243,20 @@
                                 <?php } ?>
                                 <?php
                                 if ($niveau2_lenght != 0) {
-
                                 ?>
                                     <div class="fileul-wrap">
                                         <h3>
                                             <?php
-
-
                                             if ($subscribedPackage['package']['slug'] != "niveau-1" && $subscribedPackage['package']['slug'] != "niveau-2") {
                                                 echo $subscribedPackage['package']['designation'];
                                             } else {
-
-                                                echo "Package 2";
+                                                echo "Package Dig (II)";
                                             }
-
                                             ?>
                                             <span style="font-size: 14px" class="badge badge-secondary"> <?php echo $niveau2_lenght; ?> </span>
                                         </h3>
                                         <?php
                                         foreach ($niveau2 as $key) {
-                                            //var_dump($key);
                                         ?>
                                             <div class="fileul">
                                                 <div class="fileul-data">

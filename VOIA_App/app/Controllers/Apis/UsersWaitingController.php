@@ -153,19 +153,30 @@ class UsersWaitingController extends ResourceController
 
                         $currentParainPackage = $packageModel->where(['token' => $subscribedPackagesModel->where(["userToken" => $currentParain["token"]])->first()['packageToken']])->first()['slug'];
 
-                        $niveau1_lenght = isset($sponsorArray["niveau-1"]) ? count($sponsorArray["niveau-1"]) : 0;
-                        $niveau2_lenght = isset($sponsorArray["niveau-2"]) ? count($sponsorArray["niveau-2"]) : 0;
+                        if (in_array($currentParainPackage, ["niveau-1", "niveau-2"])) {
 
-                        if ($currentParainPackage == "niveau-1") {
-                            if ($niveau1_lenght + $niveau2_lenght >= 10) {
-                                $currentUserWaiting["original_parrain"] = $currentParain["last_name"] . ' ' . $currentParain["first_name"];
-                                $currentParain = ($userModel->orderBy("admissionDate")->findAll())[0];
+                            $niveau1_lenght = isset($sponsorArray["niveau-1"]) ? count($sponsorArray["niveau-1"]) : 0;
+                            $niveau2_lenght = isset($sponsorArray["niveau-2"]) ? count($sponsorArray["niveau-2"]) : 0;
+
+                            if ($currentParainPackage == "niveau-1") {
+                                if ($niveau1_lenght + $niveau2_lenght >= 10) {
+                                    $currentUserWaiting["original_parrain"] = $currentParain["last_name"] . ' ' . $currentParain["first_name"];
+                                    $currentParain = ($userModel->orderBy("admissionDate")->findAll())[0];
+                                }
+                            } elseif ($currentParainPackage == "niveau-2") {
+                                $quota = 0.5 * $niveau1_lenght + $niveau2_lenght;
+                                if ($quota >= 5) {
+                                    $currentUserWaiting["original_parrain"] = $currentParain["last_name"] . ' ' . $currentParain["first_name"];
+                                    $currentParain = ($userModel->orderBy("admissionDate")->findAll())[0];
+                                }
                             }
-                        } elseif ($currentParainPackage == "niveau-2") {
-                            $quota = 0.5 * $niveau1_lenght + $niveau2_lenght;
-                            if ($quota >= 5) {
-                                $currentUserWaiting["original_parrain"] = $currentParain["last_name"] . ' ' . $currentParain["first_name"];
-                                $currentParain = ($userModel->orderBy("admissionDate")->findAll())[0];
+                        } else {
+                            $price = $packageModel->where(['token' => $subscribedPackagesModel->where(["userToken" => $currentParain["token"]])->first()['packageToken']])->first()['price'];
+                            if (!empty($sponsorArray) && isset($sponsorArray[$currentParainPackage])) {
+                                if ($price * count($sponsorArray[$currentParainPackage]) >= 50) {
+                                    $currentUserWaiting["original_parrain"] = $currentParain["last_name"] . ' ' . $currentParain["first_name"];
+                                    $currentParain = ($userModel->orderBy("admissionDate")->findAll())[0];
+                                }
                             }
                         }
                     } // Si le quotta du package est atteint et que le parrain n'est pas un communicateur on met le premier inscrit avec le même package comme parrain
@@ -187,7 +198,7 @@ class UsersWaitingController extends ResourceController
 
                     unset($currentUserWaiting["codeParainnage"]);
                     unset($currentUserWaiting["slugPackage"]);
-                    $currentUserWaiting["admissionDate"] = date("Y-m-d H:i:s");
+                    $currentUserWaiting["admissionDate"] = gmdate("Y-m-d H:i:s");
                     $userModel->insert($currentUserWaiting);
                     $userWaitingModel->delete($token);
 
@@ -423,9 +434,10 @@ class UsersWaitingController extends ResourceController
             }
             $currentUser["type"] = "normal";
             $currentUser["matricule"] =  $userWaitingModel->countAll() . date("y") . date("s") . $currentUser["username"]["1"] . $userWaitingModel->getLastedId() . date("d") . date("j");
-            $currentUser["admissionDate"] = date("Y-m-d H:i:s");
+            $currentUser["admissionDate"] = gmdate("Y-m-d H:i:s");
 
             $userWaitingModel->insert($currentUser);
+            
             return $this->respond([
                 "status" => "success",
                 "data" => $currentUser
